@@ -1,5 +1,10 @@
 import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
+import { Table } from './Table.js';
+import { Cake } from './Cake.js';
+import { Dish } from './Dish.js';
+import { Candle } from './Candle.js';
+import { Room } from './Room.js';
 
 /**
  *  This class contains the contents of out application
@@ -14,19 +19,17 @@ class MyContents  {
         this.app = app
         this.axis = null
 
+        // Scale: 1meter (IRL) == 2un
+
         // box related attributes
         this.boxMesh = null
         this.boxMeshSize = 1.0
-        this.boxEnabled = true
+        this.boxEnabled = false
         this.lastBoxEnabled = null
-        this.boxDisplacement = new THREE.Vector3(0,2,0)
-
-        // plane related attributes
-        this.diffusePlaneColor = "#00ffff"
-        this.specularPlaneColor = "#777777"
-        this.planeShininess = 30
-        this.planeMaterial = new THREE.MeshPhongMaterial({ color: this.diffusePlaneColor, 
-            specular: this.diffusePlaneColor, emissive: "#000000", shininess: this.planeShininess })
+        this.boxDisplacement = new THREE.Vector3(0,2,0)    
+        
+        // axis related attributes
+        this.axisEnabled = true
     }
 
     /**
@@ -71,13 +74,29 @@ class MyContents  {
 
         this.buildBox()
         
-        // Create a Plane Mesh with basic material
+
+        // Add room to scene
+        this.room = new Room();
+        this.app.scene.add( this.room );
+
+        // Add table to scene
+        this.table = new Table();
+        this.app.scene.add( this.table );
         
-        let plane = new THREE.PlaneGeometry( 10, 10 );
-        this.planeMesh = new THREE.Mesh( plane, this.planeMaterial );
-        this.planeMesh.rotation.x = -Math.PI / 2;
-        this.planeMesh.position.y = -0;
-        this.app.scene.add( this.planeMesh );
+        // Add dish to table
+        this.dish = new Dish();
+        this.dish.position.y = 1.075
+        this.table.add( this.dish );
+
+        // Add cake to dish
+        this.cake = new Cake();
+        this.cake.position.y = 0.1;
+        this.dish.add( this.cake );
+
+        // Add candle to cake
+        this.candle = new Candle();
+        this.candle.position.y = 0.075;
+        this.cake.add( this.candle );
     }
     
     /**
@@ -143,6 +162,14 @@ class MyContents  {
     update() {
         // check if box mesh needs to be updated
         this.updateBoxIfRequired()
+
+        //axis
+        if (this.axisEnabled) {
+            this.axis.visible = true
+        }
+        else {
+            this.axis.visible = false
+        }
 
         // sets the box mesh position based on the displacement vector
         this.boxMesh.position.x = this.boxDisplacement.x

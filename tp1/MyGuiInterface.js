@@ -29,6 +29,10 @@ class MyGuiInterface  {
      * Initialize the gui interface
      */
     init() {
+
+        // enable/disable the axis
+        this.datgui.add(this.contents, 'axisEnabled', true).name("Axis");
+
         // add a folder to the gui interface for the box
         const boxFolder = this.datgui.addFolder( 'Box' );
         // note that we are using a property from the contents object 
@@ -37,8 +41,9 @@ class MyGuiInterface  {
         boxFolder.add(this.contents.boxDisplacement, 'x', -5, 5)
         boxFolder.add(this.contents.boxDisplacement, 'y', -5, 5)
         boxFolder.add(this.contents.boxDisplacement, 'z', -5, 5)
-        boxFolder.open()
+        boxFolder.close()
         
+        /*
         const data = {  
             'diffuse color': this.contents.diffusePlaneColor,
             'specular color': this.contents.specularPlaneColor,
@@ -50,6 +55,7 @@ class MyGuiInterface  {
         planeFolder.addColor( data, 'specular color' ).onChange( (value) => { this.contents.updateSpecularPlaneColor(value) } );
         planeFolder.add(this.contents, 'planeShininess', 0, 1000).name("shininess").onChange( (value) => { this.contents.updatePlaneShininess(value) } );
         planeFolder.open();
+        */
 
         // adds a folder to the gui interface for the camera
         const cameraFolder = this.datgui.addFolder('Camera')
@@ -57,6 +63,14 @@ class MyGuiInterface  {
         // note that we are using a property from the app 
         cameraFolder.add(this.app.activeCamera.position, 'x', 0, 10).name("x coord")
         cameraFolder.open()
+
+        // adds a folder to the gui interface for the table
+        const tableFolder = this.datgui.addFolder('Table')
+        tableFolder.add(this.contents.table.position, 'x', -5, 5)
+        tableFolder.add(this.contents.table.position, 'y', -5, 5)
+        tableFolder.add(this.contents.table.position, 'z', -5, 5)
+        tableFolder.add(this.contents.table.rotation, 'y', 0, 2*Math.PI).name("rotation")
+        tableFolder.open()
     }
 }
 
