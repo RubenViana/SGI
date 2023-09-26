@@ -58,6 +58,7 @@ class MyContents  {
             this.app.scene.add(this.axis)
         }
 
+        /*
         // add a point light on top of the model
         const pointLight = new THREE.PointLight( 0xffffff, 500, 0 );
         pointLight.position.set( 0, 20, 0 );
@@ -67,10 +68,33 @@ class MyContents  {
         const sphereSize = 0.5;
         const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
         this.app.scene.add( pointLightHelper );
+        */
 
         // add an ambient light
         const ambientLight = new THREE.AmbientLight( 0x555555 );
         this.app.scene.add( ambientLight );
+
+        /*
+        // add a directional light
+        const light2 = new THREE.DirectionalLight( 0xffffff, 1 );
+        light2.position.set( 0, 10, 0 );
+        light2.target.position.set( 0, 1, 0 );
+        this.app.scene.add( light2 );
+
+        // add a directional light helper for the previous directional light
+        const light2Helper = new THREE.DirectionalLightHelper( light2, 0.5 );
+        this.app.scene.add( light2Helper );
+        */
+
+        // add a spot light
+        this.spotLight = new THREE.SpotLight( 0xffffff, 15, 8, (40*Math.PI)/180, 0, 0 );
+        this.spotLight.position.set( 2, 5, 1 );
+        this.spotLight.target.position.set( 5, 0, 5 );
+        this.app.scene.add( this.spotLight );
+
+        // add a spot light helper for the previous spot light
+        this.spotLightHelper = new THREE.SpotLightHelper( this.spotLight );
+        this.app.scene.add( this.spotLightHelper );
 
         this.buildBox()
         
@@ -123,7 +147,16 @@ class MyContents  {
         this.planeShininess = value
         this.planeMaterial.shininess = this.planeShininess
     }
-    
+
+    updateSpotLightColor(value) {
+        this.spotLight.color.set(value)
+    }
+
+    updateSpotLight() {
+        this.spotLight.target.updateMatrixWorld();
+        this.spotLightHelper.update();
+    }
+
     /**
      * rebuilds the box mesh if required
      * this method is called from the gui interface
