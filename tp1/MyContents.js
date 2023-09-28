@@ -29,7 +29,7 @@ class MyContents  {
         this.boxDisplacement = new THREE.Vector3(0,2,0)    
         
         // axis related attributes
-        this.axisEnabled = true
+        this.axisEnabled = false
     }
 
     /**
@@ -71,9 +71,9 @@ class MyContents  {
         */
 
         // add an ambient light
-        const ambientLight = new THREE.AmbientLight( 0x555555 );
+        const ambientLight = new THREE.AmbientLight( 0x555555, 4 );
         this.app.scene.add( ambientLight );
-
+        
         /*
         // add a directional light
         const light2 = new THREE.DirectionalLight( 0xffffff, 1 );
@@ -87,17 +87,19 @@ class MyContents  {
         */
 
         // add a spot light
-        this.spotLight = new THREE.SpotLight( 0xffffff, 15, 8, (40*Math.PI)/180, 0, 0 );
-        this.spotLight.position.set( 2, 5, 1 );
-        this.spotLight.target.position.set( 5, 0, 5 );
+        this.spotLight = new THREE.SpotLight( 0xffffff, 10, 0, (20*Math.PI)/180, 0, 0 );
+        this.spotLight.position.set( 0, 15, 0 );
+        this.spotLight.target.position.set( 0, 1, 0 );
         this.app.scene.add( this.spotLight );
 
         // add a spot light helper for the previous spot light
         this.spotLightHelper = new THREE.SpotLightHelper( this.spotLight );
         this.app.scene.add( this.spotLightHelper );
 
+        // this.spotLight.visible = false;
+        // this.spotLightHelper.visible = false; // TODO: make a enable/disable option in GUI for this
+
         this.buildBox()
-        
 
         // Add room to scene
         this.room = new Room();

@@ -134,6 +134,7 @@ class MyApp  {
                 // Orbit controls allow the camera to orbit around a target.
                 this.controls = new OrbitControls( this.activeCamera, this.renderer.domElement );
                 this.controls.enableZoom = true;
+                this.controls.target.set(0,1.2,0); //set the cake as the target
                 this.controls.update();
             }
             else {

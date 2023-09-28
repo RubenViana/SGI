@@ -72,20 +72,25 @@ class MyGuiInterface  {
         tableFolder.add(this.contents.table.rotation, 'y', 0, 2*Math.PI).name("rotation")
         tableFolder.open()
 
+
+        const spotLightAngle = {
+            'angle': this.contents.spotLight.angle * 180 / Math.PI
+        }
+
         // adds a folder to the gui interface for the spotLight
         const spotLightFolder = this.datgui.addFolder('Spot Light')
         spotLightFolder.addColor( this.contents.spotLight, 'color' ).onChange( (value) => { this.contents.updateSpotLightColor(value) } )
 		spotLightFolder.add( this.contents.spotLight, 'intensity', 0, 40, 1 )
 		spotLightFolder.add( this.contents.spotLight, 'distance', 0, 20 ).onChange(this.contents.updateSpotLight())
-		spotLightFolder.add( this.contents.spotLight, 'angle', 0, 90 ).onChange( (value) => { this.contents.spotLight.angle = value * Math.PI / 180; this.contents.updateSpotLight() } )
+		spotLightFolder.add( spotLightAngle, 'angle', 0, 90 ).onChange( (value) => { this.contents.spotLight.angle = value * Math.PI / 180; this.contents.updateSpotLight() } )
 		spotLightFolder.add( this.contents.spotLight, 'penumbra', 0, 1, 0.01 ).onChange(this.contents.updateSpotLight())
-        spotLightFolder.add( this.contents.spotLight, 'decay', 1, 2, 0.01 ).onChange(this.contents.updateSpotLight())
-        spotLightFolder.add( this.contents.spotLight.position, 'x', -10, 10).onChange(this.contents.updateSpotLight())
-        spotLightFolder.add( this.contents.spotLight.position, 'y', -10, 10).onChange(this.contents.updateSpotLight())
-        spotLightFolder.add( this.contents.spotLight.position, 'z', -10, 10).onChange(this.contents.updateSpotLight())
-        spotLightFolder.add( this.contents.spotLight.target.position, 'x', -10, 10).name("target x").onChange( (value) => { this.contents.spotLight.target.position.set(value, 0, 0); this.contents.updateSpotLight() })
-        spotLightFolder.add( this.contents.spotLight.target.position, 'y', -10, 10).name("target y").onChange( (value) => { this.contents.spotLight.target.position.set(0, value, 0); this.contents.updateSpotLight() })
-        spotLightFolder.add( this.contents.spotLight.target.position, 'z', -10, 10).name("target z").onChange( (value) => { this.contents.spotLight.target.position.set(0, 0, value); this.contents.updateSpotLight() })
+        spotLightFolder.add( this.contents.spotLight, 'decay', 0, 2, 0.01 ).onChange(() => {this.contents.updateSpotLight()})
+        spotLightFolder.add( this.contents.spotLight.position, 'x', -10, 10).onChange(() => {this.contents.updateSpotLight()})
+        spotLightFolder.add( this.contents.spotLight.position, 'y', -10, 10).onChange(() => {this.contents.updateSpotLight()})
+        spotLightFolder.add( this.contents.spotLight.position, 'z', -10, 10).onChange(() => {this.contents.updateSpotLight()})
+        spotLightFolder.add( this.contents.spotLight.target.position, 'x', -10, 10).name("target x").onChange( (value) => { this.contents.spotLight.target.position.set(value, this.contents.spotLight.target.position.y, this.contents.spotLight.target.position.z); this.contents.updateSpotLight() })
+        spotLightFolder.add( this.contents.spotLight.target.position, 'y', -10, 10).name("target y").onChange( (value) => { this.contents.spotLight.target.position.set(this.contents.spotLight.target.position.x, value, this.contents.spotLight.target.position.z); this.contents.updateSpotLight() })
+        spotLightFolder.add( this.contents.spotLight.target.position, 'z', -10, 10).name("target z").onChange( (value) => { this.contents.spotLight.target.position.set(this.contents.spotLight.target.position.x, this.contents.spotLight.target.position.y, value); this.contents.updateSpotLight() })
         spotLightFolder.open()
     }
 }
