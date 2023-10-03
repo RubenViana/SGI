@@ -13,6 +13,15 @@ class MyContents  {
     constructor(app) {
         this.app = app
         this.axis = null
+        
+        // spot light related attributes
+        this.spotLightColor = "#ffffff"
+        this.intensity = 15
+        this.distance = 8
+        this.spotAngle = THREE.MathUtils.degToRad(40)
+        this.penumbra = 0
+        this.decay = 0
+
 
         // box related attributes
         this.boxMesh = null
@@ -56,17 +65,40 @@ class MyContents  {
         }
 
         // add a point light on top of the model
-        const pointLight = new THREE.PointLight( 0xffffff, 500, 0 );
-        pointLight.position.set( 0, 20, 0 );
-        this.app.scene.add( pointLight );
+        // const pointLight = new THREE.PointLight( 0xffffff, 500, 0 );
+        // pointLight.position.set( 0, 20, 0 );
+        // this.app.scene.add( pointLight );
+
+        // add a diretional light on top of the model
+        // const light2 = new THREE.DirectionalLight( 0xffffff, 1 );
+        // light2.position.set( -5, 10, -2 );
+        // light2.target.position.set( -5, 0, 0 );
+        // this.app.scene.add( light2 );
+
+        // add a spot light on top of the model
+        this.light3 = new THREE.SpotLight( { color: this.spotLightColor, intensity: this.intensity, distance: this.distance, angle: this.spotAngle, penumbra: this.penumbra, decay: this.decay } );
+        this.light3.position.set( 2, 5, 1 );
+        this.light3.target.position.set( 1, 0.1 );
+        this.app.scene.add( this.light3 );
 
         // add a point light helper for the previous point light
+        // const sphereSize = 0.5;
+        // const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
+        // this.app.scene.add( pointLightHelper );
+
+        // add a point light helper for the previous directional light
+        // const sphereSize = 0.5;
+        // const light2Helper = new THREE.DirectionalLightHelper( light2, sphereSize );
+        // this.app.scene.add( light2Helper );
+
+        // add a point light helper for the previous spot light
         const sphereSize = 0.5;
-        const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
-        this.app.scene.add( pointLightHelper );
+        this.light3Helper = new THREE.SpotLightHelper( this.light3, sphereSize );
+        this.app.scene.add( this.light3Helper );
+
 
         // add an ambient light
-        const ambientLight = new THREE.AmbientLight( 0x555555 );
+        const ambientLight = new THREE.AmbientLight( 0x555555, 4 );
         this.app.scene.add( ambientLight );
 
         this.buildBox()
@@ -88,6 +120,7 @@ class MyContents  {
         this.diffusePlaneColor = value
         this.planeMaterial.color.set(this.diffusePlaneColor)
     }
+
     /**
      * updates the specular plane color and the material
      * @param {THREE.Color} value 
@@ -96,6 +129,7 @@ class MyContents  {
         this.specularPlaneColor = value
         this.planeMaterial.specular.set(this.specularPlaneColor)
     }
+
     /**
      * updates the plane shininess and the material
      * @param {number} value 
@@ -104,6 +138,61 @@ class MyContents  {
         this.planeShininess = value
         this.planeMaterial.shininess = this.planeShininess
     }
+
+     /**
+     * updates the spot light color
+     * @param {THREE.Color} value 
+     */
+     updateSpotLightColor(value) {
+        this.spotLightColor = value
+        this.light3.color.set(this.spotLightColor)
+    }
+
+    /**
+     * updates the spot light intensity
+     * @param {number} value 
+     */
+    updateSpotLightIntensity(value) {
+        this.intensity = value
+        this.light3.intensity = this.intensity
+    }
+
+    /**
+     * updates the spot light distance
+     * @param {number} value 
+     */
+    updateSpotLightDistance(value) {
+        this.distance = value
+        this.light3.distance = this.distance
+    }
+
+    /**
+     * updates the spot light angle
+     * @param {number} value 
+     */
+    updateSpotLightAngle(value) {
+        this.spotAngle = value
+        this.light3.angle = THREE.MathUtils.degToRad(this.spotAngle)
+    }
+
+    /**
+     * updates the spot light penumbra
+     * @param {number} value 
+     */
+    updateSpotLightPenumbra(value) {
+        this.penumbra = value
+        this.light3.penumbra = this.penumbra
+    }
+
+    /**
+     * updates the spot light decay
+     * @param {number} value 
+     */
+    updateSpotLightDecay(value) {
+        this.decay = value
+        this.light3.decay = this.decay
+    }
+
     
     /**
      * rebuilds the box mesh if required
