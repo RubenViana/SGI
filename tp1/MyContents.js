@@ -5,6 +5,7 @@ import { Cake } from './Cake.js';
 import { Dish } from './Dish.js';
 import { Candle } from './Candle.js';
 import { Room } from './Room.js';
+import { Frame } from './Frame.js';
 
 /**
  *  This class contains the contents of out application
@@ -24,6 +25,16 @@ class MyContents  {
         
         // axis related attributes
         this.axisEnabled = false
+
+        //lights related attributes
+        this.spotLightEnabled = true
+        this.spotLightHelperEnabled = true
+
+        this.directionalLightEnabled = true
+        this.directionalLightHelperEnabled = true
+
+        this.roomLightsEnabled = true
+
     }
 
     /**
@@ -74,6 +85,26 @@ class MyContents  {
         this.directionalLight.position.set(-100, 30, 0); // Adjust the position of the light source
         this.directionalLightHelper = new THREE.DirectionalLightHelper( this.directionalLight, 0.5 );
         this.app.scene.add( this.directionalLightHelper );
+
+        // add room lights
+        const roomLight1 = new THREE.PointLight( 0xffffff, 1, 0, 0 );
+        roomLight1.position.set( 5, 5, 5 );
+        const roomLight1Helper = new THREE.PointLightHelper( roomLight1, 0.1 );
+        this.app.scene.add( roomLight1, roomLight1Helper );
+        const roomLight2 = new THREE.PointLight( 0xffffff, 1, 0, 0 );
+        roomLight2.position.set( -5, 5, 5 );
+        const roomLight2Helper = new THREE.PointLightHelper( roomLight2, 0.1 );
+        this.app.scene.add( roomLight2, roomLight2Helper );
+        const roomLight3 = new THREE.PointLight( 0xffffff, 1, 0, 0 );
+        roomLight3.position.set( 5, 5, -5 );
+        const roomLight3Helper = new THREE.PointLightHelper( roomLight3, 0.1 );
+        this.app.scene.add( roomLight3, roomLight3Helper );
+        const roomLight4 = new THREE.PointLight( 0xffffff, 1, 0, 0 );
+        roomLight4.position.set( -5, 5, -5 );
+        const roomLight4Helper = new THREE.PointLightHelper( roomLight4, 0.1 );
+        this.app.scene.add( roomLight4, roomLight4Helper );
+
+        this.roomLights = [roomLight1, roomLight2, roomLight3, roomLight4];
         
 
         // Add room to scene
@@ -98,6 +129,26 @@ class MyContents  {
         this.candle = new Candle();
         this.candle.position.y = 0.075;
         this.cake.add( this.candle );
+
+        // Add photos to room
+        this.photo1 = "textures/roni.jpg";
+        this.frame1 = new Frame(this.photo1);
+        this.frame1.position.y = 1.5;
+        this.frame1.position.z = -9.98;
+
+        this.photo2 = "textures/roni.jpg";
+        this.frame2 = new Frame(this.photo2);
+        this.frame2.position.y = 1.5;
+        this.frame2.position.z = -9.98;
+        this.frame2.position.x = 2;
+
+        this.photo3 = "textures/roni.jpg";
+        this.frame3 = new Frame(this.photo3);
+        this.frame3.position.y = 1.5;
+        this.frame3.position.z = -9.98;
+        this.frame3.position.x = -2;
+
+        this.room.add( this.frame1, this.frame2, this.frame3 );
     }
     
     /**
@@ -132,6 +183,8 @@ class MyContents  {
     updateSpotLight() {
         this.spotLight.target.updateMatrixWorld();
         this.spotLightHelper.update();
+        this.spotLight.visible = this.spotLightEnabled;
+        this.spotLightHelper.visible = this.spotLightHelperEnabled && this.spotLightEnabled;
     }
 
     updateDirectionalLightColor(value) {
@@ -141,6 +194,8 @@ class MyContents  {
     updateDirectionalLight() {
         this.directionalLight.target.updateMatrixWorld();
         this.directionalLightHelper.update();
+        this.directionalLight.visible = this.directionalLightEnabled;
+        this.directionalLightHelper.visible = this.directionalLightHelperEnabled && this.directionalLightEnabled;
     }
 
 

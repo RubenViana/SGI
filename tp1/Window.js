@@ -12,7 +12,7 @@ class Window extends THREE.Object3D {
 
         this.windowMaterial = new THREE.MeshPhongMaterial({ 
             color: "#000000",
-            specular: "#505050",
+            specular: "#101010",
             emissive: "#000000",
             shininess: 20
         })
@@ -24,7 +24,7 @@ class Window extends THREE.Object3D {
 
         this.windowLandscapeMaterial = new THREE.MeshPhongMaterial({
             color: "#ffffff", // White color
-            specular: "#ffffff", // Specular color
+            specular: "#000000", // Specular color
             shininess: 50, // Shininess factor
             emissive: "#404040",
             map: this.windowLandscapeTexture,// Assigning the texture to the material
