@@ -33,30 +33,6 @@ class MyGuiInterface  {
         // enable/disable the axis
         this.datgui.add(this.contents, 'axisEnabled', true).name("Axis");
 
-        // add a folder to the gui interface for the box
-        const boxFolder = this.datgui.addFolder( 'Box' );
-        // note that we are using a property from the contents object 
-        boxFolder.add(this.contents, 'boxMeshSize', 0, 10).name("size").onChange( () => { this.contents.rebuildBox() } );
-        boxFolder.add(this.contents, 'boxEnabled', true).name("enabled");
-        boxFolder.add(this.contents.boxDisplacement, 'x', -5, 5)
-        boxFolder.add(this.contents.boxDisplacement, 'y', -5, 5)
-        boxFolder.add(this.contents.boxDisplacement, 'z', -5, 5)
-        boxFolder.close()
-        
-        /*
-        const data = {  
-            'diffuse color': this.contents.diffusePlaneColor,
-            'specular color': this.contents.specularPlaneColor,
-        };
-
-        // adds a folder to the gui interface for the plane
-        const planeFolder = this.datgui.addFolder( 'Plane' );
-        planeFolder.addColor( data, 'diffuse color' ).onChange( (value) => { this.contents.updateDiffusePlaneColor(value) } );
-        planeFolder.addColor( data, 'specular color' ).onChange( (value) => { this.contents.updateSpecularPlaneColor(value) } );
-        planeFolder.add(this.contents, 'planeShininess', 0, 1000).name("shininess").onChange( (value) => { this.contents.updatePlaneShininess(value) } );
-        planeFolder.open();
-        */
-
         // adds a folder to the gui interface for the camera
         const cameraFolder = this.datgui.addFolder('Camera')
         cameraFolder.add(this.app, 'activeCameraName', [ 'Perspective', 'Left', 'Top', 'Front' ] ).name("active camera")
@@ -91,6 +67,13 @@ class MyGuiInterface  {
         spotLightFolder.add( this.contents.spotLight.target.position, 'x', -10, 10).name("target x").onChange( (value) => { this.contents.spotLight.target.position.set(value, this.contents.spotLight.target.position.y, this.contents.spotLight.target.position.z); this.contents.updateSpotLight() })
         spotLightFolder.add( this.contents.spotLight.target.position, 'y', -10, 10).name("target y").onChange( (value) => { this.contents.spotLight.target.position.set(this.contents.spotLight.target.position.x, value, this.contents.spotLight.target.position.z); this.contents.updateSpotLight() })
         spotLightFolder.add( this.contents.spotLight.target.position, 'z', -10, 10).name("target z").onChange( (value) => { this.contents.spotLight.target.position.set(this.contents.spotLight.target.position.x, this.contents.spotLight.target.position.y, value); this.contents.updateSpotLight() })
+        spotLightFolder.open()
+
+        // adds a folder to the gui interface for the directionalLight
+        const directionalLightFolder = this.datgui.addFolder('Directional Light')
+        directionalLightFolder.addColor( this.contents.directionalLight, 'color' ).onChange( (value) => { this.contents.updateDirectionalLightColor(value) } )
+        directionalLightFolder.add( this.contents.directionalLight, 'intensity', 0, 40, 1 )
+        // can add other properties here
         spotLightFolder.open()
     }
 }

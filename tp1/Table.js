@@ -23,9 +23,9 @@ class Table extends THREE.Object3D {
             color: 0x8B4513, // Brown color
             specular: "#0f0f0f", // Specular color
             shininess: 30, // Shininess factor
-            map: this.tableTopTexture // Assigning the texture to the material
+            map: this.tableTopTexture,// Assigning the texture to the material
         });
-
+        
         // table leg related attributes
         this.diffuseTableLegColor = "#505050"
         this.specularTableLegColor = "#FFFFFF"

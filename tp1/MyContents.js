@@ -21,29 +21,9 @@ class MyContents  {
 
         // Scale: 1meter (IRL) == 2un
 
-        // box related attributes
-        this.boxMesh = null
-        this.boxMeshSize = 1.0
-        this.boxEnabled = false
-        this.lastBoxEnabled = null
-        this.boxDisplacement = new THREE.Vector3(0,2,0)    
         
         // axis related attributes
         this.axisEnabled = false
-    }
-
-    /**
-     * builds the box mesh with material assigned
-     */
-    buildBox() {    
-        let boxMaterial = new THREE.MeshPhongMaterial({ color: "#ffff77", 
-        specular: "#000000", emissive: "#000000", shininess: 90 })
-
-        // Create a Cube Mesh with basic material
-        let box = new THREE.BoxGeometry(  this.boxMeshSize,  this.boxMeshSize,  this.boxMeshSize );
-        this.boxMesh = new THREE.Mesh( box, boxMaterial );
-        this.boxMesh.rotation.x = -Math.PI / 2;
-        this.boxMesh.position.y = this.boxDisplacement.y;
     }
 
     /**
@@ -73,41 +53,36 @@ class MyContents  {
         // add an ambient light
         const ambientLight = new THREE.AmbientLight( 0x555555, 4 );
         this.app.scene.add( ambientLight );
-        
-        /*
-        // add a directional light
-        const light2 = new THREE.DirectionalLight( 0xffffff, 1 );
-        light2.position.set( 0, 10, 0 );
-        light2.target.position.set( 0, 1, 0 );
-        this.app.scene.add( light2 );
 
-        // add a directional light helper for the previous directional light
-        const light2Helper = new THREE.DirectionalLightHelper( light2, 0.5 );
-        this.app.scene.add( light2Helper );
-        */
 
         // add a spot light
-        this.spotLight = new THREE.SpotLight( 0xffffff, 10, 0, (20*Math.PI)/180, 0, 0 );
-        this.spotLight.position.set( 0, 15, 0 );
+        this.spotLight = new THREE.SpotLight( 0xffffff, 10, 0, (14*Math.PI)/180, 1, 0 );
+        this.spotLight.position.set( 0, 5, 0 );
         this.spotLight.target.position.set( 0, 1, 0 );
+        // this.spotLight.castShadow = true; //this is for casting shadows. Uncomment render.shadowMap.enabled at MyApp.js
         this.app.scene.add( this.spotLight );
-
-        // add a spot light helper for the previous spot light
         this.spotLightHelper = new THREE.SpotLightHelper( this.spotLight );
         this.app.scene.add( this.spotLightHelper );
 
         // this.spotLight.visible = false;
         // this.spotLightHelper.visible = false; // TODO: make a enable/disable option in GUI for this
 
-        this.buildBox()
+
+        // add a sun light
+        this.directionalLight = new THREE.DirectionalLight(0xf8e45c, 10);
+        this.app.scene.add(this.directionalLight);
+        this.directionalLight.position.set(-100, 30, 0); // Adjust the position of the light source
+        this.directionalLightHelper = new THREE.DirectionalLightHelper( this.directionalLight, 0.5 );
+        this.app.scene.add( this.directionalLightHelper );
+        
 
         // Add room to scene
         this.room = new Room();
         this.app.scene.add( this.room );
 
-        // Add table to scene
+        // Add table to room
         this.table = new Table();
-        this.app.scene.add( this.table );
+        this.room.add( this.table );
         
         // Add dish to table
         this.dish = new Dish();
@@ -159,35 +134,15 @@ class MyContents  {
         this.spotLightHelper.update();
     }
 
-    /**
-     * rebuilds the box mesh if required
-     * this method is called from the gui interface
-     */
-    rebuildBox() {
-        // remove boxMesh if exists
-        if (this.boxMesh !== undefined && this.boxMesh !== null) {  
-            this.app.scene.remove(this.boxMesh)
-        }
-        this.buildBox();
-        this.lastBoxEnabled = null
+    updateDirectionalLightColor(value) {
+        this.directionalLight.color.set(value)
     }
-    
-    /**
-     * updates the box mesh if required
-     * this method is called from the render method of the app
-     * updates are trigered by boxEnabled property changes
-     */
-    updateBoxIfRequired() {
-        if (this.boxEnabled !== this.lastBoxEnabled) {
-            this.lastBoxEnabled = this.boxEnabled
-            if (this.boxEnabled) {
-                this.app.scene.add(this.boxMesh)
-            }
-            else {
-                this.app.scene.remove(this.boxMesh)
-            }
-        }
+
+    updateDirectionalLight() {
+        this.directionalLight.target.updateMatrixWorld();
+        this.directionalLightHelper.update();
     }
+
 
     /**
      * updates the contents
@@ -195,8 +150,6 @@ class MyContents  {
      * 
      */
     update() {
-        // check if box mesh needs to be updated
-        this.updateBoxIfRequired()
 
         //axis
         if (this.axisEnabled) {
@@ -205,12 +158,6 @@ class MyContents  {
         else {
             this.axis.visible = false
         }
-
-        // sets the box mesh position based on the displacement vector
-        this.boxMesh.position.x = this.boxDisplacement.x
-        this.boxMesh.position.y = this.boxDisplacement.y
-        this.boxMesh.position.z = this.boxDisplacement.z
-        
     }
 
 }

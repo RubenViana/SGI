@@ -9,7 +9,7 @@ class Cake extends THREE.Object3D {
         this.radiusTop = 0.2;
         this.radiusBottom = 0.2;
         this.height = 0.1;
-        this.radialSegments = 9;
+        this.radialSegments = 32;
         this.heightSegments = 2;
         this.openEnded = false;
         this.thetaStart = Math.PI * 0.00;

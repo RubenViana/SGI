@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { Window } from './Window.js';
 
 class Room extends THREE.Object3D {
 
@@ -59,7 +60,12 @@ class Room extends THREE.Object3D {
         this.wall4Mesh.position.y = 2.5;
         this.wall4Mesh.position.x = -10;
 
-        this.add( this.wall1Mesh, this.wall2Mesh, this.wall3Mesh, this.wall4Mesh, this.floorMesh);
+        // Window 
+        this.window = new Window();
+        this.window.rotation.y = Math.PI / 2;
+        this.window.position.x = -9.95;
+
+        this.add( this.wall1Mesh, this.wall2Mesh, this.wall3Mesh, this.wall4Mesh, this.floorMesh, this.window);
     }
 
 }
