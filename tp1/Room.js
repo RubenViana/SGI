@@ -63,7 +63,8 @@ class Room extends THREE.Object3D {
         // Window 
         this.window = new Window();
         this.window.rotation.y = Math.PI / 2;
-        this.window.position.x = -9.95;
+        this.window.position.y = this.window.windowHeight/2;
+        this.window.position.x = -9.85;
 
         this.add( this.wall1Mesh, this.wall2Mesh, this.wall3Mesh, this.wall4Mesh, this.floorMesh, this.window);
     }
