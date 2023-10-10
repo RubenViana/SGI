@@ -6,7 +6,7 @@ import { Dish } from './Dish.js';
 import { Candle } from './Candle.js';
 import { Room } from './Room.js';
 import { Frame } from './Frame.js';
-import { Chair } from './chair.js';
+import { Chair } from './Chair.js';
 import { Fireplace } from './Fireplace.js';
 
 /**
