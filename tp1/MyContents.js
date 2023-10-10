@@ -122,12 +122,12 @@ class MyContents  {
 
         // Add cake to dish
         this.cake = new Cake();
-        this.cake.position.y = 0.1;
+        this.cake.position.y = 0.074;
         this.dish.add( this.cake );
 
         // Add candle to cake
         this.candle = new Candle();
-        this.candle.position.y = 0.075;
+        this.candle.position.y = 0.085;
         this.cake.add( this.candle );
 
         // Add photos to room
@@ -136,13 +136,13 @@ class MyContents  {
         this.frame1.position.y = 1.5;
         this.frame1.position.z = -9.98;
 
-        this.photo2 = "textures/roni.jpg";
+        this.photo2 = "textures/rubinho.jpg";
         this.frame2 = new Frame(this.photo2);
         this.frame2.position.y = 1.5;
         this.frame2.position.z = -9.98;
         this.frame2.position.x = 2;
 
-        this.photo3 = "textures/roni.jpg";
+        this.photo3 = "textures/menino_prodigio.png";
         this.frame3 = new Frame(this.photo3);
         this.frame3.position.y = 1.5;
         this.frame3.position.z = -9.98;
