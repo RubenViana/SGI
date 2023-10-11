@@ -54,6 +54,10 @@ class MyApp  {
         // Configure renderer size
         this.renderer.setSize( window.innerWidth, window.innerHeight );
 
+        // Renderer shadow
+        // this.renderer.shadowMap.enabled = true;
+        // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap 
+
         // Append Renderer to DOM
         document.getElementById("canvas").appendChild( this.renderer.domElement );
 
@@ -134,6 +138,7 @@ class MyApp  {
                 // Orbit controls allow the camera to orbit around a target.
                 this.controls = new OrbitControls( this.activeCamera, this.renderer.domElement );
                 this.controls.enableZoom = true;
+                this.controls.target.set(0,1.2,0); //set the cake as the target
                 this.controls.update();
             }
             else {

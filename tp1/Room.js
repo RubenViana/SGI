@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { Window } from './Window.js';
 
 class Room extends THREE.Object3D {
 
@@ -6,25 +7,41 @@ class Room extends THREE.Object3D {
         super();
 
         // floor related attributes
-        this.diffusePlaneColor = "#b5b35c"
-        this.specularPlaneColor = "#b5b35c"
-        this.planeShininess = 30
-        this.planeMaterial = new THREE.MeshPhongMaterial({ color: this.diffusePlaneColor, 
-            specular: this.diffusePlaneColor, emissive: "#000000", shininess: this.planeShininess })
+        this.floorTexture = new THREE.TextureLoader().load('textures/woodFloorTexture.jpg');
+        this.floorTexture.wrapS = THREE.RepeatWrapping;
+        this.floorTexture.wrapT = THREE.RepeatWrapping;
+        this.floorTexture.repeat.set(4, 4);
+        this.floorTexture.colorSpace = THREE.SRGBColorSpace;
+
+        const woodMaterial = new THREE.MeshPhongMaterial({
+            color: "#E8E8E8", // color
+            specular: "#0f0f0f", // Specular color
+            shininess: 30, // Shininess factor
+            map: this.floorTexture // Assigning the texture to the material
+        });
 
         // wall related attributes
-        this.diffuseWallColor = "#f5f5f5"
-        this.specularWallColor = "#f5f5f5"
+
+        this.wallPaper = new THREE.TextureLoader().load('textures/wallpaper.png');
+        this.wallPaper.wrapS = THREE.RepeatWrapping;
+        this.wallPaper.wrapT = THREE.RepeatWrapping;
+        this.wallPaper.repeat.set(5, 2);
+        this.wallPaper.colorSpace = THREE.SRGBColorSpace;
+
+        this.diffuseWallColor = "#f0f0f0"
+        this.specularWallColor = "#000000"
         this.wallShininess = 10
         this.wallMaterial = new THREE.MeshPhongMaterial({ color: this.diffuseWallColor,
-            specular: this.diffuseWallColor, emissive: "#f5f5f5", shininess: this.WallShininess })
-            
+            specular: this.specularWallColor, shininess: this.WallShininess });
+        
+        this.wallPaperMaterial = new THREE.MeshPhongMaterial({ color: this.diffuseWallColor,
+            specular: this.specularWallColor, shininess: this.WallShininess , map: this.wallPaper});
 
         let floor = new THREE.PlaneGeometry( 20, 20 );
         let wall = new THREE.PlaneGeometry( 20, 5 );
         
         // Floor
-        this.floorMesh = new THREE.Mesh( floor, this.planeMaterial );
+        this.floorMesh = new THREE.Mesh( floor, woodMaterial );
         this.floorMesh.rotation.x = -Math.PI / 2;
         this.floorMesh.position.y = -0;
 
@@ -41,7 +58,7 @@ class Room extends THREE.Object3D {
         this.wall2Mesh.position.z = 10;
 
         // Wall 3
-        this.wall3Mesh = new THREE.Mesh( wall, this.wallMaterial );
+        this.wall3Mesh = new THREE.Mesh( wall, this.wallPaperMaterial );
         this.wall3Mesh.position.x = 10;
         this.wall3Mesh.rotation.y = -Math.PI / 2;
         this.wall3Mesh.position.y = 2.5;
@@ -52,7 +69,13 @@ class Room extends THREE.Object3D {
         this.wall4Mesh.position.y = 2.5;
         this.wall4Mesh.position.x = -10;
 
-        this.add( this.wall1Mesh, this.wall2Mesh, this.wall3Mesh, this.wall4Mesh, this.floorMesh);
+        // Window 
+        this.window = new Window();
+        this.window.rotation.y = Math.PI / 2;
+        this.window.position.y = this.window.windowHeight/2;
+        this.window.position.x = -9.85;
+
+        this.add( this.wall1Mesh, this.wall2Mesh, this.wall3Mesh, this.wall4Mesh, this.floorMesh, this.window);
     }
 
 }
