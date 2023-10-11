@@ -9,6 +9,7 @@ import { Frame } from './Frame.js';
 import { Chair } from './Chair.js';
 import { Fireplace } from './Fireplace.js';
 import { Carocha } from './Carocha.js';
+import { Spearker } from './Speaker.js';
 
 /**
  *  This class contains the contents of out application
@@ -179,6 +180,21 @@ class MyContents  {
         this.carocha.rotation.y = Math.PI;
         this.carocha.position.set(0, 3.5, 8.98);
         this.room.add(this.carocha);
+
+        // add speakers right and left
+        this.leftSpeaker = new Spearker();
+        this.rightSpeaker = new Spearker();
+
+        //TODO
+        // add carpet under the table with a light texture
+        // add a TV in the middle of the speakers
+        // put bala's pokemon at a corner 
+        // maybe add more chairs?! and change its height/size
+        // add a light inside the candle with ywllow color and lower intensity
+        // add some book shelfs to the fireplace wall, one/two stacked on each side
+        // add the mandatory components to the scene !!! MUST DO
+        // maybe change the table's format to fit the room better, square is a way to go
+
     }
     
     /**

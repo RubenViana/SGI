@@ -45,12 +45,12 @@ class Carocha extends THREE.Object3D {
             shininess: 20
         })
 
-        this.carocha.scale.set(0.2, 0.2, 0.2);
+        this.carocha.scale.set(0.3, 0.3, 0.3);
         this.carocha.position.z = -0.005;
         this.add(this.carocha);
 
-        this.frame = this.createFrame(2, 1.25, 0.05, this.frameMaterial);
-        this.add(this.frame);
+        // this.frame = this.createFrame(2, 1.25, 0.05, this.frameMaterial);
+        // this.add(this.frame);
     }
 
     initCubicBezierCurve(points) {
@@ -61,7 +61,7 @@ class Carocha extends THREE.Object3D {
     
         let sampledPoints = curve.getPoints( 50 );
         this.curveGeometry = new THREE.BufferGeometry().setFromPoints( sampledPoints )
-        this.lineMaterial = new THREE.LineBasicMaterial( { color: 0xff0000, linewidth: 1 } )
+        this.lineMaterial = new THREE.LineBasicMaterial( { color: 0xffff00, linewidth: 1 } )
         this.lineObj = new THREE.Line( this.curveGeometry, this.lineMaterial )
     
         this.carocha.add( this.lineObj );
