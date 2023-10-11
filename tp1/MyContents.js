@@ -8,6 +8,7 @@ import { Room } from './Room.js';
 import { Frame } from './Frame.js';
 import { Chair } from './Chair.js';
 import { Fireplace } from './Fireplace.js';
+import { Carocha } from './Carocha.js';
 
 /**
  *  This class contains the contents of out application
@@ -172,6 +173,12 @@ class MyContents  {
         this.fireplace.position.set(0,0,9.5);
 
         this.room.add(this.fireplace);
+
+        // add carocha
+        this.carocha = new Carocha();
+        this.carocha.rotation.y = Math.PI;
+        this.carocha.position.set(0, 3.5, 8.98);
+        this.room.add(this.carocha);
     }
     
     /**
