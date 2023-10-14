@@ -12,6 +12,7 @@ import { Carocha } from './Carocha.js';
 import { Spearker } from './Speaker.js';
 import { Carpet } from './Carpet.js';
 import { TV } from './TV.js';
+import { Spring } from './Spring.js';
 
 /**
  *  This class contains the contents of out application
@@ -216,11 +217,19 @@ class MyContents  {
         this.carpet.position.y = 0.001;
         this.room.add(this.carpet);
 
+        // add spring to table
+        this.spring = new Spring();
+        this.spring.position.set(1, 1.05, 1);
+        this.spring.rotation.x = -Math.PI/2;
+        this.table.add(this.spring);
+
+
         //TODO
         // put bala's pokemon at a corner 
         // add a light inside the candle with ywllow color and lower intensity
         // add some book shelfs to the fireplace wall, one/two stacked on each side
         // add the mandatory components to the scene !!! MUST DO
+        // add shadows to the scene
 
     }
     
