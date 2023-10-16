@@ -8,6 +8,12 @@ import { Room } from './Room.js';
 import { Frame } from './Frame.js';
 import { Chair } from './Chair.js';
 import { Fireplace } from './Fireplace.js';
+import { Carocha } from './Carocha.js';
+import { Spearker } from './Speaker.js';
+import { Carpet } from './Carpet.js';
+import { TV } from './TV.js';
+import { Spring } from './Spring.js';
+import { Newspaper } from './Newspaper.js';
 
 /**
  *  This class contains the contents of out application
@@ -157,21 +163,82 @@ class MyContents  {
         this.chair2 = new Chair();
         this.chair3 = new Chair();
         this.chair4 = new Chair();
+        this.chair5 = new Chair();
+        this.chair6 = new Chair();
+        this.chair7 = new Chair();
+        this.chair8 = new Chair();
 
-        this.chair1.position.set(0.7,0,1);
+        this.chair1.position.set(0.7,0,2);
         this.chair1.rotation.y = Math.PI;
-        this.chair2.position.set(-0.7,0,1);
+        this.chair2.position.set(-0.7,0,2);
         this.chair2.rotation.y = Math.PI;
-        this.chair3.position.set(0.7,0,-1);
-        this.chair4.position.set(-0.7,0,-1);
+        this.chair3.position.set(0.7,0,-2);
+        this.chair4.position.set(-0.7,0,-2);
+        this.chair5.position.set(2,0,0.7);
+        this.chair5.rotation.y = -Math.PI/2;
+        this.chair6.position.set(2,0,-0.7);
+        this.chair6.rotation.y = -Math.PI/2;
+        this.chair7.position.set(-2,0,0.7);
+        this.chair7.rotation.y = Math.PI/2;
+        this.chair8.position.set(-2,0,-0.7);
+        this.chair8.rotation.y = Math.PI/2;
 
-        this.room.add( this.chair1, this.chair2, this.chair3, this.chair4 );
+        this.room.add( this.chair1, this.chair2, this.chair3, this.chair4, this.chair5, this.chair6, this.chair7, this.chair8 );
 
         // add fireplace to room
         this.fireplace = new Fireplace();
         this.fireplace.position.set(0,0,9.5);
 
         this.room.add(this.fireplace);
+
+        // add carocha
+        this.carocha = new Carocha();
+        this.carocha.rotation.y = Math.PI;
+        this.carocha.position.set(0, 3.5, 8.98);
+        this.room.add(this.carocha);
+
+        // add speakers right and left
+        this.leftSpeaker = new Spearker();
+        this.leftSpeaker.position.set(9.5, 0, -2.5);
+        this.leftSpeaker.rotation.y = -Math.PI/4 - Math.PI/6;
+        this.rightSpeaker = new Spearker();
+        this.rightSpeaker.position.set(9.5, 0, 2.5);
+        this.rightSpeaker.rotation.y = 5*Math.PI/4 + Math.PI/6;
+
+        this.room.add(this.leftSpeaker, this.rightSpeaker);
+
+        // add TV
+        this.tv = new TV();
+        this.tv.position.set(9.98, 2.5, 0);
+        this.tv.rotation.y = -Math.PI/2;
+        this.room.add(this.tv);
+
+        // add carpet
+        this.carpet = new Carpet();
+        this.carpet.position.y = 0.001;
+        this.room.add(this.carpet);
+
+        // add spring to table
+        this.spring = new Spring();
+        this.spring.position.set(1, 1.05, 1);
+        this.spring.rotation.x = -Math.PI/2;
+        this.table.add(this.spring);
+
+        // add newspaper to table
+        this.newspaper = new Newspaper();
+        this.newspaper.position.set(1, 1.11, -1);
+        this.newspaper.rotation.x = -Math.PI/2;
+        this.newspaper.rotation.z = Math.PI/4;
+        this.table.add(this.newspaper);
+
+
+        //TODO
+        // put bala's pokemon at a corner 
+        // add a light inside the candle with ywllow color and lower intensity
+        // add some book shelfs to the fireplace wall, one/two stacked on each side
+        // add the mandatory components to the scene !!! MUST DO
+        // add shadows to the scene
+
     }
     
     /**

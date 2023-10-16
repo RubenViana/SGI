@@ -30,12 +30,12 @@ class Chair extends THREE.Object3D {
         // Chair Seat
         const chairSeatGeometry = new THREE.BoxGeometry(0.5, 0.08, 0.5);
         const chairSeatMesh = new THREE.Mesh(chairSeatGeometry, chairSeatMaterial);
-        chairSeatMesh.position.y = 0.6;
+        chairSeatMesh.position.y = 0.65;
 
         // Chair Backrest
         const chairBackrestGeometry = new THREE.BoxGeometry(0.5, 0.7, 0.05);
         const chairBackrestMesh = new THREE.Mesh(chairBackrestGeometry, chairBackrestMaterial);
-        chairBackrestMesh.position.y = 0.91;
+        chairBackrestMesh.position.y = 0.96;
         chairBackrestMesh.position.z = -0.25;
 
         // Chair Legs (4 legs)
@@ -49,22 +49,22 @@ class Chair extends THREE.Object3D {
         const chairLeg1Mesh = new THREE.Mesh(chairLegGeometry, chairLegMaterial);
         chairLeg1Mesh.position.x = -0.15;
         chairLeg1Mesh.position.z = -0.15;
-        chairLeg1Mesh.position.y = 0.25;
+        chairLeg1Mesh.position.y = 0.3;
 
         const chairLeg2Mesh = new THREE.Mesh(chairLegGeometry, chairLegMaterial);
         chairLeg2Mesh.position.x = -0.15;
         chairLeg2Mesh.position.z = 0.15;
-        chairLeg2Mesh.position.y = 0.25;
+        chairLeg2Mesh.position.y = 0.3;
 
         const chairLeg3Mesh = new THREE.Mesh(chairLegGeometry, chairLegMaterial);
         chairLeg3Mesh.position.x = 0.15;
         chairLeg3Mesh.position.z = -0.15;
-        chairLeg3Mesh.position.y = 0.25;
+        chairLeg3Mesh.position.y = 0.3;
 
         const chairLeg4Mesh = new THREE.Mesh(chairLegGeometry, chairLegMaterial);
         chairLeg4Mesh.position.x = 0.15;
         chairLeg4Mesh.position.z = 0.15;
-        chairLeg4Mesh.position.y = 0.25;
+        chairLeg4Mesh.position.y = 0.3;
 
         chairLeg1Mesh.rotation.x = Math.PI / 12; 
         chairLeg1Mesh.rotation.z = -Math.PI / 12; 
