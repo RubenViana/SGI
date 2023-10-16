@@ -15,6 +15,7 @@ import { TV } from './TV.js';
 import { Spring } from './Spring.js';
 import { Newspaper } from './Newspaper.js';
 import { Snorlax } from './Snorlax.js';
+import { Shelf } from './Shelf.js';
 
 /**
  *  This class contains the contents of out application
@@ -37,10 +38,10 @@ class MyContents  {
 
         //lights related attributes
         this.spotLightEnabled = true
-        this.spotLightHelperEnabled = true
+        this.spotLightHelperEnabled = false
 
         this.directionalLightEnabled = true
-        this.directionalLightHelperEnabled = true
+        this.directionalLightHelperEnabled = false
 
         this.roomLightsEnabled = true
 
@@ -76,45 +77,49 @@ class MyContents  {
 
 
         // add a spot light
-        this.spotLight = new THREE.SpotLight( 0xffffff, 10, 0, (14*Math.PI)/180, 1, 0 );
+        this.spotLight = new THREE.SpotLight( 0xffffff, 10, 0, (14*Math.PI)/180, 0.1, 0 );
         this.spotLight.position.set( 0, 5, 0 );
         this.spotLight.target.position.set( 0, 1, 0 );
-        // this.spotLight.castShadow = true; //this is for casting shadows. Uncomment render.shadowMap.enabled at MyApp.js
+        this.spotLight.castShadow = true;
         this.app.scene.add( this.spotLight );
         this.spotLightHelper = new THREE.SpotLightHelper( this.spotLight );
         this.app.scene.add( this.spotLightHelper );
 
-        // this.spotLight.visible = false;
-        // this.spotLightHelper.visible = false; // TODO: make a enable/disable option in GUI for this
-
 
         // add a sun light
         this.directionalLight = new THREE.DirectionalLight(0xf8e45c, 10);
+        this.directionalLight.castShadow = true;
         this.app.scene.add(this.directionalLight);
         this.directionalLight.position.set(-100, 30, 0); // Adjust the position of the light source
-        this.directionalLightHelper = new THREE.DirectionalLightHelper( this.directionalLight, 0.5 );
+        this.directionalLightHelper = new THREE.DirectionalLightHelper( this.directionalLight );
         this.app.scene.add( this.directionalLightHelper );
 
         // add room lights
         const roomLight1 = new THREE.PointLight( 0xffffff, 1, 0, 0 );
         roomLight1.position.set( 5, 5, 5 );
+        roomLight1.castShadow = true;
         const roomLight1Helper = new THREE.PointLightHelper( roomLight1, 0.1 );
         this.app.scene.add( roomLight1, roomLight1Helper );
         const roomLight2 = new THREE.PointLight( 0xffffff, 1, 0, 0 );
         roomLight2.position.set( -5, 5, 5 );
+        roomLight2.castShadow = true;
         const roomLight2Helper = new THREE.PointLightHelper( roomLight2, 0.1 );
         this.app.scene.add( roomLight2, roomLight2Helper );
         const roomLight3 = new THREE.PointLight( 0xffffff, 1, 0, 0 );
         roomLight3.position.set( 5, 5, -5 );
+        roomLight3.castShadow = true;
         const roomLight3Helper = new THREE.PointLightHelper( roomLight3, 0.1 );
         this.app.scene.add( roomLight3, roomLight3Helper );
         const roomLight4 = new THREE.PointLight( 0xffffff, 1, 0, 0 );
         roomLight4.position.set( -5, 5, -5 );
+        roomLight4.castShadow = true;
         const roomLight4Helper = new THREE.PointLightHelper( roomLight4, 0.1 );
         this.app.scene.add( roomLight4, roomLight4Helper );
 
         this.roomLights = [roomLight1, roomLight2, roomLight3, roomLight4];
         
+        this.updateSpotLight();
+        this.updateDirectionalLight();
 
         // Add room to scene
         this.room = new Room();
@@ -238,13 +243,20 @@ class MyContents  {
         this.snorlax.rotation.y = 3*Math.PI/4;
         this.room.add(this.snorlax);
 
+        // add a shelf to the room
+        this.shelf1 = new Shelf();
+        this.shelf1.position.set(6, 3, 9.8);
+        this.shelf2 = new Shelf();
+        this.shelf2.position.set(6, 1.5, 9.8);
+        this.shelf3 = new Shelf();
+        this.shelf3.position.set(-6, 3, 9.8);
+        this.shelf4 = new Shelf();
+        this.shelf4.position.set(-6, 1.5, 9.8);
+        this.room.add(this.shelf1, this.shelf2, this.shelf3, this.shelf4);
 
         //TODO
-        // put bala's pokemon at a corner 
-        // add a light inside the candle with ywllow color and lower intensity
         // add some book shelfs to the fireplace wall, one/two stacked on each side
         // add the mandatory components to the scene !!! MUST DO
-        // add shadows to the scene
 
     }
     

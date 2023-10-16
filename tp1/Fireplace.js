@@ -37,7 +37,10 @@ class Fireplace extends THREE.Object3D {
 
         this.fireplace = new THREE.Mesh( new THREE.BoxGeometry(3, 5, 1), this.wallPaperMaterial );
         this.fireplace.position.y = 2.5;
-
+        
+        this.fireplace.castShadow = true;
+        this.fireplace.receiveShadow = true;
+        
         this.add(this.fireplace, this.fireplaceFire);
     }
 
