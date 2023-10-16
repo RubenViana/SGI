@@ -21,12 +21,21 @@ class Room extends THREE.Object3D {
         });
 
         // wall related attributes
+
+        this.wallPaper = new THREE.TextureLoader().load('textures/wallpaper.png');
+        this.wallPaper.wrapS = THREE.RepeatWrapping;
+        this.wallPaper.wrapT = THREE.RepeatWrapping;
+        this.wallPaper.repeat.set(5, 2);
+        this.wallPaper.colorSpace = THREE.SRGBColorSpace;
+
         this.diffuseWallColor = "#f0f0f0"
         this.specularWallColor = "#000000"
         this.wallShininess = 10
         this.wallMaterial = new THREE.MeshPhongMaterial({ color: this.diffuseWallColor,
-            specular: this.specularWallColor, shininess: this.WallShininess })
-            
+            specular: this.specularWallColor, shininess: this.WallShininess });
+        
+        this.wallPaperMaterial = new THREE.MeshPhongMaterial({ color: this.diffuseWallColor,
+            specular: this.specularWallColor, shininess: this.WallShininess , map: this.wallPaper});
 
         let floor = new THREE.PlaneGeometry( 20, 20 );
         let wall = new THREE.PlaneGeometry( 20, 5 );
@@ -49,7 +58,7 @@ class Room extends THREE.Object3D {
         this.wall2Mesh.position.z = 10;
 
         // Wall 3
-        this.wall3Mesh = new THREE.Mesh( wall, this.wallMaterial );
+        this.wall3Mesh = new THREE.Mesh( wall, this.wallPaperMaterial );
         this.wall3Mesh.position.x = 10;
         this.wall3Mesh.rotation.y = -Math.PI / 2;
         this.wall3Mesh.position.y = 2.5;

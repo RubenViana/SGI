@@ -6,6 +6,8 @@ import { Dish } from './Dish.js';
 import { Candle } from './Candle.js';
 import { Room } from './Room.js';
 import { Frame } from './Frame.js';
+import { Chair } from './Chair.js';
+import { Fireplace } from './Fireplace.js';
 
 /**
  *  This class contains the contents of out application
@@ -149,6 +151,27 @@ class MyContents  {
         this.frame3.position.x = -2;
 
         this.room.add( this.frame1, this.frame2, this.frame3 );
+
+        // add chairs to room
+        this.chair1 = new Chair();
+        this.chair2 = new Chair();
+        this.chair3 = new Chair();
+        this.chair4 = new Chair();
+
+        this.chair1.position.set(0.7,0,1);
+        this.chair1.rotation.y = Math.PI;
+        this.chair2.position.set(-0.7,0,1);
+        this.chair2.rotation.y = Math.PI;
+        this.chair3.position.set(0.7,0,-1);
+        this.chair4.position.set(-0.7,0,-1);
+
+        this.room.add( this.chair1, this.chair2, this.chair3, this.chair4 );
+
+        // add fireplace to room
+        this.fireplace = new Fireplace();
+        this.fireplace.position.set(0,0,9.5);
+
+        this.room.add(this.fireplace);
     }
     
     /**
