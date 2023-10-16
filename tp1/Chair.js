@@ -75,18 +75,21 @@ class Chair extends THREE.Object3D {
         chairLeg4Mesh.rotation.x = -Math.PI / 12; 
         chairLeg4Mesh.rotation.z = Math.PI / 12; 
 
-        // Grouping the chair components
-        const chairGroup = new THREE.Group();
-        chairGroup.add(chairSeatMesh);
-        chairGroup.add(chairBackrestMesh);
-        chairGroup.add(chairLeg1Mesh);
-        chairGroup.add(chairLeg2Mesh);
-        chairGroup.add(chairLeg3Mesh);
-        chairGroup.add(chairLeg4Mesh);
-
+        chairLeg1Mesh.castShadow = true;
+        chairLeg1Mesh.receiveShadow = true;
+        chairLeg2Mesh.castShadow = true;
+        chairLeg2Mesh.receiveShadow = true;
+        chairLeg3Mesh.castShadow = true;
+        chairLeg3Mesh.receiveShadow = true;
+        chairLeg4Mesh.castShadow = true;
+        chairLeg4Mesh.receiveShadow = true;
+        chairSeatMesh.castShadow = true;
+        chairSeatMesh.receiveShadow = true;
+        chairBackrestMesh.castShadow = true;
+        chairBackrestMesh.receiveShadow = true;
 
         // Add the chair to the scene
-        this.add(chairGroup);
+        this.add(chairLeg1Mesh, chairLeg2Mesh, chairLeg3Mesh, chairLeg4Mesh, chairSeatMesh, chairBackrestMesh);
 
     
     

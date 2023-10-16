@@ -22,6 +22,8 @@ class Carpet extends THREE.Object3D {
 
         this.carpet.rotation.x = -Math.PI / 2;
 
+        this.carpet.receiveShadow = true;
+        
         this.add(this.carpet);
     }
 }

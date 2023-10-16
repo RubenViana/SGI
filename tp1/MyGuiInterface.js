@@ -36,7 +36,9 @@ class MyGuiInterface  {
         // adds a folder to the gui interface for the camera
         const cameraFolder = this.datgui.addFolder('Camera')
         cameraFolder.add(this.app, 'activeCameraName', [ 'Perspective', 'Left', 'Top', 'Front' ] ).name("active camera")
+        cameraFolder.add(this.app, 'targetName', [ 'Cake', 'Spring', 'Newspaper', 'Frames', 'Carocha', 'Jar', 'Window', 'TV', 'Snorlax' ]).name("target").onChange((target) => {this.app.controls.target.set(this.app.targets[target].x, this.app.targets[target].y, this.app.targets[target].z);})
         cameraFolder.open()
+
 
         // // adds a folder to the gui interface for the table
         // const tableFolder = this.datgui.addFolder('Table')

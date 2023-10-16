@@ -49,6 +49,18 @@ class Cake extends THREE.Object3D {
         this.topCakeMesh.rotation.x = -Math.PI / 2;
         this.topCakeMesh.position.y = this.height - 0.0498;
 
+        this.cakeMesh.castShadow = true;
+        this.cakeMesh.receiveShadow = true;
+
+        this.topCakeMesh.castShadow = true;
+        this.topCakeMesh.receiveShadow = true;
+
+        this.cakeSide1Mesh.castShadow = true;
+        this.cakeSide1Mesh.receiveShadow = true;
+
+        this.cakeSide2Mesh.castShadow = true;
+        this.cakeSide2Mesh.receiveShadow = true;
+
         // Add Cake components to the scene
         this.add(this.cakeMesh, this.topCakeMesh);
         this.add(this.cakeMesh, this.cakeSide1Mesh, this.cakeSide2Mesh);

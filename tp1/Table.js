@@ -66,6 +66,17 @@ class Table extends THREE.Object3D {
         this.tableLeg4Mesh.position.y = 0.5;
         this.tableLeg4Mesh.position.z = -1.25;
 
+        this.tableLeg1Mesh.castShadow = true;
+        this.tableLeg1Mesh.receiveShadow = true;
+        this.tableLeg2Mesh.castShadow = true;
+        this.tableLeg2Mesh.receiveShadow = true;
+        this.tableLeg3Mesh.castShadow = true;
+        this.tableLeg3Mesh.receiveShadow = true;
+        this.tableLeg4Mesh.castShadow = true;
+        this.tableLeg4Mesh.receiveShadow = true;
+        this.tableTopMesh.castShadow = true;
+        this.tableTopMesh.receiveShadow = true;
+
         // Add table to scene
         this.add( this.tableTopMesh, this.tableLeg1Mesh, this.tableLeg2Mesh, this.tableLeg3Mesh, this.tableLeg4Mesh );
 

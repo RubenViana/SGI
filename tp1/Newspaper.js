@@ -49,6 +49,9 @@ class Newspaper extends THREE.Object3D {
         mesh.rotation.z = 0
         mesh.scale.set( 0.7, 0.7, 0.7 )
 
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
         this.add( mesh )
 
     }

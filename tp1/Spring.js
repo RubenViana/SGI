@@ -27,6 +27,9 @@ class Spring extends THREE.Object3D {
         const tubeMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
         const tubeMesh = new THREE.Mesh(tubeGeometry, tubeMaterial);
 
+        tubeMesh.castShadow = true;
+        tubeMesh.receiveShadow = true;
+        
         // Add the tube mesh to the scene
         this.add(tubeMesh);
     }

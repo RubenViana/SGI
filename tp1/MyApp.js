@@ -21,6 +21,19 @@ class MyApp  {
         this.activeCameraName = null
         this.lastCameraName = null
         this.cameras = []
+        this.targets = []
+        // add targets
+        this.targets['Cake'] = new THREE.Vector3(0,1.2,0);
+        this.targets['Spring'] = new THREE.Vector3(1, 1.05, 1);
+        this.targets['Newspaper'] = new THREE.Vector3(1, 1.1, -1);
+        this.targets['Frames'] = new THREE.Vector3(0, 1.5, -10);
+        this.targets['Carocha'] = new THREE.Vector3(0, 3.5, 10);
+        this.targets['Jar'] = new THREE.Vector3(0, 2.5, -10);
+        this.targets['Window'] = new THREE.Vector3(-10, 2.5, 0);
+        this.targets['TV'] = new THREE.Vector3(10, 2.5, 0);
+        this.targets['Snorlax'] = new THREE.Vector3(-8, 1, -8);
+        
+        this.targetName = 'Cake'
         this.frustumSize = 20
 
         // other attributes
@@ -55,8 +68,8 @@ class MyApp  {
         this.renderer.setSize( window.innerWidth, window.innerHeight );
 
         // Renderer shadow
-        // this.renderer.shadowMap.enabled = true;
-        // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap 
+        this.renderer.shadowMap.enabled = true;
+        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap 
 
         // Append Renderer to DOM
         document.getElementById("canvas").appendChild( this.renderer.domElement );
@@ -104,6 +117,7 @@ class MyApp  {
         orthoFront.position.set(0,0, this.frustumSize /4) 
         orthoFront.lookAt( new THREE.Vector3(0,0,0) );
         this.cameras['Front'] = orthoFront
+
     }
 
     /**
@@ -114,6 +128,7 @@ class MyApp  {
         this.activeCameraName = cameraName
         this.activeCamera = this.cameras[this.activeCameraName]
     }
+
 
     /**
      * updates the active camera if required
@@ -138,7 +153,7 @@ class MyApp  {
                 // Orbit controls allow the camera to orbit around a target.
                 this.controls = new OrbitControls( this.activeCamera, this.renderer.domElement );
                 this.controls.enableZoom = true;
-                this.controls.target.set(0,1.2,0); //set the cake as the target
+                this.controls.target.set(0, 1, 0); //set the cake as the target
                 this.controls.update();
             }
             else {

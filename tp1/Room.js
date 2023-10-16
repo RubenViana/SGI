@@ -75,6 +75,12 @@ class Room extends THREE.Object3D {
         this.window.position.y = this.window.windowHeight/2;
         this.window.position.x = -9.85;
 
+        this.wall1Mesh.receiveShadow = true;
+        this.wall2Mesh.receiveShadow = true;
+        this.wall3Mesh.receiveShadow = true;
+        this.wall4Mesh.receiveShadow = true;
+        this.floorMesh.receiveShadow = true;
+
         this.add( this.wall1Mesh, this.wall2Mesh, this.wall3Mesh, this.wall4Mesh, this.floorMesh, this.window);
     }
 
