@@ -28,7 +28,7 @@ class MyApp  {
         this.targets['Newspaper'] = new THREE.Vector3(1, 1.1, -1);
         this.targets['Frames'] = new THREE.Vector3(0, 1.5, -10);
         this.targets['Carocha'] = new THREE.Vector3(0, 3.5, 10);
-        this.targets['Jar'] = new THREE.Vector3(0, 2.5, -10);
+        this.targets['Jar'] = new THREE.Vector3(9, 1, -9);
         this.targets['Window'] = new THREE.Vector3(-10, 2.5, 0);
         this.targets['TV'] = new THREE.Vector3(10, 2.5, 0);
         this.targets['Snorlax'] = new THREE.Vector3(-8, 1, -8);

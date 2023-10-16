@@ -241,7 +241,7 @@ class MyContents  {
 
         // add jar to room
         this.jar = new Jar();
-        this.jar.position.set(9.0, 0.9, 9.0);
+        this.jar.position.set(9.0, 0.9, -9.0);
         this.jar.rotation.x = Math.PI/2;
         this.room.add(this.jar);
 
