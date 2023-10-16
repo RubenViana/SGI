@@ -13,6 +13,7 @@ import { Spearker } from './Speaker.js';
 import { Carpet } from './Carpet.js';
 import { TV } from './TV.js';
 import { Spring } from './Spring.js';
+import { Newspaper } from './Newspaper.js';
 
 /**
  *  This class contains the contents of out application
@@ -222,6 +223,13 @@ class MyContents  {
         this.spring.position.set(1, 1.05, 1);
         this.spring.rotation.x = -Math.PI/2;
         this.table.add(this.spring);
+
+        // add newspaper to table
+        this.newspaper = new Newspaper();
+        this.newspaper.position.set(1, 1.11, -1);
+        this.newspaper.rotation.x = -Math.PI/2;
+        this.newspaper.rotation.z = Math.PI/4;
+        this.table.add(this.newspaper);
 
 
         //TODO
