@@ -43,7 +43,7 @@ class Snorlax extends THREE.Object3D {
         this.mainBodyMesh.rotation.x = Math.PI;
         this.mainBodyMesh.rotation.y = Math.PI + Math.PI / 6;
 
-        // // Snorlax cagueiro related attributes
+        // // Snorlax base related attributes
         // this.baseRadius = 1.49;
         // this.baseWidthSegments = 32;
         // this.baseHeightSegments = 32;
@@ -177,7 +177,7 @@ class Snorlax extends THREE.Object3D {
 
 
 
-        // Snorlax arm related attributes
+        // Snorlax arms related attributes
         this.leftArmRadiusTop = 0.2;
         this.leftArmRadiusBottom = 0.1;
         this.leftArmHeight = 1.3;

@@ -15,6 +15,8 @@ import { TV } from './TV.js';
 import { Spring } from './Spring.js';
 import { Newspaper } from './Newspaper.js';
 import { Snorlax } from './Snorlax.js';
+import  { Jar } from './Jar.js';
+import { Flower } from './Flower.js';
 import { Shelf } from './Shelf.js';
 
 /**
@@ -236,6 +238,19 @@ class MyContents  {
         this.newspaper.rotation.x = -Math.PI/2;
         this.newspaper.rotation.z = Math.PI/4;
         this.table.add(this.newspaper);
+
+        // add jar to room
+        this.jar = new Jar();
+        this.jar.position.set(9.0, 0.9, 9.0);
+        this.jar.rotation.x = Math.PI/2;
+        this.room.add(this.jar);
+
+        // add flower to jar
+        this.flower = new Flower();
+        this.flower.position.set(0, 0.1, -0.55);
+        this.flower.rotation.y = Math.PI/2;
+        this.flower.scale.set(0.3, 0.3, 0.3);
+        this.jar.add(this.flower);
 
         // add snorlax to room
         this.snorlax = new Snorlax();
