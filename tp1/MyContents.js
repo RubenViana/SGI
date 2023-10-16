@@ -14,6 +14,7 @@ import { Carpet } from './Carpet.js';
 import { TV } from './TV.js';
 import { Spring } from './Spring.js';
 import { Newspaper } from './Newspaper.js';
+import { Snorlax } from './Snorlax.js';
 
 /**
  *  This class contains the contents of out application
@@ -230,6 +231,12 @@ class MyContents  {
         this.newspaper.rotation.x = -Math.PI/2;
         this.newspaper.rotation.z = Math.PI/4;
         this.table.add(this.newspaper);
+
+        // add snorlax to room
+        this.snorlax = new Snorlax();
+        this.snorlax.position.set(-8, 1, -8);
+        this.snorlax.rotation.y = 3*Math.PI/4;
+        this.room.add(this.snorlax);
 
 
         //TODO
