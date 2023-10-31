@@ -29,6 +29,11 @@ class MyGuiInterface  {
      * Initialize the gui interface
      */
     init() {
+
+        // create folder for cameras
+        let cameraFolder = this.datgui.addFolder("Cameras")
+        cameraFolder.add(this.app, 'activeCameraName', this.app.cameraNames).name("Active Camera")
+        cameraFolder.open()
     }
 }
 

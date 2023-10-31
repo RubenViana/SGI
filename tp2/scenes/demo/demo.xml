@@ -28,15 +28,15 @@
 
     <!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas texturas --> 
     <textures>        
-        <texture id="leftWallTex" filepath="scenes/t01g01/textures/scratchedWall.jpg" />
-		<texture id="rightWallTex" filepath="scenes/t01g01/textures/bloodyWall.jpg" />
-		<texture id="floorTex" filepath="scenes/t01g01/textures/test1.jpg" />
-		<texture id="tableTex" filepath="scenes/t01g01/textures/table.png" />
-		<texture id="crimeWeaponTex" filepath="scenes/t01g01/textures/bloodyPrints.jpg" />
-		<texture id="tapeTex" filepath="scenes/t01g01/textures/pTape.jpg" />
-		<texture id="tapeSupportTex" filepath="scenes/t01g01/textures/lamp.png" />
-		<texture id="pineTex" filepath="scenes/t01g01/textures/pine.png" />
-		<texture id="vaseTex" filepath="scenes/t01g01/textures/vase.png" />
+        <texture id="leftWallTex" filepath="scenes/demo/textures/scratchedWall.jpg" />
+		<texture id="rightWallTex" filepath="scenes/demo/textures/bloodyWall.jpg" />
+		<texture id="floorTex" filepath="scenes/demo/textures/test1.jpg" />
+		<texture id="tableTex" filepath="scenes/demo/textures/table.png" />
+		<texture id="crimeWeaponTex" filepath="scenes/demo/textures/bloodyPrints.jpg" />
+		<texture id="tapeTex" filepath="scenes/demo/textures/pTape.jpg" />
+		<texture id="tapeSupportTex" filepath="scenes/demo/textures/lamp.png" />
+		<texture id="pineTex" filepath="scenes/demo/textures/pine.png" />
+		<texture id="vaseTex" filepath="scenes/demo/textures/vase.png" />
     </textures> 
 
     <materials> 
@@ -82,7 +82,7 @@
 		
 		<material id="crimeWeaponApp" 
             emissive="0.0 0.0 0.0 1" 
-           color="0.8 0.8 0.8 1.0"  
+            color="0.8 0.8 0.8 1.0"  
             specular="0 0 0 0" 
             shininess="0" 
             textureref="crimeWeaponTex" 
@@ -127,6 +127,17 @@
             texlength_s="1" 
             texlength_t="1"
             shading = "flat" />
+
+        <material id="default" 
+            emissive="0.0 0.0 0.0 1" 
+            color="0.8 0.8 0.8 1.0"  
+            specular="0 0 0 0" 
+            shininess="0" 
+            textureref="vaseTex" 
+            texlength_s="1" 
+            texlength_t="1"
+            shading="flat" 
+        />
 			
     </materials> 
 
@@ -355,10 +366,9 @@
 		<node id="table">
 			<transforms>
 				<translate value3="7.5 0 10" />
-				<translate value3="0 1.5 0" />
 				<rotate value3="89.5 0.0 0.0" />
 				<scale value3="4.5 2.5 3" />
-				<translate value3="0 0.5 0" />
+				<translate value3="0 1.5 0" />
             </transforms> 
 
 			<materialref id="tableApp" />
@@ -374,7 +384,7 @@
 		
 		<node id="floor">
 			<transforms>
-				<translate value3="0 0 15" />
+				<translate value3="7.5 0 7.5" />
 				<rotate value3="-90 0.0 0.0" />
             </transforms> 
 
@@ -399,7 +409,7 @@
 		
 		<node id="leftWall">
 			<transforms>
-				<translate value3="0 0 15" />
+				<translate value3="0 4 7.5" />
 				<rotate value3="0.0 90 0.0" />
             </transforms> 
 
@@ -413,6 +423,10 @@
         </node>
 		
 		<node id="rightWall">
+            <transforms>
+				<translate value3="7.5 4 0" />
+            </transforms> 
+
 			<materialref id="rightWallApp" />
 			
             <children>             
@@ -424,7 +438,7 @@
 		
 		<node id="crimeWeapon">
 			<transforms>
-				<translate value3="7 0.5 8" /> 
+				<translate value3="7 0.25 8" /> 
 				<scale value3="0.5 0.5 5" />
             </transforms> 
 
@@ -582,6 +596,8 @@
 				<translate value3="2 0.7 2" />
 				<rotate value3="0.0 0.0 -80"/>
             </transforms> 
+
+            <materialref id="tableApp" />
 			
             <children>             
                 <noderef id="vase" />
@@ -590,7 +606,7 @@
 				<noderef id="treeSeg2" />
 				<noderef id="treeSeg3" />
                 <primitive>
-                    <nurbs degree_u="1" degree_v="1" parts_u="20" parts_v="20" >
+                    <nurbs degree_u="1" degree_v="1" parts_u="20" parts_v="20" distance="0.0">
                         <controlpoint xx="0" yy="0" zz="0" />
                         <controlpoint xx="0" yy="0" zz="1" />
                         <controlpoint xx="1" yy="0" zz="0" />

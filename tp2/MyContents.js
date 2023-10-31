@@ -1,6 +1,10 @@
 import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { MyFileReader } from './parser/MyFileReader.js';
+import { Primitive } from './Primitive.js';
+import { MyScene } from './MyScene.js';
+import { MyGuiInterface } from './MyGuiInterface.js';
+
 /**
  *  This class contains the contents of out application
  */
@@ -28,6 +32,15 @@ class MyContents  {
             this.axis = new MyAxis(this)
             this.app.scene.add(this.axis)
         }
+
+        this.initialize_lights()
+    }
+
+    initialize_lights() {
+        let spotLight = new THREE.SpotLight("#ffffff", 30, 20);
+        spotLight.position.set(10, 5, 0);
+        spotLight.target.position.set(0, 0, 0);
+        this.app.scene.add(spotLight);
     }
 
     /**
@@ -65,24 +78,51 @@ class MyContents  {
         for (var key in data.cameras) {
             let camera = data.cameras[key]
             this.output(camera, 1)
+            this.addCamera(camera)
         }
 
-        console.log("nodes:")
-        for (var key in data.nodes) {
-            let node = data.nodes[key]
-            this.output(node, 1)
-            for (let i=0; i< node.children.length; i++) {
-                let child = node.children[i]
-                if (child.type === "primitive") {
-                    console.log("" + new Array(2 * 4).join(' ') + " - " + child.type + " with "  + child.representations.length + " " + child.subtype + " representation(s)")
-                    if (child.subtype === "nurbs") {
-                        console.log("" + new Array(3 * 4).join(' ') + " - " + child.representations[0].controlpoints.length + " control points")
-                    }
-                }
-                else {
-                    this.output(child, 2)
-                }
-            }
+        var myScene = new MyScene(data);
+        let sceneNode = myScene.nodes.find(node => node.id === 'scene');
+
+        console.log("data.nodes: ", data.nodes);
+
+        console.log("sceneNode: ", sceneNode);
+        console.log("sceneNode.materialIds: ", Object.keys(sceneNode));
+        // if (sceneNode.materialIds.length === 0) {
+        //     sceneNode.materialIds = ['default'];
+        // }
+
+        this.app.scene.add(myScene.visit(sceneNode, sceneNode.materialIds));
+
+
+        // create the gui interface object
+        let gui = new MyGuiInterface(this.app)
+        // set the contents object in the gui interface object
+        gui.setContents(this)
+
+        // we call the gui interface init 
+        // after contents were created because
+        // interface elements may control contents items
+        gui.init();
+    }
+
+    addCamera(cameraData) {
+        if (cameraData.type === "perspective") {
+            let camera =  new THREE.PerspectiveCamera(cameraData.angle, window.innerWidth / window.innerHeight, cameraData.near, cameraData.far)
+            camera.position.set(cameraData.location[0], cameraData.location[1], cameraData.location[2])
+            camera.lookAt(cameraData.target)
+            this.app.cameras[cameraData.id] = camera
+            this.app.cameraNames.push(cameraData.id)
+        }
+        else if (cameraData.type === "orthogonal") {
+            let camera = new THREE.OrthographicCamera(cameraData.left, cameraData.right, cameraData.top, cameraData.bottom, cameraData.near, cameraData.far)
+            camera.position.set(cameraData.location[0], cameraData.location[1], cameraData.location[2])
+            camera.lookAt(cameraData.target)
+            this.app.cameras[cameraData.id] = camera
+            this.app.cameraNames.push(cameraData.id)
+        }
+        else {
+            console.error("unknown camera type " + type)
         }
     }
 
