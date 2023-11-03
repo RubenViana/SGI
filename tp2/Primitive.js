@@ -8,10 +8,27 @@ class Primitive {
         this.material = new THREE.MeshPhongMaterial({ color: `rgb(${material.color.r}, ${material.color.g}, ${material.color.b})`, specular: `rgb(${material.specular.r}, ${material.specular.g}, ${material.specular.b})`, emissive: `rgb(${material.emissive.r}, ${material.emissive.g}, ${material.emissive.b})`, shininess: material.shininess });
         this.builder = new MyNurbsBuilder();
 
-        if (material.textureref != null) {
-            console.log("textPath.filepath: ", textPath.filepath);
-            this.material.map = new THREE.TextureLoader().load(textPath.filepath);
+        if (material.textureref != null ) {
+            if (geometryData.type == "rectangle") {
+                let map = new THREE.TextureLoader().load(textPath.filepath);
+                map.wrapS = map.wrapT = THREE.RepeatWrapping;
+                map.repeat.set((this.geometryData.xy2[0] - this.geometryData.xy1[0]) / material.texlength_s, (this.geometryData.xy2[1] - this.geometryData.xy1[1]) / material.texlength_t);
+                this.material.map = map;
+            }
+            else {
+                let map = new THREE.TextureLoader().load(textPath.filepath);
+                // TODO: make this work for other objects
+                // map.wrapS = map.wrapT = THREE.RepeatWrapping;
+                // map.repeat.set((this.geometryData.xy1[0] - this.geometryData.xy2[0]) / material.texlength_s, (this.geometryData.xy1[1] - this.geometryData.xy2[1]) / material.texlength_t);
+                this.material.map = map;
+            }
         }
+
+        if (material.twosided != null && material.twosided == true) {
+            this.material.side = THREE.DoubleSide;
+        }
+
+        
     }
 
     build() {
@@ -20,7 +37,15 @@ class Primitive {
                 this.geometry = new THREE.CylinderGeometry(this.geometryData.top, this.geometryData.base, this.geometryData.height, this.geometryData.slices, this.geometryData.stacks, this.geometryData.capsclose, this.geometryData.thetastart, this.geometryData.thetalength)
                 break;
             case "rectangle":
-                this.geometry = new THREE.PlaneGeometry(this.geometryData.xy2[0] - this.geometryData.xy1[0], this.geometryData.xy2[1] - this.geometryData.xy1[1], this.geometryData.parts_x, this.geometryData.parts_y)
+                const xWidth = Math.abs(this.geometryData.xy1[0] - this.geometryData.xy2[0]);
+                const yWidth = Math.abs(this.geometryData.xy1[1] - this.geometryData.xy2[1]);
+                this.geometry = new THREE.PlaneGeometry(
+                    xWidth,
+                    yWidth,
+                    this.geometryData.parts_x, this.geometryData.parts_y)
+                const xMin = Math.min(this.geometryData.xy1[0], this.geometryData.xy2[0]);
+                const yMin = Math.min(this.geometryData.xy1[1], this.geometryData.xy2[1]);
+                this.geometry.translate(xMin + xWidth / 2, yMin + yWidth / 2, 0);
                 break;
             case "nurbs":
                 // console.log("NURB: geometryData - ", this.geometryData, " - material: ", this.material, " - textPath: ", this.textPath);

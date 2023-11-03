@@ -26,6 +26,7 @@ class MyScene  {
                 }
 
                 node.children.forEach(child => {
+                    console.log("child: ", child);
                     meshGroup.add(this.visit(child, this.lastMaterialSeen));
                 });
 
@@ -58,6 +59,7 @@ class MyScene  {
                 var material = null;
                 console.log("parentMaterial: ", parentMaterial);
                 console.log("this.data.materials: ", this.data.materials);
+                console.log("this.lastMaterialSeen: ", this.lastMaterialSeen);
                 material = this.data.materials[this.lastMaterialSeen];
                 
                 console.log("material: ", material);
@@ -72,6 +74,8 @@ class MyScene  {
                 pointlight.decay = node.decay;
                 pointlight.castShadow = node.castshadow;
                 pointlight.position.set(node.position[0], node.position[1], node.position[2]);
+                const pointlightHelper = new THREE.PointLightHelper(pointlight, 0.1);
+                this.mesh.add(pointlightHelper);
                 return pointlight;
             case "spotlight":
                 const spotlight = new THREE.SpotLight(new THREE.Color(node.color.r, node.color.g, node.color.b));
@@ -83,12 +87,13 @@ class MyScene  {
                 spotlight.target.position.set(node.target[0], node.target[1], node.target[2]);
                 spotlight.penumbra = node.penumbra;
                 spotlight.angle = node.angle;
+                const spotlightHelper = new THREE.SpotLightHelper(spotlight, 0.1);
+                this.mesh.add(spotlightHelper);
                 return spotlight;
-            case "directionallight": // NOT WORKING!
+            case "directionallight":
                 const directionallight = new THREE.DirectionalLight(`#${node.color}`, node.intensity);
                 directionallight.position.set(node.position[0], node.position[1], node.position[2]);
                 directionallight.castShadow = node.castShadow;
-
                 directionallight.shadow.left = node.shadowleft;
                 directionallight.shadow.right = node.shadowright;
                 directionallight.shadow.bottom = node.shadowbottom;
@@ -96,6 +101,8 @@ class MyScene  {
                 directionallight.shadow.far = node.shadowfar;
                 directionallight.shadow.mapSize.width = node.shadowmapsize;
                 directionallight.shadow.mapSize.height = node.shadowmapsize;
+                const directionallightHelper = new THREE.DirectionalLightHelper(directionallight, 0.1);
+                this.mesh.add(directionallightHelper);
                 return directionallight;
         }
     }

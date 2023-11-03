@@ -19,7 +19,7 @@ class MyContents  {
         this.axis = null
 
         this.reader = new MyFileReader(app, this, this.onSceneLoaded);
-		this.reader.open("scenes/demo/demo.xml");		
+		this.reader.open("scenes/T02G02/demo.xml");		
     }
 
     /**
@@ -33,7 +33,7 @@ class MyContents  {
             this.app.scene.add(this.axis)
         }
 
-        this.initialize_lights()
+        // this.initialize_lights()
     }
 
     initialize_lights() {
@@ -92,7 +92,7 @@ class MyContents  {
         //     sceneNode.materialIds = ['default'];
         // }
 
-        this.app.scene.add(myScene.visit(sceneNode, sceneNode.materialIds));
+        this.app.scene.add(myScene.visit(sceneNode, sceneNode.materialIds), myScene.mesh);
 
 
         // create the gui interface object
