@@ -1,8 +1,7 @@
 import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
 import { MyFileReader } from './parser/MyFileReader.js';
-import { Primitive } from './Primitive.js';
-import { MyScene } from './MyScene.js';
+import { MyGraph } from './MyGraph.js';
 import { MyGuiInterface } from './MyGuiInterface.js';
 
 /**
@@ -19,7 +18,8 @@ class MyContents  {
         this.axis = null
 
         this.reader = new MyFileReader(app, this, this.onSceneLoaded);
-		this.reader.open("scenes/T02G01/demo.xml");		
+		this.reader.open("scenes/demo/demo.xml");
+        // this.reader.open("scenes/T02G01/demo.xml");
     }
 
     /**
@@ -33,6 +33,7 @@ class MyContents  {
             this.app.scene.add(this.axis)
         }
 
+        
         // this.initialize_lights()
     }
 
@@ -49,6 +50,12 @@ class MyContents  {
      */
     onSceneLoaded(data) {
         console.info("scene data loaded " + data + ". visit MySceneData javascript class to check contents for each data item.")
+
+        // adding a default material
+        let defaultMaterial = {id: "default", color: 0x00ff00, specular: 0x000000, emissive: 0x00000, shininess: 0.0} 
+        data.addMaterial(defaultMaterial)
+        data.getNode("scene").materialIds[0] = defaultMaterial.id
+
         this.onAfterSceneLoadedAndBeforeRender(data);
     }
 
@@ -58,41 +65,24 @@ class MyContents  {
 
     onAfterSceneLoadedAndBeforeRender(data) {
        
-        // refer to descriptors in class MySceneData.js
-        // to see the data structure for each item
+        // ambient light
+        this.app.scene.add(new THREE.AmbientLight(data.options.ambient.r, data.options.ambient.g, data.options.ambient.b, data.options.ambient.a))
 
-        this.output(data.options)
-        console.log("textures:")
-        for (var key in data.textures) {
-            let texture = data.textures[key]
-            this.output(texture, 1)
-        }
-
-        console.log("materials:")
-        for (var key in data.materials) {
-            let material = data.materials[key]
-            this.output(material, 1)
-        }
-
-        console.log("cameras:")
+        // add fog
+        let fog = new THREE.Fog( data.fog.color, data.fog.near, data.fog.far );
+        this.app.scene.fog = fog;
+        
+        // add cameras
         for (var key in data.cameras) {
             let camera = data.cameras[key]
-            this.output(camera, 1)
             this.addCamera(camera)
         }
 
-        var myScene = new MyScene(data);
-        let sceneNode = myScene.nodes.find(node => node.id === 'scene');
+        
+        // build scene graph
+        this.graph = new MyGraph(data);
 
-        console.log("data.nodes: ", data.nodes);
-
-        console.log("sceneNode: ", sceneNode);
-        console.log("sceneNode.materialIds: ", Object.keys(sceneNode));
-        // if (sceneNode.materialIds.length === 0) {
-        //     sceneNode.materialIds = ['default'];
-        // }
-
-        this.app.scene.add(myScene.visit(sceneNode, sceneNode.materialIds), myScene.mesh);
+        this.app.scene.add(this.graph.build());
 
 
         // create the gui interface object
@@ -109,15 +99,15 @@ class MyContents  {
     addCamera(cameraData) {
         if (cameraData.type === "perspective") {
             let camera =  new THREE.PerspectiveCamera(cameraData.angle, window.innerWidth / window.innerHeight, cameraData.near, cameraData.far)
-            camera.position.set(cameraData.location[0], cameraData.location[1], cameraData.location[2])
-            camera.lookAt(cameraData.target)
+            camera.position.set(...cameraData.location)
+            camera.lookAt(...cameraData.target)
             this.app.cameras[cameraData.id] = camera
             this.app.cameraNames.push(cameraData.id)
         }
         else if (cameraData.type === "orthogonal") {
             let camera = new THREE.OrthographicCamera(cameraData.left, cameraData.right, cameraData.top, cameraData.bottom, cameraData.near, cameraData.far)
-            camera.position.set(cameraData.location[0], cameraData.location[1], cameraData.location[2])
-            camera.lookAt(cameraData.target)
+            camera.position.set(...cameraData.location)
+            camera.lookAt(...cameraData.target)
             this.app.cameras[cameraData.id] = camera
             this.app.cameraNames.push(cameraData.id)
         }

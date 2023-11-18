@@ -18,11 +18,11 @@
 
     <!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas texturas --> 
     <textures>        
-        <texture id="wallTex" filepath="scenes/T02G02/textures/wall.jpeg" />
-		<texture id="floorTex" filepath="scenes/T02G02/textures/woodFloorTexture.jpg" />
-        <texture id="tableTopTex" filepath="scenes/T02G02/textures/tableTop.png" />
-        <texture id="netTex" filepath="scenes/T02G02/textures/net.png" />
-        <texture id="tableTex" filepath="scenes/T02G02/textures/table.jpg" />
+        <texture id="wallTex" filepath="scenes/T02G01/textures/wall.jpeg" />
+		<texture id="floorTex" filepath="scenes/T02G01/textures/woodFloorTexture.jpg" />
+        <texture id="tableTopTex" filepath="scenes/T02G01/textures/tableTop.png" />
+        <texture id="netTex" filepath="scenes/T02G01/textures/net.png" />
+        <texture id="tableTex" filepath="scenes/T02G01/textures/table.jpg" />
     </textures> 
 
     <materials> 
