@@ -41,11 +41,17 @@ class MyGraph  {
         for (let childData of node.children) {
             let child;
 
+            if (childData.castshadows == null || childData.receiveshadows == null) {
+                childData.receiveShadows = node.receiveShadows ?? false;
+                childData.castShadows = node.castShadows ?? false;
+            }
+
             switch(childData.type) {
                 case "node":
                     if (childData.materialIds.length == 0) {
                         childData.materialIds = node.materialIds;
                     }
+                    
                     child = this.visit(childData);
                     break;
                 case "primitive":
@@ -53,6 +59,9 @@ class MyGraph  {
                     const materialObj = this.materials.get(node.materialIds[0]);
                     const textureObj = this.textures.get(materialData.textureref ?? null);
                     child = new MyObjectBuilder(childData, materialData, materialObj, textureObj);
+
+                    child.castShadow = childData.castShadows;
+                    child.receiveShadow = childData.receiveShadows;
                     break;
                 case "spotlight":
                     child = this.light(childData);
@@ -118,6 +127,14 @@ class MyGraph  {
                 target.position.set(...lightData.target);
                 light.angle = lightData.angle;
                 light.penumbra = lightData.penumbra;
+                light.position.set(lightData.position[0], lightData.position[1], lightData.position[2]);
+                light.visible = lightData.enabled ?? true;
+                light.intensity = lightData.intensity ?? 1.0;
+                light.distance = lightData.distance ?? 1000;
+                light.decay = lightData.decay ?? 2.0;
+                light.castShadow = lightData.castShadows;
+                light.shadow.camera.far = lightData.shadowfar ?? 500.0;
+                light.shadow.mapSize = new THREE.Vector2(lightData.shadowmapsize, lightData.shadowmapsize);
                 const helper = new THREE.SpotLightHelper(light);
                 light.add(helper);
                 light.target = target;
@@ -126,6 +143,14 @@ class MyGraph  {
             case "pointlight": {
                 light = new THREE.PointLight()
                 light.color = new THREE.Color(lightData.color);
+                light.position.set(lightData.position[0], lightData.position[1], lightData.position[2]);
+                light.visible = lightData.enabled ?? true;
+                light.intensity = lightData.intensity ?? 1.0;
+                light.distance = lightData.distance ?? 1000;
+                light.decay = lightData.decay ?? 2.0;
+                light.castShadow = lightData.castShadows;
+                light.shadow.camera.far = lightData.shadowfar ?? 500.0;
+                light.shadow.mapSize = new THREE.Vector2(lightData.shadowmapsize, lightData.shadowmapsize) ?? Vector2(512, 512);
                 const helper = new THREE.PointLightHelper(light);
                 light.add(helper)
                 break;
@@ -136,27 +161,27 @@ class MyGraph  {
                 light.shadow.camera.right = lightData.shadowright ?? -5;
                 light.shadow.camera.bottom = lightData.shadowbottom ?? -5;
                 light.shadow.camera.top = lightData.shadowtop ?? -5;
+                light.position.set(lightData.position[0], lightData.position[1], lightData.position[2]);
+                light.visible = lightData.enabled ?? true;
+                light.intensity = lightData.intensity ?? 1.0;
+                light.distance = lightData.distance ?? 1000;
+                light.decay = lightData.decay ?? 2.0;
+                light.castShadow = lightData.castShadows;
+                light.shadow.camera.far = lightData.shadowfar ?? 500.0;
+                light.shadowbottom = lightData.shadowbottom ?? -5;
+                light.shadowleft = lightData.shadowleft ?? -5;
+                light.shadowright = lightData.shadowright ?? 5;
+                light.shadowtop = lightData.shadowtop ?? 5;
+                light.shadow.mapSize = new THREE.Vector2(lightData.shadowmapsize, lightData.shadowmapsize);
                 const helper = new THREE.DirectionalLightHelper(light);
                 light.add(helper)
                 break;
             }
         }
 
-        light.position.set(lightData.position[0], lightData.position[1], lightData.position[2]);
-        light.visible = lightData.enabled ?? true;
-        light.intensity = lightData.intensity ?? 1.0;
-        light.distance = lightData.distance ?? 1000;
-        light.decay = lightData.decay ?? 2.0;
-        light.castShadow = lightData.castShadow ?? false;
-        light.shadow.camera.far = lightData.shadowfar ?? 500.0;
-        light.shadow.mapSize = new THREE.Vector2(lightData.shadowmapsize, lightData.shadowmapsize);
+        
+        
 
-        if (lightData.type === "spotlight") {
-            const group = new THREE.Group();
-            group.add(light);
-            group.add(light.target);
-            return group;
-        }
         return light
     }
 
