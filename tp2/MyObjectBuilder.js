@@ -69,7 +69,7 @@ class MyObjectBuilder{
                 geometry = new THREE.BoxGeometry(this.geometryData.representations[0].xyz2[0] - this.geometryData.representations[0].xyz1[0], this.geometryData.representations[0].xyz2[1] - this.geometryData.representations[0].xyz1[1], this.geometryData.representations[0].xyz2[2] - this.geometryData.representations[0].xyz1[2], this.geometryData.representations[0].parts_x, this.geometryData.representations[0].parts_y, this.geometryData.representations[0].parts_z);
                 break;
             case "polygon":
-                // TODO: implement model3d
+                geometry = this.createPolygonGeometry(this.geometryData.representations[0].stacks, this.geometryData.representations[0].slices, this.geometryData.representations[0].radius, this.geometryData.representations[0].color_c, this.geometryData.representations[0].color_p);
                 break;
             default:
                 console.error("Unknown primitive type: ", this.geometryData.subtype);
@@ -83,6 +83,53 @@ class MyObjectBuilder{
         }
 
         return new THREE.Mesh(geometry, this.materialObj);
+    }
+
+    // Function to create the polygon geometry
+    createPolygonGeometry(stacks, slices, radius, color_c, color_p) {
+        const geometry = new THREE.BufferGeometry();
+
+        // Vertices and colors arrays
+        const vertices = [];
+        const colors = [];
+
+        // Add center vertex
+        vertices.push(0, 0, 0);
+        colors.push(color_c[0], color_c[1], color_c[2]);
+
+        // Calculate vertices and colors for each stack and slice
+        for (let i = 0; i <= stacks; i++) {
+            const theta = (i / stacks) * Math.PI; // Polar angle
+
+            for (let j = 0; j < slices; j++) {
+                const phi = (j / slices) * 2 * Math.PI; // Azimuthal angle
+
+                // Cartesian coordinates
+                const x = radius * Math.sin(theta) * Math.cos(phi);
+                const y = radius * Math.sin(theta) * Math.sin(phi);
+                const z = radius * Math.cos(theta);
+
+                // Interpolate color based on the position
+                const t = i / stacks; // Interpolation factor
+                const r = color_c[0] + t * (color_p[0] - color_c[0]);
+                const g = color_c[1] + t * (color_p[1] - color_c[1]);
+                const b = color_c[2] + t * (color_p[2] - color_c[2]);
+
+                // Add vertex and color to arrays
+                vertices.push(x, y, z);
+                colors.push(r, g, b);
+            }
+        }
+
+        // Convert arrays to Float32Arrays
+        const verticesArray = new Float32Array(vertices);
+        const colorsArray = new Float32Array(colors);
+
+        // Set attributes in the BufferGeometry
+        geometry.setAttribute('position', new THREE.BufferAttribute(verticesArray, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+
+        return geometry;
     }
 
 }
