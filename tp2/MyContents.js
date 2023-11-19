@@ -71,6 +71,15 @@ class MyContents  {
         // add fog
         let fog = new THREE.Fog( data.fog.color, data.fog.near, data.fog.far );
         this.app.scene.fog = fog;
+
+        
+        // add skybox TODO : improve this
+        let skyboxMaterial = new THREE.MeshPhongMaterial( { emissive: new THREE.Color(data.skyboxes.default.emissive.r, data.skyboxes.default.emissive.g, data.skyboxes.default.emissive.b), side: THREE.BackSide } );
+        skyboxMaterial.intensity = data.skyboxes.default.intensity;
+        skyboxMaterial.envMap = new THREE.CubeTextureLoader().setPath('scenes/demo/').load([data.skyboxes.default.front, data.skyboxes.default.back, data.skyboxes.default.up, data.skyboxes.default.down, data.skyboxes.default.right, data.skyboxes.default.left]);
+        let skybox = new THREE.Mesh( new THREE.BoxGeometry(...data.skyboxes.default.size), skyboxMaterial );
+        skybox.position.set(...data.skyboxes.default.center);
+        this.app.scene.add( skybox );
         
         // add cameras
         for (var key in data.cameras) {

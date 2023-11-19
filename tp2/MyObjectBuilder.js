@@ -79,6 +79,7 @@ class MyObjectBuilder{
         // texture common properties
         if (this.textureObj != null) {
             this.materialObj.map = this.textureObj;
+            // this.materialObj.wireframe = true;
         }
 
         return new THREE.Mesh(geometry, this.materialObj);

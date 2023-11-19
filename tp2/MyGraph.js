@@ -75,9 +75,6 @@ class MyGraph  {
                 case "lod":
                     // TODO: implement lod
                     break;
-                case "skybox":
-                    // TODO: implement skybox
-                    break;
                 case "model3d":
                     // TODO: implement model3d
                     break;
@@ -253,8 +250,9 @@ class MyGraph  {
             }
             materialObject.side = material.twosided ? THREE.DoubleSide : THREE.FrontSide;
             materialObject.map = this.textures.get(material.textureref ?? null);
-            // TODO: materialObject.bump_ref = material.bump_ref;
-            // TODO: materialObject.bumpScale = material.bump_scale ?? 1.0;
+            materialObject.bumpMap = this.textures.get(material.bumpref) ?? null;
+            materialObject.bumpScale = material.bumpscale ?? 1.0;
+            materialObject.specularMap = this.textures.get(material.specularref) ?? null;
             this.materials.set(material.id, materialObject);
         }
     }
