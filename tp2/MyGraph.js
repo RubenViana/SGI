@@ -185,7 +185,34 @@ class MyGraph  {
     initTextures() {
         for (let key in this.data.textures) {
             let texture = this.data.textures[key];
-            let textureObject = new THREE.TextureLoader().load(texture.filepath);
+            let textureObject;
+            if (texture.isVideo) {
+                // Create video element
+                var videoElement = document.createElement('video');
+                videoElement.style.display = 'none';
+                videoElement.id = texture.id;
+                videoElement.autoplay = true;
+                videoElement.muted = true;
+                videoElement.preload = 'auto';
+                
+                // Create source element
+                var sourceElement = document.createElement('source');
+                sourceElement.src = texture.filepath;
+                sourceElement.type = 'video/mp4';
+                
+                // Append source element to video element
+                videoElement.appendChild(sourceElement);
+                
+                // Append video element to the body or any other desired container
+                document.body.appendChild(videoElement);
+
+                // assuming you have created a HTML video element with id="video"
+                const video = document.getElementById( texture.id );
+                textureObject = new THREE.VideoTexture( video );
+            }
+            else {
+                textureObject = new THREE.TextureLoader().load(texture.filepath);
+            }
             textureObject.magFilter = texture.magFilter == "NearestFilter" ? THREE.NearestFilter : THREE.LinearFilter;
             switch (texture.minFilter) {
                 case "NearestFilter":
@@ -224,6 +251,8 @@ class MyGraph  {
                 this.loadMipmap(textureObject, 6, texture.mipmap6);
                 this.loadMipmap(textureObject, 7, texture.mipmap7);
             }
+
+            
             
             this.textures.set(texture.id, textureObject);
         }
