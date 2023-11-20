@@ -40,16 +40,16 @@
 		<texture id="tapeSupportTex" filepath="scenes/demo/textures/lamp.png" />
 		<texture id="pineTex" filepath="scenes/demo/textures/pine.png" />
 		<texture id="vaseTex" filepath="scenes/demo/textures/vase.png" />
-        <texture id="demo" filepath="scenes/demo/textures/demo.png" 
-            mipmap0="scenes/demo/textures/demo1024.png"
-            mipmap1="scenes/demo/textures/demo512.png"
-            mipmap2="scenes/demo/textures/demo256.png"
-            mipmap3="scenes/demo/textures/demo128.png"
-            mipmap4="scenes/demo/textures/demo64.png"
-            mipmap5="scenes/demo/textures/demo32.png"
-            mipmap6="scenes/demo/textures/demo16.png"
-            mipmap7="scenes/demo/textures/demo8.png"
+        <texture id="caravaggio" filepath="scenes/demo/textures/caravaggio.jpg" 
+            mipmap0="scenes/demo/textures/caravaggio.1024.jpg"
+            mipmap1="scenes/demo/textures/caravaggio.512.jpg"
+            mipmap2="scenes/demo/textures/caravaggio.256.jpg"
+            mipmap3="scenes/demo/textures/caravaggio.128.jpg"
+            mipmap4="scenes/demo/textures/caravaggio.64.jpg"
         />
+        <texture id="videoTex" isVideo="true" filepath="scenes/demo/videos/oceans.mp4"/>
+        <texture id="brickWallTex" filepath="scenes/demo/textures/brickWall.jpg" />
+        <texture id="brickWallTexMap" filepath="scenes/demo/textures/brickWall-modified.jpg" />
     </textures> 
 
     <materials> 
@@ -68,7 +68,7 @@
 			color="0.8 0.8 0.8 1.0" 
             specular="0 0 0 0" 
             shininess="0" 
-            textureref="leftWallTex" 
+            textureref="caravaggio" 
             texlength_s="15" 
             texlength_t="8" 
             twosided = "true"
@@ -78,12 +78,14 @@
 		
 		<material id="rightWallApp" 
             emissive="0.0 0.0 0.0 1" 
-            color="0.8 0.8 0.8 1.0" 
-            specular="0 0 0 0" 
+            color="1 1 1 1.0" 
+            specular="1 1 1 1" 
             shininess="0" 
-            textureref="rightWallTex" 
-            texlength_s="15" 
-            texlength_t="8"
+            textureref="brickWallTex" 
+            bumpref = "brickWallTexMap"
+            bumpscale = "1"
+            texlength_s="6" 
+            texlength_t="6"
             twosided = "true" />
 		
 		<material id="floorApp" 
@@ -91,7 +93,7 @@
             color="0.8 0.8 0.8 1.0"  
             specular="0 0 0 0" 
             shininess="0" 
-            textureref="floorTex" 
+            textureref="videoTex" 
             texlength_s="15" 
             texlength_t="15" 
             twosided = "true" />
@@ -600,6 +602,14 @@
             </children> 
         </node>
 		
+        <node id="treePoly">
+            <materialref id="floorApp" />
+            <children>
+                <primitive>
+                    <polygon radius="2.0" slices="12" stacks="3" color_c="1 0 0 1" color_p="1 1 0 1" />
+                </primitive>
+            </children>
+        </node>
 		<node id="tree">
 			<transforms>
 				<translate value3="2 0.7 2" />
@@ -612,6 +622,7 @@
 				<noderef id="treeSeg1" />
 				<noderef id="treeSeg2" />
 				<noderef id="treeSeg3" />
+                <noderef id="treePoly" />
                 <primitive>
                     <nurbs degree_u="1" degree_v="1" parts_u="20" parts_v="20" distance="0.0">
                         <controlpoint xx="0" yy="0" zz="0" />
@@ -623,12 +634,7 @@
                 <primitive>
                     <box xyz1="-0.5 -0.5 -0.5" xyz2="0.5 0.5 0.5" />
                 </primitive>
-                <primitive>
-                    <polygon radius="2.0" slices="12" stacks="3" color_c="1 0 0 1" color_p="1 1 0 1" />
-                </primitive>
-
-
-
+ 
             </children> 
         </node>
 		

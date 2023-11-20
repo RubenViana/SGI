@@ -48,10 +48,9 @@ class MyGraph  {
 
             switch(childData.type) {
                 case "node":
-                    if (childData.materialIds.length == 0) {
+                    if (childData.materialIds.length === 0) {
                         childData.materialIds = node.materialIds;
                     }
-                    
                     child = this.visit(childData);
                     break;
                 case "primitive":
@@ -73,16 +72,21 @@ class MyGraph  {
                     child = this.light(childData);
                     break;
                 case "lod":
+                    console.log("LOD found: ", node);
                     let lod = new THREE.LOD();
-                    
-                    if (childData.type === "lodnoderef") {
-                        if (childData.materialIds.length === 0) {
-                            childData.materialIds = node.materialIds;
+                    for(let i = 0; i < childData.children.length; i++){
+                        let child_ = childData.children[i];
+                        if (child_.type === "lodnoderef") {
+                            console.log("LOD node found: ", child_);
+                            if (child_.node.materialIds.length === 0) {
+                                child_.node.materialIds = node.materialIds;
+                            }
+                            let childMesh = this.visit([child_.node]);
+
+                            lod.addLevel(childMesh, child_.mindist);
                         }
-                        console.log("HERE")
-                        child = this.visit(childData);
-                        lod.addLevel(child, childData.distance);
                     }
+                    child = lod;
                     break;
                 case "model3d":
                     // TODO: implement model3d
@@ -196,11 +200,8 @@ class MyGraph  {
             let texture = this.data.textures[key];
             let textureObject;
             if (texture.isVideo) {
-                let video = document.createElement('video');
+                let video = document.getElementById('video');
                 video.src = texture.filepath;
-                video.load();
-                video.loop = true;
-                video.play();
                 textureObject = new THREE.VideoTexture( video );
             }
             else {
@@ -229,20 +230,39 @@ class MyGraph  {
             }
             textureObject.anisotropy = texture.anisotropy;
 
-            // still not working properly
-            textureObject.generateMipmaps = texture.mipmap ?? false;
-            if (textureObject.generateMipmaps) {
-                this.loadMipmap(textureObject, 0, texture.mipmap0);
-                this.loadMipmap(textureObject, 1, texture.mipmap1);
-                this.loadMipmap(textureObject, 2, texture.mipmap2);
-                this.loadMipmap(textureObject, 3, texture.mipmap3);
-                this.loadMipmap(textureObject, 4, texture.mipmap4);
-                this.loadMipmap(textureObject, 5, texture.mipmap5);
-                this.loadMipmap(textureObject, 6, texture.mipmap6);
-                this.loadMipmap(textureObject, 7, texture.mipmap7);
-            }
+            textureObject.generateMipmaps = false;
 
-            
+            if(texture.mipmaps){
+                let mipmapArray = [
+                    texture?.mipmap0,texture?.mipmap1, texture?.mipmap2, texture?.mipmap3,
+                    texture?.mipmap4, texture?.mipmap5, texture?.mipmap6, texture?.mipmap7 
+                ];
+
+                for(let i = 0; i < mipmapArray.length; i++){
+                    if(mipmapArray[i]){
+                        new THREE.TextureLoader().load(
+                            mipmapArray[i],
+                            function(mipmapTex) {
+                                const canvas = document.createElement('canvas');
+                                const context = canvas.getContext('2d');
+                                context.scale(1, 1);
+                
+                                const img = mipmapTex.image;
+                                canvas.width = img.width;
+                                canvas.height = img.height;
+                
+                                context.drawImage(img, 0, 0);
+                
+                                textureObject.mipmaps[i] = canvas;
+                            },
+                            undefined,
+                            function(error) {
+                                console.error(error);
+                            }
+                        );
+                    }
+                }
+            }            
             
             this.textures.set(texture.id, textureObject);
         }
