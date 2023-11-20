@@ -107,44 +107,59 @@ class MyContents  {
         gui.init();
     }
 
+
     addCamera(cameraData) {
+        // Add a camera based on the provided cameraData settings
         if (cameraData.type === "perspective") {
-            let camera =  new THREE.PerspectiveCamera(cameraData.angle, window.innerWidth / window.innerHeight, cameraData.near, cameraData.far)
-            camera.position.set(...cameraData.location)
-            camera.lookAt(...cameraData.target)
-            this.app.cameras[cameraData.id] = camera
-            this.app.cameraNames.push(cameraData.id)
-        }
-        else if (cameraData.type === "orthogonal") {
-            let camera = new THREE.OrthographicCamera(cameraData.left, cameraData.right, cameraData.top, cameraData.bottom, cameraData.near, cameraData.far)
-            camera.position.set(...cameraData.location)
-            camera.lookAt(...cameraData.target)
-            this.app.cameras[cameraData.id] = camera
-            this.app.cameraNames.push(cameraData.id)
-        }
-        else {
-            console.error("unknown camera type " + type)
+            // Create a perspective camera
+            let camera = new THREE.PerspectiveCamera(cameraData.angle, window.innerWidth / window.innerHeight, cameraData.near, cameraData.far);
+            // Set camera position and target
+            camera.position.set(...cameraData.location);
+            camera.lookAt(...cameraData.target);
+            // Store the camera in the app's cameras object
+            this.app.cameras[cameraData.id] = camera;
+            // Add camera to the list of camera names
+            this.app.cameraNames.push(cameraData.id);
+        } else if (cameraData.type === "orthogonal") {
+            // Create an orthographic camera
+            let camera = new THREE.OrthographicCamera(cameraData.left, cameraData.right, cameraData.top, cameraData.bottom, cameraData.near, cameraData.far);
+            // Set camera position and target
+            camera.position.set(...cameraData.location);
+            camera.lookAt(...cameraData.target);
+            // Store the camera in the app's cameras object
+            this.app.cameras[cameraData.id] = camera;
+            // Add camera to the list of camera names
+            this.app.cameraNames.push(cameraData.id);
+        } else {
+            // Display an error for an unknown camera type
+            console.error("unknown camera type " + type);
         }
     }
-
+    
     toggleWireframe() {
+        // Toggle wireframe display on meshes
         if (this.displayWireframe) {
+            // Set wireframe display to true if it was false
             this.displayWireframe = true;
-        }
-        else {
+        } else {
+            // Set wireframe display to false if it was true
             this.displayWireframe = false;
         }
-
+    
+        // Traverse through all nodes in the scene
         this.app.scene.traverse(function (node) {
+            // Check if the node is a mesh
             if (node instanceof THREE.Mesh) {
+                // Set wireframe visibility based on the displayWireframe flag
                 node.material.wireframe = this.displayWireframe;
             }
         }.bind(this));
     }
-
+    
     update() {
-        
+        // Perform update operations
     }
+    
 }
 
 export { MyContents };

@@ -44,7 +44,7 @@
         <!-- Define different textures with unique IDs and file paths -->
         
         <!-- 'wallTex' texture for walls -->
-        <texture id="wallTex" filepath="scenes/T02G01/textures/woodFloorTexture.jpg" />
+        <texture id="wallTex" filepath="scenes/T02G01/textures/brickWall.jpg" />
 
         <!-- 'floorTex' texture for the floor -->
         <texture id="floorTex" filepath="scenes/T02G01/textures/floor.png" />
@@ -87,33 +87,21 @@
         <!-- 'benchTex' texture for tables -->
         <texture id="benchTex" filepath="scenes/T02G01/textures/bench.jpg" />
 
-        <texture id="caravaggio" filepath="scenes/demo/textures/caravaggio.jpg" 
-            mipmap0="scenes/demo/textures/caravaggio.1024.jpg"
-            mipmap1="scenes/demo/textures/caravaggio.512.jpg"
-            mipmap2="scenes/demo/textures/caravaggio.256.jpg"
-            mipmap3="scenes/demo/textures/caravaggio.128.jpg"
-            mipmap4="scenes/demo/textures/caravaggio.64.jpg"
+        <texture id="caravaggio" filepath="scenes/T02G01/textures/caravaggio.jpg" 
+            mipmap0="scenes/T02G01/textures/caravaggio.1024.jpg"
+            mipmap1="scenes/T02G01/textures/caravaggio.512.jpg"
+            mipmap2="scenes/T02G01/textures/caravaggio.256.jpg"
+            mipmap3="scenes/T02G01/textures/caravaggio.128.jpg"
+            mipmap4="scenes/T02G01/textures/caravaggio.64.jpg"
         />
-        <texture id="videoTex" isVideo="true" filepath="scenes/demo/videos/oceans.mp4"/>
-        <texture id="brickWallTex" filepath="scenes/demo/textures/brickWall.jpg" />
-        <texture id="brickWallTexMap" filepath="scenes/demo/textures/brickWall-modified.jpg" />
+
+        <texture id="videoTex" isVideo="true" filepath="scenes/T02G01/videos/oceans.mp4"/>
+
+        <texture id="brickWallTexMap" filepath="scenes/T02G01/textures/brickWall-modified.jpg" />
 
     </textures>
 
 <materials>
-
-    <material id="brickWallApp" 
-            emissive="0.0 0.0 0.0 1" 
-            color="1 1 1 1.0" 
-            specular="1 1 1 1" 
-            shininess="0" 
-            textureref="brickWallTex" 
-            bumpref = "brickWallTexMap"
-            bumpscale = "1"
-            texlength_s="6" 
-            texlength_t="6"
-            twosided = "true" />
-
     <!-- Define different materials with unique IDs and properties -->
     
     <!-- Material for the table -->
@@ -155,10 +143,11 @@
         specular="0 0 0 0"           
         shininess="10"               
         textureref="wallTex"         
-        texlength_s="1"               
-        texlength_t="1"               
-        twosided="false"              
-    />
+        bumpref = "brickWallTexMap"
+        bumpscale = "1"
+        texlength_s="6" 
+        texlength_t="6"
+        twosided = "false" />
 
     <!-- Material for the floor -->
 
@@ -310,15 +299,14 @@
     />
 
     <material id="advertisingApp"
-        emissive="0.0 0.0 0.0 1"     
-        color="1 1 1 1.0"      
-        specular="0 0 0 0"           
-        shininess="0"                 
-        textureref="advertisingTex"          
-        texlength_s="5"               
-        texlength_t="3"               
-        twosided="true"                      
-    />
+        emissive="0.0 0.0 0.0 1" 
+        color="0.8 0.8 0.8 1.0"  
+        specular="0 0 0 0" 
+        shininess="0" 
+        textureref="videoTex" 
+        texlength_s="15" 
+        texlength_t="15" 
+        twosided = "true" />
 
     <material id="cameraApp"
         emissive="0.0 0.0 0.0 1"     
@@ -393,13 +381,27 @@
         texlength_t="1" 
     />
 
+    <material id="polApp" 
+        emissive="0.0 0.0 0.0 1" 
+		color="0.8 0.8 0.8 1.0" 
+        specular="0 0 0 0" 
+        shininess="0" 
+        textureref="caravaggio" 
+        texlength_s="15" 
+        texlength_t="8" 
+        twosided = "true"
+        bumpref = "T02G01"
+        bumpscale = "0.5"
+        specularref = "T02G01" 
+    />
+
 </materials>
 
 
     <graph rootid="scene"> 
 
         <!-- Node 'scene' containing references to components: 'wall', 'floor', 'table' -->
-		<node id="scene"> 
+		<node id="scene" castshadows = "true" receiveshadows="true"> 
             <children> 
                 <noderef id="wall" /> 
 				<noderef id="floor" /> 
@@ -410,7 +412,9 @@
                 <noderef id="bench" />
                 <noderef id="rubinho" />
                 <noderef id="tree" />
-                
+                <noderef id="pol" />
+                <noderef id="mipmap" />
+                <noderef id="balazucs" />
 
                 <!-- Lighting elements commented out for debugging purposes -->
 
@@ -855,6 +859,20 @@
             </children>
         </node>
 
+        <node id="tableTennisRacket2">
+            
+            <transforms>
+                <rotate value3="0 180 0"/>
+            </transforms>
+
+            <children>
+                <!-- References to racket handle node forming the racket -->
+                <noderef id="racketHandle" />
+                <!-- References to racket head node forming the racket -->
+                <noderef id="racketHead" />
+            </children>
+        </node>
+
 		
         <node id="table">
             <!-- Represents the table node -->
@@ -871,6 +889,7 @@
                 <noderef id="net" /> <!-- Reference to the net -->
                 <noderef id="pingPongBall" /> <!-- Reference to the ping pong ball -->
                 <noderef id="tableTennisRacket" /> <!-- Reference to the tableTennisRacket -->
+                <noderef id="tableTennisRacket2" /> <!-- Reference to the tableTennisRacket -->
             </children> 
         </node>
 
@@ -1194,7 +1213,7 @@
             <!-- Represents the combined walls -->
             <transforms>
                 <!-- Defines transformation for the combined walls -->
-                <scale value3="1.2 0.8 0.45" />
+                <scale value3="1.2 0.8 0.35" />
                 <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the walls -->
             </transforms> 
 
@@ -1329,7 +1348,8 @@
             <!-- Represents the combined walls -->
             <transforms>
                 <!-- Defines transformation for the combined walls -->
-                <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the walls -->
+                <rotate value3="-90 0.0 -90.0" /> <!-- Rotation to position the walls -->
+                <translate value3= "-1 0 0"/>
             </transforms> 
 
             <materialref id="cameraApp" />
@@ -1767,6 +1787,26 @@
             </children> 
         </node>
 
+
+        <node id="balazucs">
+            <!-- Represents the combined walls -->
+            <transforms>
+                <rotate value3= "0 180 0"/> 
+            </transforms>
+
+            <materialref id="benchApp" />
+            <!-- Material reference -->
+                    
+            <children>             
+                <noderef id="rubLeg1" /> <!-- Reference to balazucs -->
+                <noderef id="rubLeg2" /> <!-- Reference to balazucs -->
+                <noderef id="rubArm1" /> <!-- Reference to balazucs -->
+                <noderef id="rubArm2" /> <!-- Reference to balazucs -->
+                <noderef id="rubChest" /> <!-- Reference to balazucs -->
+                <noderef id="rubHead" /> <!-- Reference to balazucs -->
+            </children> 
+        </node>
+
         <node id="vase">
 			<materialref id="vaseApp" />
 			
@@ -1942,13 +1982,38 @@
                 <primitive>
                     <box xyz1="-0.5 -0.5 -0.5" xyz2="0.5 0.5 0.5" />
                 </primitive>
-                <primitive>
-                    <polygon radius="2.0" slices="12" stacks="3" color_c="1 0 0 1" color_p="1 1 0 1" />
-                </primitive>
-
-
-
             </children> 
+        </node>
+
+        <node id="pol">
+			<transforms>
+				<translate value3="-9.8 3 7" />
+				<rotate value3="0.0 90 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+
+            <children>
+                <primitive>
+                    <polygon radius="3.0" slices="30" stacks="4" color_c="1 0 0 1" color_p="1 1 0 1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="mipmap">
+            <transforms>
+                <!-- Adjust scale, translate, and rotate values as needed -->
+                <scale value3="4 0.04 2.4" />
+                <translate value3="-9.8 3 -7" />
+                <rotate value3="-90 0 90" />
+            </transforms>
+            <materialref id="polApp" />
+            <!-- Material reference for the scoreboard -->
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
+            </children>
         </node>
 
     </graph> 
