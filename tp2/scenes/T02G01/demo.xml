@@ -3,93 +3,299 @@
 
 	<!-- Credits of the original file go to Group 1, class 1 of course LAIG school year 2013/2014, FEUP, University of Porto -->
 	
+    <!-- Defines global settings for the scene -->
     <globals background="0 0 0 1" ambient="0 0 0 1" /> 
+    <!-- 
+        Sets the background color of the scene to black (RGB: 0, 0, 0) with full opacity (alpha: 1).
+        Defines the ambient lighting as black (RGB: 0, 0, 0) with full opacity (alpha: 1).
+    -->
 
+    <!-- Defines fog settings for the scene -->
     <fog color="1.0 1.0 1.0 1.0" near="0.0" far="100.0" />
+    <!-- 
+        Sets the fog color to white (RGB: 1, 1, 1) with full opacity (alpha: 1).
+        Specifies that fog starts at a distance of 0 units and extends up to 100 units.
+    -->
 
+    <!-- Defines camera settings for the scene -->
     <cameras initial="cam1" > 
+        <!-- 
+            Specifies the initial camera to be used.
+            Defines a perspective camera with ID 'cam1' and specific properties.
+        -->
         <perspective id="cam1" 
             angle="60" 
             near="0.1" 
             far="1000" 
             location="15 15 15" 
             target="0 0.0 0" /> 
-    </cameras> 
+        <!-- 
+            Sets the field of view angle to 60 degrees for a wide view.
+            Defines the near clipping plane at 0.1 units and far clipping plane at 1000 units.
+            Positions the camera at (15, 15, 15) in the scene coordinates.
+            Sets the camera's target point to the origin (0, 0, 0).
+        -->
+    </cameras>
+
+    <skybox size="100 100 100" center="0 0 0" emissive="1.0 1.0 1.0 1.0" intensity="1.0" up="./textures/pine.jpg" down="./textures/pine.jpg" left="./textures/pine.jpg" right="./textures/pine.jpg" front="./textures/pine.jpg" back="./textures/pine.jpg"/>
+
 
     <!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas texturas --> 
-    <textures>        
-        <texture id="wallTex" filepath="scenes/T02G01/textures/wall.jpeg" />
-		<texture id="floorTex" filepath="scenes/T02G01/textures/woodFloorTexture.jpg" />
+    <textures>
+        <!-- Define different textures with unique IDs and file paths -->
+        
+        <!-- 'wallTex' texture for walls -->
+        <texture id="wallTex" filepath="scenes/T02G01/textures/woodFloorTexture.jpg" />
+
+        <!-- 'floorTex' texture for the floor -->
+        <texture id="floorTex" filepath="scenes/T02G01/textures/floor.png" />
+
+        <!-- 'tableTopTex' texture for tabletops -->
         <texture id="tableTopTex" filepath="scenes/T02G01/textures/tableTop.png" />
+
+        <!-- 'netTex' texture for nets -->
         <texture id="netTex" filepath="scenes/T02G01/textures/net.png" />
+
+        <!-- 'tableTex' texture for tables -->
         <texture id="tableTex" filepath="scenes/T02G01/textures/table.jpg" />
-    </textures> 
 
-    <materials> 
+        <!-- 'chairTexture' texture for tables -->
+        <texture id="chairTex" filepath="scenes/T02G01/textures/chairTexture.png" />
 
-        <material id="tableApp"
-            emissive="0 0 0 1"
-            color="0.8 0.8 0.8 1"
-            specular="0 0 0 0"
-            shininess="0"
-            textureref="tableTex" 
-            texlength_s="1" 
-            texlength_t="1" 
-            twosided = "false" />
-			
-		<material id="wallApp" 
-            emissive="0.0 0.0 0.0 1" 
-			color="0.8 0.8 0.8 1.0" 
-            specular="0 0 0 0" 
-            shininess="10" 
-            textureref="wallTex" 
-            texlength_s="1" 
-            texlength_t="1" 
-            twosided = "false" />
-		
-		
-		<material id="floorApp" 
-            emissive="0.0 0.0 0.0 1" 
-            color="0.8 0.8 0.8 1.0"  
-            specular="0 0 0 0" 
-            shininess="0" 
-            textureref="floorTex" 
-            texlength_s="5" 
-            texlength_t="5" 
-            twosided = "true" />
-		
-		<material id="netApp"
-            emissive="0.0 0.0 0.0 1"
-            color="0.8 0.8 0.8 1.0"
-            specular="0 0 0 0"
-            shininess="0"
-            textureref="netTex"
-            texlength_s="1"
-            texlength_t="4"
-            twosided = "true" />
+        <!-- 'racketTexture' texture for tables -->
+        <texture id="racketTex" filepath="scenes/T02G01/textures/racket.png" />
 
-        <material id="tableTopApp"
-            emissive="0 0 0 1"
-            color="0.8 0.8 0.8 1"
-            specular="0 0 0 0"
-            shininess="0"
-            textureref="tableTopTex" 
-            texlength_s="1" 
-            texlength_t="1" 
-            twosided = "false" />
+        <!-- 'handleTexture' texture for tables -->
+        <texture id="handleTex" filepath="scenes/T02G01/textures/handle.png" />
 
-			
-		
-			
-    </materials> 
+        <!-- 'scoreBoardTexture' texture for tables -->
+        <texture id="scoreBoardTex" filepath="scenes/T02G01/textures/scoreboard.png" />
+
+        <!-- 'advertisingTex' texture for tables -->
+        <texture id="advertisingTex" filepath="scenes/T02G01/textures/advertising.png" />
+    </textures>
+
+<materials>
+    <!-- Define different materials with unique IDs and properties -->
+    
+    <!-- Material for the table -->
+
+    <!-- Emissive color: black -->
+    <!-- Base color: light gray -->
+    <!-- Specular color: black -->
+    <!-- Shininess factor: low -->
+    <!-- Texture reference: 'tableTex' -->
+    <!-- Texture scale along s-axis: 1 -->
+    <!-- Texture scale along t-axis: 1 -->
+    <!-- Single-sided material -->
+
+    <material id="tableApp"
+        emissive="0 0 0 1"             
+        color="0.8 0.8 0.8 1"         
+        specular="0 0 0 0"            
+        shininess="0"                 
+        textureref="tableTex"         
+        texlength_s="1"               
+        texlength_t="1"              
+        twosided="false"              
+    />
+
+    <!-- Material for walls -->
+    
+    <!-- Emissive color: black -->
+    <!-- Base color: light gray -->
+    <!-- Specular color: black -->
+    <!-- Shininess factor: moderate -->
+    <!-- Texture reference: 'wallTex' -->
+    <!-- Texture scale along s-axis: 1 -->
+    <!-- Texture scale along t-axis: 1 -->
+    <!-- Single-sided material -->
+
+    <material id="wallApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="0.8 0.8 0.8 1.0"     
+        specular="0 0 0 0"           
+        shininess="10"               
+        textureref="wallTex"         
+        texlength_s="1"               
+        texlength_t="1"               
+        twosided="false"              
+    />
+
+    <!-- Material for the floor -->
+
+    <!-- Emissive color: black -->
+    <!-- Base color: light gray -->
+    <!-- Specular color: black -->
+    <!-- Shininess factor: low -->
+    <!-- Texture reference: 'floorTex' -->
+    <!-- Texture scale along s-axis: 5 -->
+    <!-- Texture scale along t-axis: 5 -->
+    <!-- Double-sided material -->
+
+    <material id="floorApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="1 1 1 1.0"      
+        specular="0 0 0 0"           
+        shininess="0"                 
+        textureref="floorTex"        
+        texlength_s="1"               
+        texlength_t="1"               
+        twosided="true"               
+    />
+
+    <!-- Material for nets -->
+
+    <!-- Emissive color: black -->
+    <!-- Base color: light gray -->
+    <!-- Specular color: black -->
+    <!-- Shininess factor: low -->
+    <!-- Texture reference: 'netTex' -->
+    <!-- Texture scale along s-axis: 1 -->
+    <!-- Texture scale along t-axis: 4 -->
+    <!-- Double-sided material -->
+
+    <material id="netApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="0.8 0.8 0.8 1.0"      
+        specular="0 0 0 0"           
+        shininess="0"                 
+        textureref="netTex"          
+        texlength_s="1"               
+        texlength_t="4"               
+        twosided="true"               
+    />
+
+    <!-- Material for tabletops -->
+
+    <!-- Emissive color: black -->
+    <!-- Base color: light gray -->
+    <!-- Specular color: black -->
+    <!-- Shininess factor: low -->
+    <!-- Texture reference: 'tableTopTex' -->
+    <!-- Texture scale along s-axis: 1 -->
+    <!-- Texture scale along t-axis: 1 -->
+    <!-- Single-sided material -->
+
+    <material id="tableTopApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="0.8 0.8 0.8 1.0"      
+        specular="0 0 0 0"           
+        shininess="0"                 
+        textureref="tableTopTex"          
+        texlength_s="1"               
+        texlength_t="1"               
+        twosided="true"          
+    />
+
+    <!-- Material for ping pong balls -->
+    
+    <!-- Emissive color: light gray -->
+    <!-- Color: white (fully opaque) -->
+    <!-- Specular color: white -->
+    <!-- Shininess factor: high -->
+    <!-- Double-sided material -->
+
+    <material id="pingPongBallMaterial"
+        emissive="0.9 0.9 0.9 1"           
+        color="1 1 1 1"
+        specular="1 1 1 1"          
+        shininess="0" 
+        twosided="true"                
+    />
+
+    <!-- Material for the racket -->
+
+    <!-- Emissive color: dark gray -->
+    <!-- Color: white (fully opaque) -->
+    <!-- Specular color: medium gray -->
+    <!-- Shininess factor: moderate -->
+    <!-- Double-sided material -->
+
+
+    <material id="racketApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="0.8 0.8 0.8 1.0"      
+        specular="0 0 0 0"           
+        shininess="0"                 
+        textureref="racketTex"          
+        texlength_s="1"               
+        texlength_t="4"               
+        twosided="true"                      
+    />
+
+    <material id="handleApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="0.8 0.8 0.8 1.0"      
+        specular="0 0 0 0"           
+        shininess="0"                 
+        textureref="handleTex"          
+        texlength_s="1"               
+        texlength_t="4"               
+        twosided="true"                      
+    />
+
+
+    <!-- Material for chair -->
+
+    <!-- Emissive color: black -->
+    <!-- Base color: dark gray -->
+    <!-- Specular color: black -->
+    <!-- Shininess factor: low -->
+    <!-- Texture reference: 'chairTexture' -->
+    <!-- Texture scale along s-axis: 1 -->
+    <!-- Texture scale along t-axis: 1 -->
+    <!-- Double-sided material -->
+
+
+    <material id="chairApp"
+        emissive="0 0 0 1"           
+        color="1 1 1 1" 
+        specular="0 0 0 0"          
+        shininess="0"                         
+        twosided="true"            
+    />
+
+    
+    <material id="scoreBoardApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="1 1 1 1.0"      
+        specular="0 0 0 0"           
+        shininess="0"                 
+        textureref="scoreBoardTex"          
+        texlength_s="1"               
+        texlength_t="1"               
+        twosided="true"                      
+    />
+
+    <material id="advertisingApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="1 1 1 1.0"      
+        specular="0 0 0 0"           
+        shininess="0"                 
+        textureref="advertisingTex"          
+        texlength_s="5"               
+        texlength_t="3"               
+        twosided="true"                      
+    />
+
+
+</materials>
+
 
     <graph rootid="scene"> 
-		
+
+        <!-- Node 'scene' containing references to components: 'wall', 'floor', 'table' -->
 		<node id="scene"> 
             <children> 
                 <noderef id="wall" /> 
 				<noderef id="floor" /> 
 				<noderef id="table" /> 
+                <noderef id="chair" />
+                <noderef id="advertising" />
+                <noderef id="camera" />
+
+                <!-- Lighting elements commented out for debugging purposes -->
 
                 <!-- <pointlight id="light1" enabled="true" 
                     color="0.5 0.6 0.8 1" 
@@ -130,19 +336,35 @@
                     angle="10.0" 
                 />  -->
 
+                <!-- Directional light sources -->
+
                 <directionallight id="light5" enabled="true" 
                     color="1.0 1.0 1.0 1" 
                     intensity="1.0"
                     castshadow="true"
                     position="-20 20 0"
-                /> 
+                />
+                <!-- 
+                    Directional light source with ID 'light5'.
+                    Color set to white (1.0 1.0 1.0) with full alpha.
+                    Intensity set to maximum (1.0).
+                    Enabled and set to cast shadows.
+                    Positioned at coordinates (-20, 20, 0).
+                -->
 
                 <directionallight id="light6" enabled="true" 
                     color="1.0 1.0 1.0 1" 
                     intensity="1.0"
                     castshadow="true"
                     position="20 20 0"
-                /> 
+                />
+                <!-- 
+                    Directional light source with ID 'light6'.
+                    Color set to white (1.0 1.0 1.0) with full alpha.
+                    Intensity set to maximum (1.0).
+                    Enabled and set to cast shadows.
+                    Positioned at coordinates (20, 20, 0).
+                -->
 
                 <directionallight id="light7" enabled="true" 
                     color="1.0 1.0 1.0 1" 
@@ -150,6 +372,13 @@
                     castshadow="true"
                     position="0 20 -20"
                 />
+                <!-- 
+                    Directional light source with ID 'light7'.
+                    Color set to white (1.0 1.0 1.0) with full alpha.
+                    Intensity set to maximum (1.0).
+                    Enabled and set to cast shadows.
+                    Positioned at coordinates (0, 20, -20).
+                -->
 
                 <directionallight id="light8" enabled="true" 
                     color="1.0 1.0 1.0 1" 
@@ -157,36 +386,58 @@
                     castshadow="true"
                     position="0 20 20"
                 />
+                <!-- 
+                    Directional light source with ID 'light8'.
+                    Color set to white (1.0 1.0 1.0) with full alpha.
+                    Intensity set to maximum (1.0).
+                    Enabled and set to cast shadows.
+                    Positioned at coordinates (0, 20, 20).
+                -->
+
 
             </children> 
         </node>
-		
-		<node id="rectangle1"> 
 
+        <!-- Definition of various rectangles in the scene -->
+
+        <node id="rectangle1">
+            <!-- Represents the first rectangle -->
             <transforms>
-				<translate value3="0 0 -0.5" />
-				<rotate value3="0 180.0 0.0" />
-            </transforms> 
+                <!-- Defines translation and rotation for positioning -->
+                <translate value3="0 0 -0.5" /> <!-- Translation in the Z-axis -->
+                <rotate value3="0 180.0 0.0" /> <!-- Rotation around Y-axis -->
+            </transforms>
 
-            <children>   
-                <primitive>          
-                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" />
-                </primitive> 
-            </children> 
-        </node>
-		
-		<node id="rectangle2"> 
-
-            <transforms>
-				<translate value3="0 0 0.5" />
-            </transforms> 
-
-            <children>             
+            <children>
+                <!-- Contains a primitive rectangle shape -->
                 <primitive>
-                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" /> 
+                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" />
+                    <!-- Rectangle with specified corner coordinates -->
                 </primitive>
-            </children> 
+            </children>
         </node>
+
+        <!-- 
+            Followed by similar nodes for 'rectangle2' to 'rectangle6', 
+            each with different translations and rotations 
+            to represent distinct rectangles with transformations.
+        -->
+        <node id="rectangle2">
+            <!-- Represents the second rectangle -->
+            <transforms>
+                <!-- Defines translation for positioning -->
+                <translate value3="0 0 0.5" /> <!-- Translation in the Z-axis -->
+            </transforms>
+
+            <children>
+                <!-- Contains a primitive rectangle shape -->
+                <primitive>
+                    <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" />
+                    <!-- Rectangle with specified corner coordinates -->
+                </primitive>
+            </children>
+        </node>
+        <!-- ... (similar comments for nodes rectangle3 to rectangle6) -->
 		
 		<node id="rectangle3"> 
 
@@ -245,128 +496,157 @@
 		
 		<node id="unitCube">
             <children>            
-				<!-- Back -->
+                <!-- Defines a unit cube using referenced rectangles -->
+                <!-- Back -->
                 <noderef id="rectangle1" /> 
-				<!-- Front -->
-				<noderef id="rectangle2" /> 
-				<!-- Bottom -->
-				<noderef id="rectangle3" />
-				<!-- Top -->
-				<noderef id="rectangle4" />
-				<!-- Left -->				
-				<noderef id="rectangle5" />
-				 <!-- Right -->
-				<noderef id="rectangle6" />
+                <!-- Front -->
+                <noderef id="rectangle2" /> 
+                <!-- Bottom -->
+                <noderef id="rectangle3" />
+                <!-- Top -->
+                <noderef id="rectangle4" />
+                <!-- Left -->				
+                <noderef id="rectangle5" />
+                <!-- Right -->
+                <noderef id="rectangle6" />
             </children> 
         </node>
+
 		
 		<node id="leg">
+            <!-- Represents a leg using a cylinder primitive -->
             <transforms>
-				<scale value3="0.25 0.2 0.25" />
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.25 0.2 0.25" />
             </transforms> 
             <children>             
                 <primitive>
+                    <!-- Cylinder primitive representing the leg -->
                     <cylinder base="0.2" top="0.2" height="3" slices="32" stacks="32" />
                 </primitive>
             </children> 
         </node>
-		
-		<node id="leg1">
-			<transforms>
-				<translate value3="1.8 0.3 0.8" />
-            </transforms> 
 
+        <node id="leg1">
+            <!-- Positioning the first leg -->
+            <transforms>
+                <translate value3="1.8 0.3 0.8" />
+            </transforms> 
             <children>             
+                <!-- Reference to the leg node to create the first leg -->
                 <noderef id="leg" />
             </children> 
         </node>
-		
-		<node id="leg2">
-			<transforms>
-				<translate value3="-1.8 0.3 0.8" />
-            </transforms> 
 
+        <node id="leg2">
+            <!-- Positioning the second leg -->
+            <transforms>
+                <translate value3="-1.8 0.3 0.8" />
+            </transforms> 
             <children>             
+                <!-- Reference to the leg node to create the second leg -->
                 <noderef id="leg" />
             </children> 
         </node>
-		
-		<node id="leg3">
-			<transforms>
-				<translate value3="-1.8 0.3 -0.8" />
-            </transforms> 
 
+        <node id="leg3">
+            <!-- Positioning the third leg -->
+            <transforms>
+                <translate value3="-1.8 0.3 -0.8" />
+            </transforms> 
             <children>             
+                <!-- Reference to the leg node to create the third leg -->
                 <noderef id="leg" />
             </children> 
         </node>
-		
-		<node id="leg4">
-			<transforms>
-				<translate value3="1.8 0.3 -0.8" />
-            </transforms> 
 
+        <node id="leg4">
+            <!-- Positioning the fourth leg -->
+            <transforms>
+                <translate value3="1.8 0.3 -0.8" />
+            </transforms> 
             <children>             
+                <!-- Reference to the leg node to create the fourth leg -->
                 <noderef id="leg" />
             </children> 
         </node>
+
 
         <node id="post1">
-			<transforms>
+            <!-- Defines the first post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
                 <scale value3="0.4 0.3 0.4" />
-				<translate value3="0 0.1 -0.95" />
+                <translate value3="0 0.1 -0.95" />
             </transforms> 
 
             <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
                 <noderef id="leg" />
             </children> 
         </node>
 
         <node id="post2">
-			<transforms>
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
                 <scale value3="0.4 0.3 0.4" />
-				<translate value3="0 0.1 0.95" />
+                <translate value3="0 0.1 0.95" />
             </transforms> 
 
             <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
                 <noderef id="leg" />
             </children> 
         </node>
 		
-		<node id="tableTop">
-			<transforms>
-				<scale value3="4 0.1 2" />
+        <node id="tableTop">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="4 0.1 2" />
                 <translate value3="0 0.65 0" />
             </transforms> 
 
             <children>             
+                <!-- Reference to the 'unitCube' node representing the table top -->
                 <noderef id="unitCube" />
             </children> 
         </node>
 
+
         <node id="tableTopT">
-			<transforms>
-				<scale value3="4 0.01 2" />
+            <!-- Represents the texture for the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top texture -->
+                <scale value3="4 0.01 2" />
                 <translate value3="0 0.705 0" />
             </transforms> 
 
+            <!-- Represents the table node -->
             <materialref id="tableTopApp" />
 
             <children>             
+                <!-- Reference to the 'unitCube' node representing the table top -->
                 <noderef id="unitCube" />
             </children> 
         </node>
 
+
         <node id="netT">
-			<transforms>
-				<scale value3="1.9 0.12 1" />
+            <!-- Represents the net itself -->
+            <transforms>
+                <!-- Defines the scale, rotation, and position of the net itself -->
+                <scale value3="1.9 0.12 1" />
                 <rotate value3="0 90 0" />
                 <translate value3="0 0.12 0" />
             </transforms> 
 
+            <!-- Reference to the material applied to the net itself -->
             <materialref id="netApp" />
 
             <children>             
+                <!-- Represents a rectangle primitive used for the net itself -->
                 <primitive>
                     <rectangle xy1="-0.5 -0.5" xy2="0.5 0.5" /> 
                 </primitive>
@@ -374,112 +654,559 @@
         </node>
 
         <node id="net">
+            <!-- Represents the net structure -->
             <transforms>
+                <!-- Defines the position of the net -->
                 <translate value3="0 0.705 0" />
             </transforms>
 
-            <materialref id="tableApp" />
-
             <children>
+                <!-- References to the post nodes forming the net -->
                 <noderef id="post1" />
                 <noderef id="post2" />
+                <!-- References the node for the net texture -->
                 <noderef id="netT" />
             </children>
         </node>
-		
-		<node id="table">
-			
 
-			<materialref id="tableApp" />
-			
-            <children>             
-                <noderef id="tableTop" />
-				<noderef id="leg1" />
-				<noderef id="leg2" />
-				<noderef id="leg3" />
-				<noderef id="leg4" />
-                <noderef id="tableTopT" /> 
-                <noderef id="net" />
+        <node id="pingPongBall">
+            <transforms>
+                <!-- Position and orientation of the ping pong ball -->
+                <translate value3="0.5 0.74 0.5" />
+            </transforms>
+
+            <materialref id="pingPongBallMaterial" />
+
+            <children>
+                <primitive>
+                    <!-- Create a sphere for the ping pong ball -->
+                    <sphere radius="0.025" slices="32" stacks="32" />
+                </primitive>
+            </children>
+        </node>
+
+        <!-- Handle of the racket -->
+        <node id="racketHead">
+
+            <transforms>
+                <!-- Adjust the scale, translate, and rotate values as needed -->
+                <scale value3="0.15 0.15 0.15" />
+                <translate value3="1.7 0.72 -0.5" />
+                <rotate value3="0 0 0" />
+            </transforms>
+
+            <!-- Represents the table tennis racket node -->
+            <materialref id="racketApp" />
+
+            <children>
+                <primitive>
+                    <!-- A cylinder representing the handle -->
+                    <cylinder base="0.8" top="0.8" height="0.15" slices="32" stacks="32" />
+                </primitive>
+            </children>
+        </node>
+
+        <!-- Racket head -->
+        <node id="racketHandle">
+            <transforms>
+                <!-- Adjust the scale, translate, and rotate values as needed -->
+                <scale value3="0.1 0.02 0.03" />
+                <translate value3="1.85 0.72 -0.50" />
+                <rotate value3="0 0 0" />
+            </transforms>
+
+            <!-- Represents the table tennis racket node -->
+            <materialref id="handleApp" />
+
+            <children>
+                <!-- Reference to the 'unitCube' node representing the table top -->
+                <noderef id="unitCube" />
+            </children>
+        </node>
+
+        <node id="tableTennisRacket">
+            
+
+            <children>
+                <!-- References to racket handle node forming the racket -->
+                <noderef id="racketHandle" />
+                <!-- References to racket head node forming the racket -->
+                <noderef id="racketHead" />
+            </children>
+        </node>
+
+		
+        <node id="table">
+            <!-- Represents the table node -->
+            <materialref id="tableApp" />
+            
+            <children>
+                <!-- References to components that comprise the table -->
+                <noderef id="tableTop" /> <!-- Reference to the tabletop -->
+                <noderef id="leg1" /> <!-- Reference to leg 1 -->
+                <noderef id="leg2" /> <!-- Reference to leg 2 -->
+                <noderef id="leg3" /> <!-- Reference to leg 3 -->
+                <noderef id="leg4" /> <!-- Reference to leg 4 -->
+                <noderef id="tableTopT" /> <!-- Reference to the textured tabletop -->
+                <noderef id="net" /> <!-- Reference to the net -->
+                <noderef id="pingPongBall" /> <!-- Reference to the ping pong ball -->
+                <noderef id="tableTennisRacket" /> <!-- Reference to the tableTennisRacket -->
             </children> 
         </node>
+
 		
-		<node id="floor">
-			<transforms>
-				<translate value3="0 0 0" />
-				<rotate value3="-90 0.0 0.0" />
+        <node id="floor">
+            <!-- Represents the floor node -->
+            <transforms>
+                <!-- Defines transformations for the floor -->
+                <translate value3="0 0 0" /> <!-- Translation in 3D space -->
+                <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the floor -->
             </transforms> 
 
-			<materialref id="floorApp" />
-			
+            <materialref id="floorApp" /> <!-- Reference to the floor's material -->
+
             <children>             
+                <!-- Represents the primitive shape of the floor -->
                 <primitive>
-                    <rectangle xy1="-5 -5" xy2="5 5" />
+                    <!-- Defines a rectangle primitive -->
+                    <rectangle xy1="-5 -5" xy2="5 5" /> <!-- Rectangle defined by its corners -->
                 </primitive>
             </children> 
         </node>
 
+
         <node id="wall1">
+            <!-- Represents wall 1 -->
             <transforms>
-				<translate value3="0 5 0" />
-				<rotate value3="90.0 0.0 0.0" />
+                <!-- Defines transformations for wall 1 -->
+                <translate value3="0 5 0" /> <!-- Translation in 3D space -->
+                <rotate value3="90.0 0.0 0.0" /> <!-- Rotation to position the wall -->
             </transforms> 
             <children>             
+                <!-- Represents the primitive shape of wall 1 -->
                 <primitive>
-                    <rectangle xy1="-5 0" xy2="5 3" />
+                    <!-- Defines a rectangle primitive -->
+                    <rectangle xy1="-5 0" xy2="5 3" /> <!-- Rectangle defined by its corners -->
                 </primitive>
             </children> 
         </node>
 
         <node id="wall2">
+            <!-- Represents wall 2 -->
             <transforms>
-				<translate value3="0 -5 3" />
-				<rotate value3="-90.0 0.0 0.0" />
+                <!-- Defines transformations for wall 2 -->
+                <translate value3="0 -5 3" /> <!-- Translation in 3D space -->
+                <rotate value3="-90.0 0.0 0.0" /> <!-- Rotation to position the wall -->
             </transforms> 
             <children>             
+                <!-- Represents the primitive shape of wall 2 -->
                 <primitive>
-                    <rectangle xy1="-5 0" xy2="5 3" />
+                    <!-- Defines a rectangle primitive -->
+                    <rectangle xy1="-5 0" xy2="5 3" /> <!-- Rectangle defined by its corners -->
                 </primitive>
             </children> 
         </node>
 
         <node id="wall3">
+            <!-- Represents wall 3 -->
             <transforms>
-				<translate value3="-5 0 0" />
-				<rotate value3="90.0 90.0 0.0" />
+                <!-- Defines transformations for wall 3 -->
+                <translate value3="-5 0 0" /> <!-- Translation in 3D space -->
+                <rotate value3="90.0 90.0 0.0" /> <!-- Rotation to position the wall -->
             </transforms> 
             <children>             
+                <!-- Represents the primitive shape of wall 3 -->
                 <primitive>
-                    <rectangle xy1="-5 0" xy2="5 3" />
+                    <!-- Defines a rectangle primitive -->
+                    <rectangle xy1="-5 0" xy2="5 3" /> <!-- Rectangle defined by its corners -->
                 </primitive>
             </children> 
         </node>
 
         <node id="wall4">
+            <!-- Represents wall 4 -->
             <transforms>
-				<translate value3="5 0 0" />
-				<rotate value3="90.0 -90.0 0.0" />
+                <!-- Defines transformations for wall 4 -->
+                <translate value3="5 0 0" /> <!-- Translation in 3D space -->
+                <rotate value3="90.0 -90.0 0.0" /> <!-- Rotation to position the wall -->
             </transforms> 
             <children>             
+                <!-- Represents the primitive shape of wall 4 -->
                 <primitive>
-                    <rectangle xy1="-5 0" xy2="5 3" />
+                    <!-- Defines a rectangle primitive -->
+                    <rectangle xy1="-5 0" xy2="5 3" /> <!-- Rectangle defined by its corners -->
                 </primitive>
             </children> 
         </node>
-		
-		<node id="wall">
-			<transforms>
-				<rotate value3="-90 0.0 0.0" />
+
+        <node id="scoreboard">
+            <transforms>
+                <!-- Adjust scale, translate, and rotate values as needed -->
+                <scale value3="1 0.01 0.6" />
+                <translate value3="0 -4.99 2" />
+                <rotate value3="0 0 0" />
+            </transforms>
+
+            <materialref id="scoreBoardApp" />
+            <!-- Material reference for the scoreboard -->
+
+            <children>
+                <!-- Reference to the 'unitCube' node representing the table top -->
+                <noderef id="unitCube" />
+            </children>
+        </node>
+
+        <node id="wall">
+            <!-- Represents the combined walls -->
+            <transforms>
+                <!-- Defines transformation for the combined walls -->
+                <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the walls -->
             </transforms> 
 
             <materialref id="wallApp" />
-			
+            <!-- Material reference for the walls -->
+                    
             <children>             
-                <noderef id="wall1" />
-                <noderef id="wall2" />
-                <noderef id="wall3" />
-                <noderef id="wall4" />
+                <!-- Includes individual wall references -->
+                <noderef id="scoreboard" /> <!-- Reference to scoreboard -->
+                <noderef id="wall1" /> <!-- Reference to wall 1 -->
+                <noderef id="wall2" /> <!-- Reference to wall 2 -->
+                <noderef id="wall3" /> <!-- Reference to wall 3 -->
+                <noderef id="wall4" /> <!-- Reference to wall 4 -->
             </children> 
         </node>
-		
+
+        <!-- Chair Seat -->
+        <node id="seat">
+            <transforms>
+                <!-- Adjust the scale, translate, and rotate values as needed -->
+                <scale value3="1 0.6 0.1" />
+                <translate value3= "0 0.4 3.7"/>
+                <rotate value3="90 0 0" />
+            </transforms>
+            <children>
+                <!-- Reference to the 'unitCube' node representing the table top -->
+                <noderef id="unitCube" />
+            </children>
+        </node>
+
+        <!-- Chair Back -->
+        <node id="back">
+            <transforms>
+                <!-- Adjust the scale, translate, and rotate values as needed -->
+                <scale value3="1 0.4 0.1" />
+                <translate value3= "0 0.8 4"/>
+                <rotate value3="0 0 0" />
+            </transforms>
+            <children>
+                <!-- Reference to the 'unitCube' node representing the table top -->
+                <noderef id="unitCube" />
+            </children>
+        </node>
+
+        <node id="chairLeg1">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.3 0.3 0.3" />
+                <translate value3= "0.5 0.5 4"/>
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.1" top="0.1" height="3" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="chairLeg2">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.3 0.3 0.3" />
+                <translate value3= "-0.5 0.5 4"/>
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.1" top="0.1" height="3" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="chairLeg3">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.3 0.14 0.3" />
+                <translate value3= "0.5 0.25 3.5"/>
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.1" top="0.1" height="3" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="chairLeg4">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.3 0.14 0.3" />
+                <translate value3= "-0.5 0.25 3.5"/>
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.1" top="0.1" height="3" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="chair">
+            <transforms>
+                <translate value3= "0 0 -1.5"/>
+            </transforms> 
+
+            <!-- Combine the seat and back to form the chair -->
+            <!-- Represents the chair node -->
+            <materialref id="chairApp" />
+
+            <children>
+                <!-- References to chair seat node -->
+                <noderef id="seat" />
+                <!-- References to chair back node -->
+                <noderef id="back" />
+                <!-- References to chair legs node -->
+                <noderef id="chairLeg1" />
+                <!-- References to chair legs node -->
+                <noderef id="chairLeg2" />
+                <!-- References to chair legs node -->
+                <noderef id="chairLeg3" />
+                <!-- References to chair legs node -->
+                <noderef id="chairLeg4" />
+
+            </children>
+
+        </node>
+
+         <node id="advertisingWall1">
+            <!-- Represents wall 1 -->
+            <transforms>
+                <!-- Defines transformations for wall 1 -->
+                <translate value3="0 5 0" /> <!-- Translation in 3D space -->
+                <rotate value3="90.0 0.0 0.0" /> <!-- Rotation to position the wall -->
+            </transforms> 
+            <children>             
+                <!-- Represents the primitive shape of wall 1 -->
+                <primitive>
+                    <!-- Defines a rectangle primitive -->
+                    <rectangle xy1="-5 0" xy2="5 3" /> <!-- Rectangle defined by its corners -->
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="advertisingWall2">
+            <!-- Represents wall 2 -->
+            <transforms>
+                <!-- Defines transformations for wall 2 -->
+                <translate value3="0 -5 3" /> <!-- Translation in 3D space -->
+                <rotate value3="-90.0 0.0 0.0" /> <!-- Rotation to position the wall -->
+            </transforms> 
+            <children>             
+                <!-- Represents the primitive shape of wall 2 -->
+                <primitive>
+                    <!-- Defines a rectangle primitive -->
+                    <rectangle xy1="-5 0" xy2="5 3" /> <!-- Rectangle defined by its corners -->
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="advertisingWall3">
+            <!-- Represents wall 3 -->
+            <transforms>
+                <!-- Defines transformations for wall 3 -->
+                <translate value3="-5 0 0" /> <!-- Translation in 3D space -->
+                <rotate value3="90.0 90.0 0.0" /> <!-- Rotation to position the wall -->
+            </transforms> 
+            <children>             
+                <!-- Represents the primitive shape of wall 3 -->
+                <primitive>
+                    <!-- Defines a rectangle primitive -->
+                    <rectangle xy1="-5 0" xy2="5 3" /> <!-- Rectangle defined by its corners -->
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="advertisingWall4">
+            <!-- Represents wall 4 -->
+            <transforms>
+                <!-- Defines transformations for wall 4 -->
+                <translate value3="5 0 0" /> <!-- Translation in 3D space -->
+                <rotate value3="90.0 -90.0 0.0" /> <!-- Rotation to position the wall -->
+            </transforms> 
+            <children>             
+                <!-- Represents the primitive shape of wall 4 -->
+                <primitive>
+                    <!-- Defines a rectangle primitive -->
+                    <rectangle xy1="-5 0" xy2="5 3" /> <!-- Rectangle defined by its corners -->
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="advertising">
+            <!-- Represents the combined walls -->
+            <transforms>
+                <!-- Defines transformation for the combined walls -->
+                <scale value3="0.8 0.8 0.3" />
+                <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the walls -->
+            </transforms> 
+
+            <materialref id="advertisingApp" />
+            <!-- Material reference for the walls -->
+                    
+            <children>             
+                <!-- Includes individual wall references -->
+                <noderef id="advertisingWall1" /> <!-- Reference to wall 1 -->
+                <noderef id="advertisingWall2" /> <!-- Reference to wall 2 -->
+                <noderef id="advertisingWall3" /> <!-- Reference to wall 3 -->
+                <noderef id="advertisingWall4" /> <!-- Reference to wall 4 -->
+            </children> 
+        </node>
+
+        <node id="triLeg1">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.25 0.2 0.25" />
+                <translate value3="-4.3 -0.3 0.55" />
+                <rotate value3="70 0.0 0.0" /> <!-- Rotation to position the walls -->
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.2" top="0.2" height="6" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="triLeg2">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.25 0.2 0.25" />
+                <translate value3="-4.3 0.3 0.55" />
+                <rotate value3="-70 0.0 0.0" /> <!-- Rotation to position the walls -->
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.2" top="0.2" height="6" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="triLeg3">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.25 0.2 0.25" />
+                <translate value3="-4.7 0 0.55" />
+                <rotate value3="90 0.0 -30.0" /> <!-- Rotation to position the walls -->
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.2" top="0.2" height="6" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="cameraBox">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="0.7 0.5 0.5" />
+                <translate value3="-4.4 0 1.2" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'unitCube' node representing the table top -->
+                <noderef id="unitCube" />
+            </children> 
+        </node>
+
+        <node id="magnifier1">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.25 0.2 0.25" />
+                <translate value3="-4.0 0 1.2" />
+                <rotate value3="0 0.0 90.0" /> <!-- Rotation to position the walls -->
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.5" top="0.5" height="1" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="magnifier2">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.25 0.2 0.25" />
+                <translate value3="-3.8 0 1.2" />
+                <rotate value3="0 0.0 90.0" /> <!-- Rotation to position the walls -->
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.4" top="0.4" height="1.2" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="magnifier3">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <scale value3="0.25 0.2 0.25" />
+                <translate value3="-3.7 0 1.2" />
+                <rotate value3="0 0.0 90.0" /> <!-- Rotation to position the walls -->
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.6" top="0.6" height="0.3" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="camera">
+            <!-- Represents the combined walls -->
+            <transforms>
+                <!-- Defines transformation for the combined walls -->
+                <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the walls -->
+            </transforms> 
+
+            <materialref id="advertisingApp" />
+            <!-- Material reference for the walls -->
+                    
+            <children>             
+                <!-- Includes individual tripod legs references -->
+                <noderef id="triLeg1" /> <!-- Reference to tripod leg 1 -->
+                <noderef id="triLeg2" /> <!-- Reference to tripod leg 2 -->
+                <noderef id="triLeg3" /> <!-- Reference to tripod leg 3 -->
+                <noderef id="cameraBox" /> <!-- Reference to cameraBox -->
+                <noderef id="magnifier1" /> <!-- Reference to magnifier -->
+                <noderef id="magnifier2" /> <!-- Reference to magnifier -->
+                <noderef id="magnifier3" /> <!-- Reference to magnifier -->
+            </children> 
+        </node>
+
+
     </graph> 
 </yaf>
