@@ -73,7 +73,16 @@ class MyGraph  {
                     child = this.light(childData);
                     break;
                 case "lod":
-                    // TODO: implement lod
+                    let lod = new THREE.LOD();
+                    
+                    if (childData.type === "lodnoderef") {
+                        if (childData.materialIds.length === 0) {
+                            childData.materialIds = node.materialIds;
+                        }
+                        console.log("HERE")
+                        child = this.visit(childData);
+                        lod.addLevel(child, childData.distance);
+                    }
                     break;
                 case "model3d":
                     // TODO: implement model3d
