@@ -37,8 +37,7 @@
         -->
     </cameras>
 
-    <skybox size="100 100 100" center="0 0 0" emissive="1.0 1.0 1.0 1.0" intensity="1.0" up="./textures/pine.jpg" down="./textures/pine.jpg" left="./textures/pine.jpg" right="./textures/pine.jpg" front="./textures/pine.jpg" back="./textures/pine.jpg"/>
-
+    <skybox size="100 100 100" center="0 0 0" emissive="1.0 1.0 1.0 1.0" intensity="1.0" up="./scenes/demo/textures/pine.jpg" down="./scenes/demo/textures/pine.jpg" left="./scenes/demo/textures/pine.jpg" right="./scenes/demo/textures/pine.jpg" front="./scenes/demo/textures/pine.jpg" back="./scenes/demo/textures/pine.jpg"/>
 
     <!-- bloco de texturas. Este bloco tem de existir mas pode estar vazio, se nao forem usadas texturas --> 
     <textures>
@@ -76,6 +75,14 @@
 
         <!-- 'cameraTex' texture for tables -->
         <texture id="cameraTex" filepath="scenes/T02G01/textures/camera.png" />
+
+        <texture id="pineTex" filepath="scenes/T02G01/textures/pine.png" />
+
+		<texture id="vaseTex" filepath="scenes/T02G01/textures/vase.png" />
+
+        <texture id="table1Tex" filepath="scenes/T02G01/textures/table.png" />
+
+        <texture id="starTex" filepath="scenes/T02G01/textures/star.png" />
 
         <!-- 'benchTex' texture for tables -->
         <texture id="benchTex" filepath="scenes/T02G01/textures/bench.jpg" />
@@ -319,6 +326,48 @@
         twosided="true"            
     />
 
+    <material id="pineApp" 
+        emissive="0.0 0.0 0.0 1" 
+        color="0.8 0.8 0.8 1.0"  
+        specular="0 0 0 0" 
+        shininess="0" 
+        textureref="pineTex" 
+        texlength_s="1" 
+        texlength_t="1"
+        wireframe = "true" 
+    />
+			
+	<material id="vaseApp" 
+        emissive="0.0 0.0 0.0 1" 
+        color="0.8 0.8 0.8 1.0"  
+        specular="0 0 0 0" 
+        shininess="0" 
+        textureref="vaseTex" 
+        texlength_s="1" 
+        texlength_t="1"
+        shading = "flat" 
+    />
+
+    <material id="table1App" 
+        color="0.8 0.8 0.8 1.0" 
+        emissive="0.0 0.0 0.0 0.0" 
+		specular="0 0 0 0" 
+        shininess="10" 
+        textureref="table1Tex" 
+        texlength_s="1" 
+        texlength_t="1" 
+    />
+
+    <material id="starApp" 
+        color="0.8 0.8 0.8 1.0" 
+        emissive="0.0 0.0 0.0 0.0" 
+		specular="0 0 0 0" 
+        shininess="0" 
+        textureref="starTex" 
+        texlength_s="1" 
+        texlength_t="1" 
+    />
+
 </materials>
 
 
@@ -335,6 +384,7 @@
                 <noderef id="camera" />
                 <noderef id="bench" />
                 <noderef id="rubinho" />
+                <noderef id="tree" />
 
 
                 <!-- Lighting elements commented out for debugging purposes -->
@@ -1689,6 +1739,190 @@
                 <noderef id="rubArm2" /> <!-- Reference to rubinho -->
                 <noderef id="rubChest" /> <!-- Reference to rubinho -->
                 <noderef id="rubHead" /> <!-- Reference to rubinho -->
+            </children> 
+        </node>
+
+        <node id="vase">
+			<materialref id="vaseApp" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="0.75" top="1.3" height="1.9" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="trunk">
+			<transforms>
+				<translate value3="0 1.7 0" />
+			</transforms> 
+			
+			<materialref id="table1App" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="0.4" top="0.4" height="3" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="treeSeg1">
+			<transforms>
+				<translate value3="0 2.7 0" />
+            </transforms> 
+			
+			<materialref id="pineApp" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="2" top="1" height="1.9" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="treeSeg2">
+			<transforms>
+				<translate value3="0 4.6 0" />
+            </transforms> 
+			
+			<materialref id="pineApp" />
+			
+            <children>
+                <primitive >
+                    <cylinder base="1.5" top="0.75" height="2" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="treeSeg3">
+			<transforms>
+				<translate value3="0 6.6 0" />
+            </transforms> 
+			
+			<materialref id="pineApp" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="0.9" top="0" height="2" slices="32" stacks="32" />
+                </primitive>
+
+            </children> 
+        </node>
+
+        <node id="treeStar1">
+			<transforms>
+				<translate value3="0.2 7.5 0" />
+                <rotate value3="0 0 45" />
+            </transforms> 
+			
+			<materialref id="starApp" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="0" top="0.1" height="0.5" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="treeStar2">
+			<transforms>
+				<translate value3="-0.2 7.5 0" />
+                <rotate value3="0 0 -45" />
+            </transforms> 
+			
+			<materialref id="starApp" />
+			
+            <children>
+                <primitive >
+                    <cylinder base="0" top="0.1" height="0.5" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+		
+		<node id="treeStar3">
+			<transforms>
+				<translate value3="0.2 7.8 0" />
+                <rotate value3="0 0 115" />
+            </transforms> 
+			
+			<materialref id="starApp" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="0" top="0.1" height="0.5" slices="32" stacks="32" />
+                </primitive>
+
+            </children> 
+        </node>
+
+        <node id="treeStar4">
+			<transforms>
+				<translate value3="-0.2 7.8 0" />
+                <rotate value3="0 0 -115" />
+            </transforms> 
+			
+			<materialref id="starApp" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="0" top="0.1" height="0.5" slices="32" stacks="32" />
+                </primitive>
+
+            </children> 
+        </node>
+		
+		<node id="treeStar5">
+			<transforms>
+				<translate value3="0 7.9 0" />
+                <rotate value3="0 0 180" />
+            </transforms> 
+			
+			<materialref id="starApp" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="0" top="0.1" height="0.5" slices="32" stacks="32" />
+                </primitive>
+
+            </children> 
+        </node>
+		
+		
+		<node id="tree">
+			<transforms>
+				<translate value3="-7 0.7 7" />
+				<rotate value3="0.0 -90.0 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+			
+            <children>             
+                <noderef id="vase" />
+				<noderef id="trunk" />
+				<noderef id="treeSeg1" />
+				<noderef id="treeSeg2" />
+				<noderef id="treeSeg3" />
+                <noderef id="treeStar1" />
+                <noderef id="treeStar2" />
+                <noderef id="treeStar3" />
+                <noderef id="treeStar4" />
+                <noderef id="treeStar5" />
+                <primitive>
+                    <nurbs degree_u="1" degree_v="1" parts_u="20" parts_v="20" distance="0.0">
+                        <controlpoint xx="0" yy="0" zz="0" />
+                        <controlpoint xx="0" yy="0" zz="1" />
+                        <controlpoint xx="1" yy="0" zz="0" />
+                        <controlpoint xx="1" yy="0" zz="1" />
+                    </nurbs>
+                </primitive>
+                <primitive>
+                    <box xyz1="-0.5 -0.5 -0.5" xyz2="0.5 0.5 0.5" />
+                </primitive>
+                <primitive>
+                    <polygon radius="2.0" slices="12" stacks="3" color_c="1 0 0 1" color_p="1 1 0 1" />
+                </primitive>
+
+
+
             </children> 
         </node>
 
