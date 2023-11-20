@@ -402,6 +402,10 @@
 
         <!-- Node 'scene' containing references to components: 'wall', 'floor', 'table' -->
 		<node id="scene" castshadows = "true" receiveshadows="true"> 
+            <lod id="demo" near="0" far="1000" > 
+                <noderef id="tree" mindist="5" />
+                <noderef id= "treeCone" mindist= "10"/>
+            </lod>
             <children> 
                 <noderef id="wall" /> 
 				<noderef id="floor" /> 
@@ -415,6 +419,8 @@
                 <noderef id="pol" />
                 <noderef id="mipmap" />
                 <noderef id="balazucs" />
+                <lodref id="demo" />
+
 
                 <!-- Lighting elements commented out for debugging purposes -->
 
@@ -1947,6 +1953,22 @@
             <children>             
                 <primitive>
                     <cylinder base="0" top="0.1" height="0.5" slices="32" stacks="32" />
+                </primitive>
+
+            </children> 
+        </node>
+
+        <node id="treeCone">
+			<transforms>
+				<translate value3="-7 3.5 7" />
+                <scale value3= "0.6 0.6 0.6" />
+            </transforms> 
+			
+			<materialref id="pineApp" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="2" top="0" height="6" slices="32" stacks="32" />
                 </primitive>
 
             </children> 
