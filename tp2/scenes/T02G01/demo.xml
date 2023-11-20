@@ -86,9 +86,34 @@
 
         <!-- 'benchTex' texture for tables -->
         <texture id="benchTex" filepath="scenes/T02G01/textures/bench.jpg" />
+
+        <texture id="caravaggio" filepath="scenes/demo/textures/caravaggio.jpg" 
+            mipmap0="scenes/demo/textures/caravaggio.1024.jpg"
+            mipmap1="scenes/demo/textures/caravaggio.512.jpg"
+            mipmap2="scenes/demo/textures/caravaggio.256.jpg"
+            mipmap3="scenes/demo/textures/caravaggio.128.jpg"
+            mipmap4="scenes/demo/textures/caravaggio.64.jpg"
+        />
+        <texture id="videoTex" isVideo="true" filepath="scenes/demo/videos/oceans.mp4"/>
+        <texture id="brickWallTex" filepath="scenes/demo/textures/brickWall.jpg" />
+        <texture id="brickWallTexMap" filepath="scenes/demo/textures/brickWall-modified.jpg" />
+
     </textures>
 
 <materials>
+
+    <material id="brickWallApp" 
+            emissive="0.0 0.0 0.0 1" 
+            color="1 1 1 1.0" 
+            specular="1 1 1 1" 
+            shininess="0" 
+            textureref="brickWallTex" 
+            bumpref = "brickWallTexMap"
+            bumpscale = "1"
+            texlength_s="6" 
+            texlength_t="6"
+            twosided = "true" />
+
     <!-- Define different materials with unique IDs and properties -->
     
     <!-- Material for the table -->
@@ -385,7 +410,7 @@
                 <noderef id="bench" />
                 <noderef id="rubinho" />
                 <noderef id="tree" />
-
+                
 
                 <!-- Lighting elements commented out for debugging purposes -->
 
