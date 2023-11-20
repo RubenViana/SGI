@@ -86,48 +86,92 @@ class MyObjectBuilder{
     }
 
     // Function to create the polygon geometry
+
+    interpolate(start, end, percentage) {
+        return start + (end - start) * percentage;
+    }
+
+    interpolateColor(startColor, endColor, percentage) {
+        let color = [
+            this.interpolate(startColor.r, endColor.r, percentage),
+            this.interpolate(startColor.g, endColor.g, percentage),
+            this.interpolate(startColor.b, endColor.b, percentage)
+        ];
+
+        return color;
+    }
+
     createPolygonGeometry(stacks, slices, radius, color_c, color_p) {
-        const geometry = new THREE.BufferGeometry();
+        this.radius = radius;
+        this.color_c = new THREE.Color(color_c.r, color_c.g, color_c.b);
+        this.color_p = new THREE.Color(color_p.r, color_p.g, color_p.b);
+        this.stacks = stacks;
+        this.slices = slices;
 
-        // Vertices and colors arrays
-        const vertices = [];
-        const colors = [];
+        this.materialObj.vertexColors = true;
 
-        // Add center vertex
-        vertices.push(0, 0, 0);
-        colors.push(color_c[0], color_c[1], color_c[2]);
+        let geometry = new THREE.BufferGeometry();
+        let points = [0, 0, 0];
+        let normals = [0, 0, 1];
+        let colors = [this.color_c[0], this.color_c[1], this.color_c[2]];
+        let indexes = [];
+        let uvCenterU = 0.5;
+        let uvCenterV = 0.5;
+        let uvRadius = 0.5;
+        const uvs = [uvCenterU, uvCenterV];
 
-        // Calculate vertices and colors for each stack and slice
-        for (let i = 0; i <= stacks; i++) {
-            const theta = (i / stacks) * Math.PI; // Polar angle
+        let stackPercentage = 1 / this.stacks;
+        const stackRadius = this.radius / this.stacks;
+        let stackColor = this.interpolateColor(this.color_c, this.color_p, stackPercentage);
 
-            for (let j = 0; j < slices; j++) {
-                const phi = (j / slices) * 2 * Math.PI; // Azimuthal angle
+        // Cycle for the 1st stack
+        for (let currentSliceIndex = 0; currentSliceIndex < this.slices; currentSliceIndex++) {
+            const angle = (currentSliceIndex / this.slices) * (2 * Math.PI);
+            const x = stackRadius * Math.cos(angle);
+            const y = stackRadius * Math.sin(angle);
+            points.push(x, y, 0);
+            normals.push(0, 0, 1);
+            
+            const currentSliceIdx = 1 + (currentSliceIndex % this.slices);
+            const nextSliceIdx = 1 + ((currentSliceIndex + 1) % this.slices);
+            indexes.push(0, currentSliceIdx, nextSliceIdx);
+            colors.push(...stackColor);
+            uvs.push(uvCenterU + uvRadius * stackPercentage * Math.cos(angle), 
+                     uvCenterV + uvRadius * stackPercentage * Math.sin(angle));
+        }
 
-                // Cartesian coordinates
-                const x = radius * Math.sin(theta) * Math.cos(phi);
-                const y = radius * Math.sin(theta) * Math.sin(phi);
-                const z = radius * Math.cos(theta);
+        for (let currentStackIndex = 1; currentStackIndex < this.stacks; currentStackIndex++) {
+            let currentRadius = (currentStackIndex + 1) * stackRadius;
+            stackPercentage = (1 + currentStackIndex) / this.stacks;
+            stackColor = this.interpolateColor(this.color_c, this.color_p, stackPercentage);
 
-                // Interpolate color based on the position
-                const t = i / stacks; // Interpolation factor
-                const r = color_c[0] + t * (color_p[0] - color_c[0]);
-                const g = color_c[1] + t * (color_p[1] - color_c[1]);
-                const b = color_c[2] + t * (color_p[2] - color_c[2]);
+            for (let currentSliceIndex = 0; currentSliceIndex < this.slices; currentSliceIndex++) {
+                const angle = (currentSliceIndex / this.slices) * (2 * Math.PI);
+                const x = currentRadius * Math.cos(angle);
+                const y = currentRadius * Math.sin(angle);
 
-                // Add vertex and color to arrays
-                vertices.push(x, y, z);
-                colors.push(r, g, b);
+                points.push(x, y, 0);
+                normals.push(0, 0, 1);
+                colors.push(...stackColor);
+                
+                const currentSlicePreviousStackIdx = 1 + ((currentStackIndex - 1) * this.slices) + (currentSliceIndex % this.slices);
+                const nextSlicePreviousStackIdx = 1 + ((currentStackIndex - 1) * this.slices) + ((currentSliceIndex + 1) % this.slices);
+
+                const currentSliceIdx = 1 + (currentStackIndex * this.slices) + (currentSliceIndex % this.slices);
+                const nextSliceIdx = 1 + (currentStackIndex * this.slices) + ((currentSliceIndex + 1) % this.slices);
+
+                indexes.push(currentSliceIdx, nextSliceIdx, nextSlicePreviousStackIdx);
+                indexes.push(currentSliceIdx, nextSlicePreviousStackIdx, currentSlicePreviousStackIdx);
+                uvs.push(uvCenterU + uvRadius * stackPercentage * Math.cos(angle),
+                         uvCenterU + uvRadius * stackPercentage * Math.sin(angle));
             }
         }
 
-        // Convert arrays to Float32Arrays
-        const verticesArray = new Float32Array(vertices);
-        const colorsArray = new Float32Array(colors);
-
-        // Set attributes in the BufferGeometry
-        geometry.setAttribute('position', new THREE.BufferAttribute(verticesArray, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colorsArray, 3));
+        geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(points), 3));
+        geometry.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals), 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
+        geometry.setIndex(new THREE.BufferAttribute(new Uint16Array(indexes), 1));
+        geometry.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvs), 2));
 
         return geometry;
     }
