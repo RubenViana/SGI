@@ -305,7 +305,7 @@
         shininess="0" 
         textureref="videoTex" 
         texlength_s="15" 
-        texlength_t="15" 
+        texlength_t="3" 
         twosided = "true" />
 
     <material id="cameraApp"
@@ -419,7 +419,7 @@
                 <noderef id="pol" />
                 <noderef id="mipmap" />
                 <noderef id="balazucs" />
-                <lodref id="demo" />
+                <!-- <lodref id="demo" /> -->
 
 
                 <!-- Lighting elements commented out for debugging purposes -->

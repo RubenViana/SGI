@@ -75,7 +75,7 @@ class MyContents  {
         this.app.scene.fog = fog;
 
         
-        // add skybox TODO : improve this
+        // add skybox 
         let skyboxMaterial = new THREE.MeshPhongMaterial( { emissive: new THREE.Color(data.skyboxes.default.emissive.r, data.skyboxes.default.emissive.g, data.skyboxes.default.emissive.b), side: THREE.BackSide } );
         skyboxMaterial.intensity = data.skyboxes.default.intensity;
         skyboxMaterial.envMap = new THREE.CubeTextureLoader().load([data.skyboxes.default.front, data.skyboxes.default.back, data.skyboxes.default.up, data.skyboxes.default.down, data.skyboxes.default.right, data.skyboxes.default.left]);
