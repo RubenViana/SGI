@@ -73,6 +73,12 @@
 
         <!-- 'advertisingTex' texture for tables -->
         <texture id="advertisingTex" filepath="scenes/T02G01/textures/advertising.png" />
+
+        <!-- 'cameraTex' texture for tables -->
+        <texture id="cameraTex" filepath="scenes/T02G01/textures/camera.png" />
+
+        <!-- 'benchTex' texture for tables -->
+        <texture id="benchTex" filepath="scenes/T02G01/textures/bench.jpg" />
     </textures>
 
 <materials>
@@ -252,7 +258,10 @@
         emissive="0 0 0 1"           
         color="1 1 1 1" 
         specular="0 0 0 0"          
-        shininess="0"                         
+        shininess="0"   
+        textureref="chairTex"          
+        texlength_s="1"               
+        texlength_t="1"                        
         twosided="true"            
     />
 
@@ -279,6 +288,36 @@
         twosided="true"                      
     />
 
+    <material id="cameraApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="0 0 0 1.0"      
+        specular="0 0 0 0"           
+        shininess="0"                              
+        twosided="true"                      
+    />
+
+    <material id="cameraLApp"
+        emissive="0.0 0.0 0.0 1"     
+        color="1 1 1 1.0"      
+        specular="0 0 0 0"           
+        shininess="0"                 
+        textureref="cameraTex"          
+        texlength_s="1"               
+        texlength_t="1"               
+        twosided="true"                      
+    />
+
+    
+    <material id="benchApp"
+        emissive="0 0 0 1"           
+        color="1 1 1 1" 
+        specular="0 0 0 0"          
+        shininess="0"   
+        textureref="benchTex"          
+        texlength_s="1"               
+        texlength_t="1"                        
+        twosided="true"            
+    />
 
 </materials>
 
@@ -294,6 +333,9 @@
                 <noderef id="chair" />
                 <noderef id="advertising" />
                 <noderef id="camera" />
+                <noderef id="bench" />
+                <noderef id="rubinho" />
+
 
                 <!-- Lighting elements commented out for debugging purposes -->
 
@@ -614,7 +656,6 @@
             </children> 
         </node>
 
-
         <node id="tableTopT">
             <!-- Represents the texture for the table top -->
             <transforms>
@@ -626,9 +667,11 @@
             <!-- Represents the table node -->
             <materialref id="tableTopApp" />
 
-            <children>             
-                <!-- Reference to the 'unitCube' node representing the table top -->
-                <noderef id="unitCube" />
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
             </children> 
         </node>
 
@@ -672,7 +715,7 @@
         <node id="pingPongBall">
             <transforms>
                 <!-- Position and orientation of the ping pong ball -->
-                <translate value3="0.5 0.74 0.5" />
+                <translate value3="-1.245 0.74 0.245" />
             </transforms>
 
             <materialref id="pingPongBallMaterial" />
@@ -719,8 +762,10 @@
             <materialref id="handleApp" />
 
             <children>
-                <!-- Reference to the 'unitCube' node representing the table top -->
-                <noderef id="unitCube" />
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
             </children>
         </node>
 
@@ -759,6 +804,7 @@
             <!-- Represents the floor node -->
             <transforms>
                 <!-- Defines transformations for the floor -->
+                <scale value3= "2 2 2"/>
                 <translate value3="0 0 0" /> <!-- Translation in 3D space -->
                 <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the floor -->
             </transforms> 
@@ -842,17 +888,19 @@
         <node id="scoreboard">
             <transforms>
                 <!-- Adjust scale, translate, and rotate values as needed -->
-                <scale value3="1 0.01 0.6" />
-                <translate value3="0 -4.99 2" />
-                <rotate value3="0 0 0" />
+                <scale value3="2 0.02 1.2" />
+                <translate value3="-4.99 0 2" />
+                <rotate value3="0 0 90" />
             </transforms>
 
             <materialref id="scoreBoardApp" />
             <!-- Material reference for the scoreboard -->
 
             <children>
-                <!-- Reference to the 'unitCube' node representing the table top -->
-                <noderef id="unitCube" />
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
             </children>
         </node>
 
@@ -861,6 +909,7 @@
             <transforms>
                 <!-- Defines transformation for the combined walls -->
                 <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the walls -->
+                <scale value3= "2 2 2"/>
             </transforms> 
 
             <materialref id="wallApp" />
@@ -884,9 +933,14 @@
                 <translate value3= "0 0.4 3.7"/>
                 <rotate value3="90 0 0" />
             </transforms>
+
+            <materialref id="chairApp" />
+
             <children>
-                <!-- Reference to the 'unitCube' node representing the table top -->
-                <noderef id="unitCube" />
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
             </children>
         </node>
 
@@ -898,9 +952,14 @@
                 <translate value3= "0 0.8 4"/>
                 <rotate value3="0 0 0" />
             </transforms>
+
+            <materialref id="chairApp" />
+
             <children>
-                <!-- Reference to the 'unitCube' node representing the table top -->
-                <noderef id="unitCube" />
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
             </children>
         </node>
 
@@ -966,12 +1025,13 @@
 
         <node id="chair">
             <transforms>
-                <translate value3= "0 0 -1.5"/>
+                <translate value3= "0 0 -0.5"/>
             </transforms> 
 
             <!-- Combine the seat and back to form the chair -->
             <!-- Represents the chair node -->
-            <materialref id="chairApp" />
+
+            <materialref id="tableApp" />
 
             <children>
                 <!-- References to chair seat node -->
@@ -1059,7 +1119,7 @@
             <!-- Represents the combined walls -->
             <transforms>
                 <!-- Defines transformation for the combined walls -->
-                <scale value3="0.8 0.8 0.3" />
+                <scale value3="1.2 0.8 0.45" />
                 <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the walls -->
             </transforms> 
 
@@ -1131,9 +1191,11 @@
                 <translate value3="-4.4 0 1.2" />
             </transforms> 
 
-            <children>             
-                <!-- Reference to the 'unitCube' node representing the table top -->
-                <noderef id="unitCube" />
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
             </children> 
         </node>
 
@@ -1176,7 +1238,10 @@
                 <scale value3="0.25 0.2 0.25" />
                 <translate value3="-3.7 0 1.2" />
                 <rotate value3="0 0.0 90.0" /> <!-- Rotation to position the walls -->
-            </transforms> 
+            </transforms>
+
+            <materialref id="cameraLApp" />
+
             <children>             
                 <primitive>
                     <!-- Cylinder primitive representing the leg -->
@@ -1192,8 +1257,8 @@
                 <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the walls -->
             </transforms> 
 
-            <materialref id="advertisingApp" />
-            <!-- Material reference for the walls -->
+            <materialref id="cameraApp" />
+            <!-- Material reference -->
                     
             <children>             
                 <!-- Includes individual tripod legs references -->
@@ -1207,6 +1272,425 @@
             </children> 
         </node>
 
+        <node id="bench1">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="20 5 1.5" />
+                <translate value3="0 17.5 0.75" />
+            </transforms> 
+
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="bench2">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="20 3.5 1.5" />
+                <translate value3="0 18.25 2" />                
+            </transforms> 
+
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="bench3">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="20 2 1.5" />
+                <translate value3="0 19 3.25" />
+            </transforms> 
+
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="bench4">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="20 5 1.5" />
+                <translate value3="0 -17.5 0.75" />
+                <rotate value3="0 0 0" />
+            </transforms> 
+
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="bench5">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="20 3.5 1.5" />
+                <translate value3="0 -18.25 2" />  
+                <rotate value3="0 0 0" />              
+            </transforms> 
+
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="bench6">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="20 2 1.5" />
+                <translate value3="0 -19 3.25" />
+                <rotate value3="0 0 0" />
+            </transforms> 
+
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="benchL1">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 4 1" />
+                <translate value3="9.9 14.8 1.20" />
+                <rotate value3="90 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL2">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 4 1" />
+                <translate value3="-9.9 14.8 1.20" />
+                <rotate value3="90 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL3">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 4 1" />
+                <translate value3="9.9 -14.8 1.20" />
+                <rotate value3="90 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL4">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 4 1" />
+                <translate value3="-9.9 -14.8 1.20" />
+                <rotate value3="90 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL5">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 4 1" />
+                <translate value3="9.9 19 4.40" />
+                <rotate value3="90 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL6">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 4 1" />
+                <translate value3="-9.9 19 4.40" />
+                <rotate value3="90 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL7">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 4 1" />
+                <translate value3="9.9 -19 4.40" />
+                <rotate value3="90 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL8">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 4 1" />
+                <translate value3="-9.9 -19 4.40" />
+                <rotate value3="90 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL9">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 9 1" />
+                <translate value3="-9.9 -16.9 3.95" />
+                <rotate value3="-37 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL10">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 9 1" />
+                <translate value3="9.9 -16.9 3.95" />
+                <rotate value3="-37 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL11">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 9 1" />
+                <translate value3="-9.9 16.9 3.95" />
+                <rotate value3="37 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+        <node id="benchL12">
+            <!-- Defines the second post -->
+            <transforms>
+                <!-- Adjusts the scale and position of the post -->
+                <scale value3="1 9 1" />
+                <translate value3="9.9 16.9 3.95" />
+                <rotate value3="37 0 0" />
+            </transforms> 
+
+            <children>             
+                <!-- Reference to the 'leg' node for creating the post -->
+                <noderef id="leg" />
+            </children> 
+        </node>
+
+
+        <node id="bench">
+            <!-- Represents the combined walls -->
+            <transforms>
+                <!-- Defines transformation for the combined walls -->
+                <scale value3= "0.5 0.5 0.5" />
+                <rotate value3="-90 0.0 0.0" /> <!-- Rotation to position the walls -->
+            </transforms> 
+
+            <materialref id="benchApp" />
+            <!-- Material reference -->
+                    
+            <children>             
+                <noderef id="bench1" /> <!-- Reference to bench -->
+                <noderef id="bench2" /> <!-- Reference to bench -->
+                <noderef id="bench3" /> <!-- Reference to bench -->
+                <noderef id="bench4" /> <!-- Reference to bench -->
+                <noderef id="bench5" /> <!-- Reference to bench -->
+                <noderef id="bench6" /> <!-- Reference to bench -->
+                <noderef id="benchL1" /> <!-- Reference to bench -->
+                <noderef id="benchL2" /> <!-- Reference to bench -->
+                <noderef id="benchL3" /> <!-- Reference to bench -->
+                <noderef id="benchL4" /> <!-- Reference to bench -->
+                <noderef id="benchL5" /> <!-- Reference to bench -->
+                <noderef id="benchL6" /> <!-- Reference to bench -->
+                <noderef id="benchL7" /> <!-- Reference to bench -->
+                <noderef id="benchL8" /> <!-- Reference to bench -->
+                <noderef id="benchL9" /> <!-- Reference to bench -->
+                <noderef id="benchL10" /> <!-- Reference to bench -->
+                <noderef id="benchL11" /> <!-- Reference to bench -->
+                <noderef id="benchL12" /> <!-- Reference to bench -->
+            </children> 
+        </node>
+
+
+        <node id="rubLeg1">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <translate value3="3 0.3 -0.2"/>
+                <rotate value3="30 0 0" />
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.1" top="0.1" height="0.6" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="rubLeg2">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <translate value3="3 0.3 0.2"/>
+                <rotate value3="-30 0 0" />
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.1" top="0.1" height="0.6" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="rubArm1">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <translate value3="3 0.7 -0.5"/>
+                <rotate value3="30 0 0" />
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.1" top="0.1" height="0.6" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="rubArm2">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <translate value3="3 0.7 0.5"/>
+                <rotate value3="-30 0 0" />
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.1" top="0.1" height="0.6" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="rubChest">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <translate value3="3 0.8 0"/>
+                <scale value3="0.25 0.2 0.25" />
+            </transforms> 
+            <children>             
+                <primitive>
+                    <!-- Cylinder primitive representing the leg -->
+                    <cylinder base="0.8" top="1.8" height="3" slices="32" stacks="32" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="rubHead">
+            <!-- Represents a leg using a cylinder primitive -->
+            <transforms>
+                <!-- Scaling to define the leg's dimensions -->
+                <translate value3="3 1.3 0"/>
+                <scale value3="0.25 0.2 0.25" />
+            </transforms> 
+            <children>
+                <primitive>
+                    <!-- Create a sphere for the ping pong ball -->
+                    <sphere radius="1.5" slices="32" stacks="32" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="rubinho">
+            <!-- Represents the combined walls -->
+
+            <materialref id="benchApp" />
+            <!-- Material reference -->
+                    
+            <children>             
+                <noderef id="rubLeg1" /> <!-- Reference to rubinho -->
+                <noderef id="rubLeg2" /> <!-- Reference to rubinho -->
+                <noderef id="rubArm1" /> <!-- Reference to rubinho -->
+                <noderef id="rubArm2" /> <!-- Reference to rubinho -->
+                <noderef id="rubChest" /> <!-- Reference to rubinho -->
+                <noderef id="rubHead" /> <!-- Reference to rubinho -->
+            </children> 
+        </node>
 
     </graph> 
 </yaf>
