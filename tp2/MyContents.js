@@ -17,9 +17,11 @@ class MyContents  {
         this.app = app
         this.axis = null
 
+        this.displayWireframe = false;
+
         this.reader = new MyFileReader(app, this, this.onSceneLoaded);
-		// this.reader.open("scenes/demo/demo.xml");
-        this.reader.open("scenes/T02G01/demo.xml");
+		this.reader.open("scenes/demo/demo.xml");
+        // this.reader.open("scenes/T02G01/demo.xml");
     }
 
     /**
@@ -76,7 +78,7 @@ class MyContents  {
         // add skybox TODO : improve this
         let skyboxMaterial = new THREE.MeshPhongMaterial( { emissive: new THREE.Color(data.skyboxes.default.emissive.r, data.skyboxes.default.emissive.g, data.skyboxes.default.emissive.b), side: THREE.BackSide } );
         skyboxMaterial.intensity = data.skyboxes.default.intensity;
-        skyboxMaterial.envMap = new THREE.CubeTextureLoader().setPath('scenes/demo/').load([data.skyboxes.default.front, data.skyboxes.default.back, data.skyboxes.default.up, data.skyboxes.default.down, data.skyboxes.default.right, data.skyboxes.default.left]);
+        skyboxMaterial.envMap = new THREE.CubeTextureLoader().load([data.skyboxes.default.front, data.skyboxes.default.back, data.skyboxes.default.up, data.skyboxes.default.down, data.skyboxes.default.right, data.skyboxes.default.left]);
         let skybox = new THREE.Mesh( new THREE.BoxGeometry(...data.skyboxes.default.size), skyboxMaterial );
         skybox.position.set(...data.skyboxes.default.center);
         this.app.scene.add( skybox );
@@ -123,6 +125,21 @@ class MyContents  {
         else {
             console.error("unknown camera type " + type)
         }
+    }
+
+    toggleWireframe() {
+        if (this.displayWireframe) {
+            this.displayWireframe = true;
+        }
+        else {
+            this.displayWireframe = false;
+        }
+
+        this.app.scene.traverse(function (node) {
+            if (node instanceof THREE.Mesh) {
+                node.material.wireframe = this.displayWireframe;
+            }
+        }.bind(this));
     }
 
     update() {

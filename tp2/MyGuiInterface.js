@@ -34,6 +34,9 @@ class MyGuiInterface  {
         let cameraFolder = this.datgui.addFolder("Cameras")
         cameraFolder.add(this.app, 'activeCameraName', this.app.cameraNames).name("Active Camera")
         cameraFolder.open()
+
+        let wireframeFolder = this.datgui.addFolder("Wireframe")
+        wireframeFolder.add(this.contents, 'displayWireframe', false).name("Wireframe").onChange( () => {this.contents.toggleWireframe()} )
     }
 }
 

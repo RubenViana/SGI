@@ -187,27 +187,11 @@ class MyGraph  {
             let texture = this.data.textures[key];
             let textureObject;
             if (texture.isVideo) {
-                // Create video element
-                var videoElement = document.createElement('video');
-                videoElement.style.display = 'none';
-                videoElement.id = texture.id;
-                videoElement.autoplay = true;
-                videoElement.muted = true;
-                videoElement.preload = 'auto';
-                
-                // Create source element
-                var sourceElement = document.createElement('source');
-                sourceElement.src = texture.filepath;
-                sourceElement.type = 'video/mp4';
-                
-                // Append source element to video element
-                videoElement.appendChild(sourceElement);
-                
-                // Append video element to the body or any other desired container
-                document.body.appendChild(videoElement);
-
-                // assuming you have created a HTML video element with id="video"
-                const video = document.getElementById( texture.id );
+                let video = document.createElement('video');
+                video.src = texture.filepath;
+                video.load();
+                video.loop = true;
+                video.play();
                 textureObject = new THREE.VideoTexture( video );
             }
             else {
@@ -232,9 +216,6 @@ class MyGraph  {
                     break;
                 case "LinearMipMapLinearFilter":
                     textureObject.minFilter = THREE.LinearMipMapLinearFilter;
-                    break;
-                default:
-                    textureObject.minFilter = THREE.LinearMipmapLinearFilter;
                     break;
             }
             textureObject.anisotropy = texture.anisotropy;
