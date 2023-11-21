@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { MyObjectBuilder } from './MyObjectBuilder.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 // Class definition for a 3D graph
 class MyGraph {
@@ -95,7 +96,13 @@ class MyGraph {
                     child = lod;
                     break;
                 case "model3d":
-                    // TODO: implement model3d
+                    /* const loader = new GLTFLoader();
+                    loader.load( childData.path, function ( gltf ) {
+                            child = gltf.scene;
+                        }, undefined, function ( error ) {
+                            console.error( error );
+                        } 
+                    ); */
                     break;
                 default:
                     console.error("Unknown node type: ", childData.type);
@@ -138,15 +145,16 @@ class MyGraph {
     // Method to create a light based on the provided light data
     light(lightData) {
         let light;
+        console.log(lightData);
         switch (lightData.type) {
             case "spotlight":
                 // Create a spotlight
                 light = new THREE.SpotLight(lightData.color)
-                const target = new THREE.Object3D();
-                target.position.set(...lightData.target);
-                light.angle = lightData.angle;
+                light.angle = lightData.angle * (Math.PI/180);
                 light.penumbra = lightData.penumbra;
                 light.position.set(lightData.position[0], lightData.position[1], lightData.position[2]);
+                light.target.position.set(lightData.target[0], lightData.target[1], lightData.target[2]);
+                console.log(light.target.position)
                 light.visible = lightData.enabled ?? true;
                 light.intensity = lightData.intensity ?? 1.0;
                 light.distance = lightData.distance ?? 1000;
@@ -156,7 +164,6 @@ class MyGraph {
                 light.shadow.mapSize = new THREE.Vector2(lightData.shadowmapsize, lightData.shadowmapsize);
                 const helper = new THREE.SpotLightHelper(light);
                 light.add(helper);
-                light.target = target;
                 break;
             case "pointlight":
                 // Create a point light
