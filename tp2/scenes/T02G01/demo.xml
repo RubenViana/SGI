@@ -23,7 +23,7 @@
             Specifies the initial camera to be used.
             Defines a perspective camera with ID 'cam1' and specific properties.
         -->
-        <perspective id="cam1" 
+        <perspective id="global" 
             angle="60" 
             near="0.1" 
             far="1000" 
@@ -35,7 +35,22 @@
             Positions the camera at (15, 15, 15) in the scene coordinates.
             Sets the camera's target point to the origin (0, 0, 0).
         -->
+
+        <perspective id="reporterCamera" 
+            angle="70" 
+            near="0.1" 
+            far="1000" 
+            location="0 2 -5.7" 
+            target="0 0.0 0" /> 
+
+        <perspective id="gameCamera" 
+            angle="70" 
+            near="0.1" 
+            far="1000" 
+            location="7 2 5.0" 
+            target="0 0.0 0" /> 
     </cameras>
+
 
     <skybox size="100 100 100" center="0 0 0" emissive="1.0 1.0 1.0 1.0" intensity="1.0" up="./scenes/demo/textures/pine.jpg" down="./scenes/demo/textures/pine.jpg" left="./scenes/demo/textures/pine.jpg" right="./scenes/demo/textures/pine.jpg" front="./scenes/demo/textures/pine.jpg" back="./scenes/demo/textures/pine.jpg"/>
 
@@ -87,6 +102,9 @@
         <!-- 'benchTex' texture for tables -->
         <texture id="benchTex" filepath="scenes/T02G01/textures/bench.jpg" />
 
+        <!-- 'lightTex' texture for tables -->
+        <texture id="lightTex" filepath="scenes/T02G01/textures/light.jpg" />
+
         <texture id="caravaggio" filepath="scenes/T02G01/textures/caravaggio.jpg" 
             mipmap0="scenes/T02G01/textures/caravaggio.1024.jpg"
             mipmap1="scenes/T02G01/textures/caravaggio.512.jpg"
@@ -121,6 +139,17 @@
         specular="0 0 0 0"            
         shininess="0"                 
         textureref="tableTex"         
+        texlength_s="1"               
+        texlength_t="1"              
+        twosided="false"              
+    />
+
+    <material id="lightApp"
+        emissive="0 0 0 1"             
+        color="1 1 1 1"         
+        specular="0 0 0 0"            
+        shininess="0"                 
+        textureref="lightTex"         
         texlength_s="1"               
         texlength_t="1"              
         twosided="false"              
@@ -416,9 +445,10 @@
                 <noderef id="bench" />
                 <noderef id="rubinho" />
                 <lodref id="demo" />
-                <noderef id="pol" />
+                <noderef id="lights" />
                 <noderef id="mipmap" />
                 <noderef id="balazucs" />
+                <noderef id="tree3" />
 
 
                 <!-- Lighting elements commented out for debugging purposes -->
@@ -448,28 +478,65 @@
                     decay="2.0"
                     castshadow="false"
                     position="11.25 7.3 3.75"  
-                /> 
-			              
-                <spotlight id="light4" enabled="true" 
+                /> -->
+
+                <spotlight id="spotlight1" enabled="true" 
                     color="1.0 1.0 1.0 1" 
-                    intensity="1.0"
+                    intensity="10.0"
                     distance="1000"
                     decay="2.0"
                     castshadow="true"
-                    position="2 2 4" 
+                    position="-2.75 2.25 4.99" 
                     target="0 0 0"
                     penumbra="1.0"
                     angle="10.0" 
-                />  -->
+                />
+
+                <spotlight id="spotlight2" enabled="true" 
+                    color="1.0 1.0 1.0 1" 
+                    intensity="10.0"
+                    distance="1000"
+                    decay="2.0"
+                    castshadow="true"
+                    position="2.75 2.25 4.99" 
+                    target="0 0 0"
+                    penumbra="1.0"
+                    angle="10.0" 
+                />
+
+                <spotlight id="spotlight3" enabled="true" 
+                    color="1.0 1.0 1.0 1" 
+                    intensity="10.0"
+                    distance="1000"
+                    decay="2.0"
+                    castshadow="true"
+                    position="2.75 2.25 -4.99" 
+                    target="0 0 0"
+                    penumbra="1.0"
+                    angle="10.0" 
+                />
+			              
+                <spotlight id="spotlight4" enabled="true" 
+                    color="1.0 1.0 1.0 1" 
+                    intensity="10.0"
+                    distance="1000"
+                    decay="2.0"
+                    castshadow="true"
+                    position="-2.75 2.25 -4.99" 
+                    target="0 0 0"
+                    penumbra="1.0"
+                    angle="10.0" 
+                />
 
                 <!-- Directional light sources -->
-
+                
+                <!--
                 <directionallight id="light5" enabled="true" 
                     color="1.0 1.0 1.0 1" 
                     intensity="1.0"
                     castshadow="true"
                     position="-20 20 0"
-                />
+                />-->
                 <!-- 
                     Directional light source with ID 'light5'.
                     Color set to white (1.0 1.0 1.0) with full alpha.
@@ -477,13 +544,13 @@
                     Enabled and set to cast shadows.
                     Positioned at coordinates (-20, 20, 0).
                 -->
-
+                <!-- 
                 <directionallight id="light6" enabled="true" 
                     color="1.0 1.0 1.0 1" 
                     intensity="1.0"
                     castshadow="true"
                     position="20 20 0"
-                />
+                />-->
                 <!-- 
                     Directional light source with ID 'light6'.
                     Color set to white (1.0 1.0 1.0) with full alpha.
@@ -491,13 +558,13 @@
                     Enabled and set to cast shadows.
                     Positioned at coordinates (20, 20, 0).
                 -->
-
+                <!-- 
                 <directionallight id="light7" enabled="true" 
                     color="1.0 1.0 1.0 1" 
                     intensity="1.0"
                     castshadow="true"
                     position="0 20 -20"
-                />
+                />-->
                 <!-- 
                     Directional light source with ID 'light7'.
                     Color set to white (1.0 1.0 1.0) with full alpha.
@@ -505,13 +572,13 @@
                     Enabled and set to cast shadows.
                     Positioned at coordinates (0, 20, -20).
                 -->
-
+                <!-- 
                 <directionallight id="light8" enabled="true" 
                     color="1.0 1.0 1.0 1" 
                     intensity="1.0"
                     castshadow="true"
                     position="0 20 20"
-                />
+                />-->
                 <!-- 
                     Directional light source with ID 'light8'.
                     Color set to white (1.0 1.0 1.0) with full alpha.
@@ -1959,7 +2026,7 @@
 
         <node id="treeCone">
 			<transforms>
-				<translate value3="-7 3.35 7" />
+				<translate value3="7.5 3.35 7" />
                 <scale value3= "0.6 0.6 0.6" />
             </transforms> 
 			
@@ -1975,7 +2042,7 @@
 
         <node id="treeTrunk">
 			<transforms>
-				<translate value3="-7 0.9 7" />
+				<translate value3="7.5 0.9 7" />
                 <scale value3= "0.6 0.6 0.6" />
             </transforms> 
 			
@@ -1999,7 +2066,7 @@
 		
 		<node id="tree">
 			<transforms>
-				<translate value3="-7 0.7 7" />
+				<translate value3="7.5 0.7 7" />
 				<rotate value3="0.0 -90.0 0"/>
                 <scale value3="0.5 0.5 0.5" />
             </transforms> 
@@ -2029,18 +2096,104 @@
             </children> 
         </node>
 
-        <node id="pol">
+        <node id="tree3">
 			<transforms>
-				<translate value3="-9.8 3 7" />
-				<rotate value3="0.0 90 0"/>
+				<translate value3="7.5 0.7 -7" />
+				<rotate value3="0.0 -90.0 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+			
+            <children>             
+                <noderef id="vase" />
+				<noderef id="trunk" />
+				<noderef id="treeSeg1" />
+				<noderef id="treeSeg2" />
+				<noderef id="treeSeg3" />
+                <noderef id="treeStar1" />
+                <noderef id="treeStar2" />
+                <noderef id="treeStar3" />
+                <noderef id="treeStar4" />
+                <noderef id="treeStar5" />
+                <primitive>
+                    <nurbs degree_u="1" degree_v="1" parts_u="20" parts_v="20" distance="0.0">
+                        <controlpoint xx="0" yy="0" zz="0" />
+                        <controlpoint xx="0" yy="0" zz="1" />
+                        <controlpoint xx="1" yy="0" zz="0" />
+                        <controlpoint xx="1" yy="0" zz="1" />
+                    </nurbs>
+                </primitive>
+                <primitive>
+                    <box xyz1="-0.5 -0.5 -0.5" xyz2="0.5 0.5 0.5" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="light1">
+			<transforms>
+				<translate value3="-5.5 4.5 9.99" />
+				<rotate value3="180.0 0 0"/>
                 <scale value3="0.5 0.5 0.5" />
             </transforms> 
 
             <children>
                 <primitive>
-                    <polygon radius="3.0" slices="30" stacks="4" color_c="1 0 0 1" color_p="1 1 0 1" />
+                    <polygon radius="1.0" slices="30" stacks="4" color_c="1 1 1 1" color_p="1 1 1 1" />
                 </primitive>
             </children>
+        </node>
+
+        <node id="light2">
+			<transforms>
+				<translate value3="5.5 4.5 9.99" />
+				<rotate value3="180.0 0 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+
+            <children>
+                <primitive>
+                    <polygon radius="1.0" slices="30" stacks="4" color_c="1 1 1 1" color_p="1 1 1 1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="light3">
+			<transforms>
+				<translate value3="5.5 4.5 -9.99" />
+				<rotate value3="0.0 0 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+
+            <children>
+                <primitive>
+                    <polygon radius="1.0" slices="30" stacks="4" color_c="1 1 1 1" color_p="1 1 1 1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="light4">
+			<transforms>
+				<translate value3="-5.5 4.5 -9.99" />
+				<rotate value3="0.0 0 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+
+            <children>
+                <primitive>
+                    <polygon radius="1.0" slices="30" stacks="4" color_c="1 1 1 1" color_p="1 1 1 1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="lights">
+
+            <materialref id="lightApp" />
+			
+            <children>             
+                <noderef id="light1" />
+				<noderef id="light2" />
+				<noderef id="light3" />
+				<noderef id="light4" />
+            </children>    
         </node>
 
         <node id="mipmap">
