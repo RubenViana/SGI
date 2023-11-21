@@ -404,7 +404,7 @@
 		<node id="scene" castshadows = "true" receiveshadows="true"> 
             <lod id="demo" near="0" far="1000" > 
                 <noderef id="tree" mindist="5" />
-                <noderef id= "treeCone" mindist= "10"/>
+                <noderef id="tree2" mindist= "10"/>
             </lod>
             <children> 
                 <noderef id="wall" /> 
@@ -415,11 +415,10 @@
                 <noderef id="camera" />
                 <noderef id="bench" />
                 <noderef id="rubinho" />
-                <noderef id="tree" />
+                <lodref id="demo" />
                 <noderef id="pol" />
                 <noderef id="mipmap" />
                 <noderef id="balazucs" />
-                <!-- <lodref id="demo" /> -->
 
 
                 <!-- Lighting elements commented out for debugging purposes -->
@@ -1960,7 +1959,7 @@
 
         <node id="treeCone">
 			<transforms>
-				<translate value3="-7 3.5 7" />
+				<translate value3="-7 3.35 7" />
                 <scale value3= "0.6 0.6 0.6" />
             </transforms> 
 			
@@ -1968,12 +1967,35 @@
 			
             <children>             
                 <primitive>
-                    <cylinder base="2" top="0" height="6" slices="32" stacks="32" />
+                    <cylinder base="2" top="0" height="6" slices="64" stacks="64" />
                 </primitive>
 
             </children> 
         </node>
-		
+
+        <node id="treeTrunk">
+			<transforms>
+				<translate value3="-7 0.9 7" />
+                <scale value3= "0.6 0.6 0.6" />
+            </transforms> 
+			
+			<materialref id="table1App" />
+			
+            <children>             
+                <primitive>
+                    <cylinder base="0.4" top="0.4" height="3" slices="32" stacks="32" />
+                </primitive>
+
+            </children> 
+        </node>	
+
+        <node id="tree2">
+			
+            <children>             
+                <noderef id="treeCone" />
+				<noderef id="treeTrunk" />
+            </children> 
+        </node>	
 		
 		<node id="tree">
 			<transforms>

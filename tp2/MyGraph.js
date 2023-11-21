@@ -88,7 +88,7 @@ class MyGraph {
                             if (child_.node.materialIds.length === 0) {
                                 child_.node.materialIds = node.materialIds;
                             }
-                            let childMesh = this.visit([child_.node]);
+                            let childMesh = this.visit(child_.node);
                             lod.addLevel(childMesh, child_.mindist);
                         }
                     }
