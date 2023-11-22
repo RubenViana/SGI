@@ -2080,7 +2080,7 @@
 		
 		<node id="tree">
 			<transforms>
-				<translate value3="7.5 0.7 7" />
+				<translate value3="7.5 0.5 7" />
 				<rotate value3="0.0 -90.0 0"/>
                 <scale value3="0.5 0.5 0.5" />
             </transforms> 
@@ -2112,7 +2112,7 @@
 
         <node id="tree3">
 			<transforms>
-				<translate value3="7.5 0.7 -7" />
+				<translate value3="7.5 0.5 -7" />
 				<rotate value3="0.0 -90.0 0"/>
                 <scale value3="0.5 0.5 0.5" />
             </transforms> 
