@@ -19,9 +19,13 @@
 
 -----
 
-### [TP2 - ...](tp2)
+### [TP2 - Development of a 3D graphics application](tp2)
 - (items briefly describing main strong points)
-
+- Scene
+  - In our interactive graphics systems project, we've designed an indoor table tennis tournament environment. It includes various elements such as benches for seating, a table tennis table at the center, two robotic players engaged in the game, two rackets, a ball, and an advertising screen encircling the table (displaying a video). Additionally, we've integrated two trees to capture the festive Christmas spirit, one of them specifically included to showcase the effectiveness of LODs (Level of Detail). The scene incorporates a painting that effectively demonstrates the application of mipmaps. Furthermore, there are four polygons serving as pavilion lights on the side walls, featuring a textured brick surface (bump-map textures). Lastly, we've installed a scoreboard on the wall to keep track of the game's progress and scores.
+  - Additionally, our GUI includes a toggle button that enables us to switch between displaying wireframe and solid textures. We've incorporated additional cameras to present various perspectives of the scene.
+  - (relative link to the scene)
+  
 ----
 
 ### [TP3 - ...](tp3)
