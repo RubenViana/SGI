@@ -71,15 +71,20 @@ class MyObjectBuilder {
                 );
                 break;
             case "triangle":
-                // Create a custom Geometry object for the triangle
-                this.geometry = new THREE.Geometry();
-                let x2 = this.geometryData.representations[0].xy2[0] - this.geometryData.representations[0].xy1[0];
-                let y2 = this.geometryData.representations[0].xy2[1] - this.geometryData.representations[0].xy1[1];
-                let z2 = this.geometryData.representations[0].xy2[2] - this.geometryData.representations[0].xy1[2];
+                // Create a custom Geometry object for the triangle);
+                /* geometry = new THREE.BufferGeometry();
+                console.log(this.geometryData.representations[0].xyz2[0]);
+                let x2 = new THREE.Vector3(this.geometryData.representations[0].xyz1[0], this.geometryData.representations[0].xyz1[1], this.geometryData.representations[0].xyz1[2]);
+                let y2 = new THREE.Vector3(this.geometryData.representations[0].xyz2[0], this.geometryData.representations[0].xyz2[1], this.geometryData.representations[0].xyz1[2]);
+                let z2 = new THREE.Vector3(this.geometryData.representations[0].xyz3[0], this.geometryData.representations[0].xyz3[1], this.geometryData.representations[0].xyz3[2]);
+                console.log(z2);
                 let triangle = new THREE.Triangle(x2, y2, z2);
-                let normal = triangle.normal();
-                geometry.vertices.push(triangle.a, triangle.b, triangle.c);
-                geometry.faces.push(new THREE.Face3(0, 1, 2, normal));
+                let normal = new THREE.Vector3();
+                normal.crossVectors(triangle.b, triangle.a).normalize();
+                geometry.vertices.push(triangle.a);
+                geometry.vertices.push(triangle.b);
+                geometry.vertices.push(triangle.c);
+                geometry.faces.push(new THREE.Face3(0, 1, 2, normal)); */
                 break;
             case "nurbs":
                 // Extract control points from the geometry data

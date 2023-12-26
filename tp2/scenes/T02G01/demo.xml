@@ -23,7 +23,7 @@
             Specifies the initial camera to be used.
             Defines a perspective camera with ID 'cam1' and specific properties.
         -->
-        <perspective id="cam1" 
+        <perspective id="global" 
             angle="60" 
             near="0.1" 
             far="1000" 
@@ -35,13 +35,22 @@
             Positions the camera at (15, 15, 15) in the scene coordinates.
             Sets the camera's target point to the origin (0, 0, 0).
         -->
-        <perspective id="cam2" 
-            angle="60" 
+
+        <perspective id="reporterCamera" 
+            angle="70" 
             near="0.1" 
             far="1000" 
-            location="15 15 15" 
+            location="0 2 -5.7" 
             target="0 0.0 0" /> 
+
+        <perspective id="gameCamera" 
+            angle="70" 
+            near="0.1" 
+            far="1000" 
+            location="7 2 5.0" 
+            target="0 0.0 0" />    
     </cameras>
+
 
     <skybox size="100 100 100" center="0 0 0" emissive="1.0 1.0 1.0 1.0" intensity="1.0" up="./scenes/demo/textures/pine.jpg" down="./scenes/demo/textures/pine.jpg" left="./scenes/demo/textures/pine.jpg" right="./scenes/demo/textures/pine.jpg" front="./scenes/demo/textures/pine.jpg" back="./scenes/demo/textures/pine.jpg"/>
 
@@ -93,6 +102,9 @@
         <!-- 'benchTex' texture for tables -->
         <texture id="benchTex" filepath="scenes/T02G01/textures/bench.jpg" />
 
+        <!-- 'lightTex' texture for tables -->
+        <texture id="lightTex" filepath="scenes/T02G01/textures/light.jpg" />
+
         <texture id="caravaggio" filepath="scenes/T02G01/textures/caravaggio.jpg" 
             mipmap0="scenes/T02G01/textures/caravaggio.1024.jpg"
             mipmap1="scenes/T02G01/textures/caravaggio.512.jpg"
@@ -127,6 +139,17 @@
         specular="0 0 0 0"            
         shininess="0"                 
         textureref="tableTex"         
+        texlength_s="1"               
+        texlength_t="1"              
+        twosided="false"              
+    />
+
+    <material id="lightApp"
+        emissive="0 0 0 1"             
+        color="1 1 1 1"         
+        specular="0 0 0 0"            
+        shininess="0"                 
+        textureref="lightTex"         
         texlength_s="1"               
         texlength_t="1"              
         twosided="false"              
@@ -423,57 +446,77 @@
                 <noderef id="bench" />
                 <noderef id="rubinho" />
                 <lodref id="demo" />
-                <noderef id="pol" />
+                <noderef id="lights" />
                 <noderef id="mipmap" />
                 <noderef id="balazucs" />
+                <noderef id="tree3" />
 
 
                 <!-- Lighting elements commented out for debugging purposes -->
 
-                <!-- <pointlight id="light1" enabled="true" 
+                <pointlight id="pointlight1" enabled="true" 
                     color="0.5 0.6 0.8 1" 
-                    intensity="1.0"
+                    intensity="5.0"
                     distance="1000"
                     decay="2.0"
                     castshadow="false"
-                    position="33.75 37.3 33.75" 
+                    position="-4.9 2.5 0" 
                 /> 
 
-                <pointlight id="light2" enabled="true" 
-                    color="0.5 0.6 0.8 1" 
-                    intensity="1.0"
-                    distance="1000"
-                    decay="2.0"
-                    castshadow="false"
-                    position="11.25 7.3 3.75"
-                /> 
-                
-                <pointlight id="light3" enabled="true" 
-                    color="0.5 0.6 0.8 1" 
-                    intensity="1.0"
-                    distance="1000"
-                    decay="2.0"
-                    castshadow="false"
-                    position="11.25 7.3 3.75"  
-                /> 
-			              
-                <spotlight id="light4" enabled="true" 
+                <spotlight id="spotlight1" enabled="true" 
                     color="1.0 1.0 1.0 1" 
-                    intensity="1.0"
+                    intensity="100.0"
                     distance="1000"
                     decay="2.0"
                     castshadow="true"
-                    position="2 2 4" 
-                    target="0 0 0"
+                    position="-2.75 2.25 4.99" 
+                    target="-1 0.5 0"
                     penumbra="1.0"
                     angle="10.0" 
-                />  -->
+                />
+
+                <spotlight id="spotlight2" enabled="true" 
+                    color="1.0 1.0 1.0 1" 
+                    intensity="100.0"
+                    distance="1000"
+                    decay="2.0"
+                    castshadow="true"
+                    position="2.75 2.25 4.99" 
+                    target="1 0.5 0"
+                    penumbra="1.0"
+                    angle="10.0" 
+                />
+
+                <spotlight id="spotlight3" enabled="true" 
+                    color="1.0 1.0 1.0 1" 
+                    intensity="100.0"
+                    distance="1000"
+                    decay="2.0"
+                    castshadow="true"
+                    position="2.75 2.25 -4.99" 
+                    target="1 0.5 0"
+                    penumbra="1.0"
+                    angle="10.0" 
+                />
+			              
+                <spotlight id="spotlight4" enabled="true" 
+                    color="1.0 1.0 1.0 1" 
+                    intensity="100.0"
+                    distance="1000"
+                    decay="2.0"
+                    castshadow="true"
+                    position="-2.75 2.25 -4.99" 
+                    target="-1 0.5 0"
+                    penumbra="1.0"
+                    angle="10.0" 
+                />
 
                 <!-- Directional light sources -->
-
+                
+                
                 <directionallight id="light5" enabled="true" 
                     color="1.0 1.0 1.0 1" 
-                    intensity="1.0"
+                    intensity="0.5"
                     castshadow="true"
                     position="0 10 0"
                 />
@@ -484,10 +527,10 @@
                     Enabled and set to cast shadows.
                     Positioned at coordinates (-20, 20, 0).
                 -->
-
+                
                 <directionallight id="light6" enabled="true" 
                     color="1.0 1.0 1.0 1" 
-                    intensity="1.0"
+                    intensity="0.5"
                     castshadow="true"
                     position="20 10 0"
                 />
@@ -498,10 +541,10 @@
                     Enabled and set to cast shadows.
                     Positioned at coordinates (20, 20, 0).
                 -->
-
+                
                 <directionallight id="light7" enabled="true" 
                     color="1.0 1.0 1.0 1" 
-                    intensity="1.0"
+                    intensity="0.5"
                     castshadow="true"
                     position="0 20 -20"
                 />
@@ -512,10 +555,10 @@
                     Enabled and set to cast shadows.
                     Positioned at coordinates (0, 20, -20).
                 -->
-
+                
                 <directionallight id="light8" enabled="true" 
                     color="1.0 1.0 1.0 1" 
-                    intensity="1.0"
+                    intensity="0.5"
                     castshadow="true"
                     position="0 20 20"
                 />
@@ -1210,7 +1253,7 @@
             <transforms>
                 <!-- Defines transformations for wall 4 -->
                 <translate value3="5 0 0" /> <!-- Translation in 3D space -->
-                <rotate value3="90.0 -90.0 0.0" /> <!-- Rotation to position the wall -->
+                <rotate value3="90.0 90.0 0.0" /> <!-- Rotation to position the wall -->
             </transforms> 
             <children>             
                 <!-- Represents the primitive shape of wall 4 -->
@@ -1383,8 +1426,8 @@
             <!-- Represents the table top -->
             <transforms>
                 <!-- Defines the scale and position of the table top -->
-                <scale value3="20 5 1.5" />
-                <translate value3="0 17.5 0.75" />
+                <scale value3="20 5 1.0" />
+                <translate value3="0 17.5 0.5" />
             </transforms> 
 
             <children>
@@ -1399,8 +1442,8 @@
             <!-- Represents the table top -->
             <transforms>
                 <!-- Defines the scale and position of the table top -->
-                <scale value3="20 3.5 1.5" />
-                <translate value3="0 18.25 2" />                
+                <scale value3="20 4 1.0" />
+                <translate value3="0 18 1.5" />                
             </transforms> 
 
             <children>
@@ -1415,8 +1458,8 @@
             <!-- Represents the table top -->
             <transforms>
                 <!-- Defines the scale and position of the table top -->
-                <scale value3="20 2 1.5" />
-                <translate value3="0 19 3.25" />
+                <scale value3="20 3.0 1.0" />
+                <translate value3="0 18.5 2.5" />
             </transforms> 
 
             <children>
@@ -1431,9 +1474,8 @@
             <!-- Represents the table top -->
             <transforms>
                 <!-- Defines the scale and position of the table top -->
-                <scale value3="20 5 1.5" />
-                <translate value3="0 -17.5 0.75" />
-                <rotate value3="0 0 0" />
+                <scale value3="20 2.0 1.0" />
+                <translate value3="0 19.0 3.5" />
             </transforms> 
 
             <children>
@@ -1448,9 +1490,9 @@
             <!-- Represents the table top -->
             <transforms>
                 <!-- Defines the scale and position of the table top -->
-                <scale value3="20 3.5 1.5" />
-                <translate value3="0 -18.25 2" />  
-                <rotate value3="0 0 0" />              
+                <scale value3="20 5 1.0" />
+                <translate value3="0 -17.5 0.5" />
+                <rotate value3="0 0 0" />
             </transforms> 
 
             <children>
@@ -1465,9 +1507,40 @@
             <!-- Represents the table top -->
             <transforms>
                 <!-- Defines the scale and position of the table top -->
-                <scale value3="20 2 1.5" />
-                <translate value3="0 -19 3.25" />
-                <rotate value3="0 0 0" />
+                <scale value3="20 4 1.0" />
+                <translate value3="0 -18 1.5" />           
+            </transforms> 
+
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="bench7">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="20 3.0 1.0" />
+                <translate value3="0 -18.5 2.5" />
+            </transforms> 
+
+            <children>
+                <primitive>             
+                    <!-- Reference to the box node representing the table top -->          
+                    <box xyz1= "0 0 0" xyz2= "1 1 1"/>
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="bench8">
+            <!-- Represents the table top -->
+            <transforms>
+                <!-- Defines the scale and position of the table top -->
+                <scale value3="20 2.0 1.0" />
+                <translate value3="0 -19.0 3.5" />
             </transforms> 
 
             <children>
@@ -1543,7 +1616,7 @@
             <transforms>
                 <!-- Adjusts the scale and position of the post -->
                 <scale value3="1 4 1" />
-                <translate value3="9.9 19 4.40" />
+                <translate value3="9.9 19.2 4.40" />
                 <rotate value3="90 0 0" />
             </transforms> 
 
@@ -1558,7 +1631,7 @@
             <transforms>
                 <!-- Adjusts the scale and position of the post -->
                 <scale value3="1 4 1" />
-                <translate value3="-9.9 19 4.40" />
+                <translate value3="-9.9 19.2 4.40" />
                 <rotate value3="90 0 0" />
             </transforms> 
 
@@ -1573,7 +1646,7 @@
             <transforms>
                 <!-- Adjusts the scale and position of the post -->
                 <scale value3="1 4 1" />
-                <translate value3="9.9 -19 4.40" />
+                <translate value3="9.9 -19.2 4.40" />
                 <rotate value3="90 0 0" />
             </transforms> 
 
@@ -1588,7 +1661,7 @@
             <transforms>
                 <!-- Adjusts the scale and position of the post -->
                 <scale value3="1 4 1" />
-                <translate value3="-9.9 -19 4.40" />
+                <translate value3="-9.9 -19.2 4.40" />
                 <rotate value3="90 0 0" />
             </transforms> 
 
@@ -1602,8 +1675,8 @@
             <!-- Defines the second post -->
             <transforms>
                 <!-- Adjusts the scale and position of the post -->
-                <scale value3="1 9 1" />
-                <translate value3="-9.9 -16.9 3.95" />
+                <scale value3="1 9.2 1" />
+                <translate value3="-9.9 -17.0 4.0" />
                 <rotate value3="-37 0 0" />
             </transforms> 
 
@@ -1617,8 +1690,8 @@
             <!-- Defines the second post -->
             <transforms>
                 <!-- Adjusts the scale and position of the post -->
-                <scale value3="1 9 1" />
-                <translate value3="9.9 -16.9 3.95" />
+                <scale value3="1 9.2 1" />
+                <translate value3="9.9 -17.0 4.0" />
                 <rotate value3="-37 0 0" />
             </transforms> 
 
@@ -1632,8 +1705,8 @@
             <!-- Defines the second post -->
             <transforms>
                 <!-- Adjusts the scale and position of the post -->
-                <scale value3="1 9 1" />
-                <translate value3="-9.9 16.9 3.95" />
+                <scale value3="1 9.2 1" />
+                <translate value3="-9.9 17.0 4.0" />
                 <rotate value3="37 0 0" />
             </transforms> 
 
@@ -1647,8 +1720,8 @@
             <!-- Defines the second post -->
             <transforms>
                 <!-- Adjusts the scale and position of the post -->
-                <scale value3="1 9 1" />
-                <translate value3="9.9 16.9 3.95" />
+                <scale value3="1 9.2 1" />
+                <translate value3="9.9 17.0 4.0" />
                 <rotate value3="37 0 0" />
             </transforms> 
 
@@ -1677,6 +1750,8 @@
                 <noderef id="bench4" /> <!-- Reference to bench -->
                 <noderef id="bench5" /> <!-- Reference to bench -->
                 <noderef id="bench6" /> <!-- Reference to bench -->
+                <noderef id="bench7" /> <!-- Reference to bench -->
+                <noderef id="bench8" /> <!-- Reference to bench -->
                 <noderef id="benchL1" /> <!-- Reference to bench -->
                 <noderef id="benchL2" /> <!-- Reference to bench -->
                 <noderef id="benchL3" /> <!-- Reference to bench -->
@@ -1966,7 +2041,7 @@
 
         <node id="treeCone">
 			<transforms>
-				<translate value3="-7 3.35 7" />
+				<translate value3="7.5 3.35 7" />
                 <scale value3= "0.6 0.6 0.6" />
             </transforms> 
 			
@@ -1982,7 +2057,7 @@
 
         <node id="treeTrunk">
 			<transforms>
-				<translate value3="-7 0.9 7" />
+				<translate value3="7.5 0.9 7" />
                 <scale value3= "0.6 0.6 0.6" />
             </transforms> 
 			
@@ -2006,7 +2081,7 @@
 		
 		<node id="tree">
 			<transforms>
-				<translate value3="-7 0.7 7" />
+				<translate value3="7.5 0.5 7" />
 				<rotate value3="0.0 -90.0 0"/>
                 <scale value3="0.5 0.5 0.5" />
             </transforms> 
@@ -2036,26 +2111,112 @@
             </children> 
         </node>
 
-        <node id="pol">
+        <node id="tree3">
 			<transforms>
-				<translate value3="-9.8 3 7" />
-				<rotate value3="0.0 90 0"/>
+				<translate value3="7.5 0.5 -7" />
+				<rotate value3="0.0 -90.0 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+			
+            <children>             
+                <noderef id="vase" />
+				<noderef id="trunk" />
+				<noderef id="treeSeg1" />
+				<noderef id="treeSeg2" />
+				<noderef id="treeSeg3" />
+                <noderef id="treeStar1" />
+                <noderef id="treeStar2" />
+                <noderef id="treeStar3" />
+                <noderef id="treeStar4" />
+                <noderef id="treeStar5" />
+                <primitive>
+                    <nurbs degree_u="1" degree_v="1" parts_u="20" parts_v="20" distance="0.0">
+                        <controlpoint xx="0" yy="0" zz="0" />
+                        <controlpoint xx="0" yy="0" zz="1" />
+                        <controlpoint xx="1" yy="0" zz="0" />
+                        <controlpoint xx="1" yy="0" zz="1" />
+                    </nurbs>
+                </primitive>
+                <primitive>
+                    <box xyz1="-0.5 -0.5 -0.5" xyz2="0.5 0.5 0.5" />
+                </primitive>
+            </children> 
+        </node>
+
+        <node id="light1">
+			<transforms>
+				<translate value3="-5.5 4.5 9.99" />
+				<rotate value3="180.0 0 0"/>
                 <scale value3="0.5 0.5 0.5" />
             </transforms> 
 
             <children>
                 <primitive>
-                    <polygon radius="3.0" slices="30" stacks="4" color_c="1 0 0 1" color_p="1 1 0 1" />
+                    <polygon radius="1.0" slices="30" stacks="4" color_c="1 1 1 1" color_p="1 1 1 1" />
                 </primitive>
             </children>
+        </node>
+
+        <node id="light2">
+			<transforms>
+				<translate value3="5.5 4.5 9.99" />
+				<rotate value3="180.0 0 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+
+            <children>
+                <primitive>
+                    <polygon radius="1.0" slices="30" stacks="4" color_c="1 1 1 1" color_p="1 1 1 1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="light3">
+			<transforms>
+				<translate value3="5.5 4.5 -9.99" />
+				<rotate value3="0.0 0 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+
+            <children>
+                <primitive>
+                    <polygon radius="1.0" slices="30" stacks="4" color_c="1 1 1 1" color_p="1 1 1 1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="light4">
+			<transforms>
+				<translate value3="-5.5 4.5 -9.99" />
+				<rotate value3="0.0 0 0"/>
+                <scale value3="0.5 0.5 0.5" />
+            </transforms> 
+
+            <children>
+                <primitive>
+                    <polygon radius="1.0" slices="30" stacks="4" color_c="1 1 1 1" color_p="1 1 1 1" />
+                </primitive>
+            </children>
+        </node>
+
+        <node id="lights">
+
+            <materialref id="lightApp" />
+			
+            <children>             
+                <noderef id="light1" />
+				<noderef id="light2" />
+				<noderef id="light3" />
+				<noderef id="light4" />
+            </children>    
         </node>
 
         <node id="mipmap">
             <transforms>
                 <!-- Adjust scale, translate, and rotate values as needed -->
                 <scale value3="4 0.04 2.4" />
-                <translate value3="-9.8 3 -7" />
-                <rotate value3="-90 0 90" />
+                <translate value3="9.99 4 0" />
+                <rotate value3="90 0 90" />
             </transforms>
             <materialref id="polApp" />
             <!-- Material reference for the scoreboard -->
