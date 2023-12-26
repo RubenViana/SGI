@@ -35,6 +35,12 @@
             Positions the camera at (15, 15, 15) in the scene coordinates.
             Sets the camera's target point to the origin (0, 0, 0).
         -->
+        <perspective id="cam2" 
+            angle="60" 
+            near="0.1" 
+            far="1000" 
+            location="15 15 15" 
+            target="0 0.0 0" /> 
     </cameras>
 
     <skybox size="100 100 100" center="0 0 0" emissive="1.0 1.0 1.0 1.0" intensity="1.0" up="./scenes/demo/textures/pine.jpg" down="./scenes/demo/textures/pine.jpg" left="./scenes/demo/textures/pine.jpg" right="./scenes/demo/textures/pine.jpg" front="./scenes/demo/textures/pine.jpg" back="./scenes/demo/textures/pine.jpg"/>
@@ -299,14 +305,15 @@
     />
 
     <material id="advertisingApp"
-        emissive="0.0 0.0 0.0 1" 
-        color="0.8 0.8 0.8 1.0"  
-        specular="0 0 0 0" 
-        shininess="0" 
+        emissive="0 0 0 1" 
+        color="1 1 1 1.0"  
+        specular="1 1 1 1" 
+        shininess="1" 
         textureref="videoTex" 
         texlength_s="15" 
         texlength_t="3" 
-        twosided = "true" />
+        twosided = "true" 
+    />
 
     <material id="cameraApp"
         emissive="0.0 0.0 0.0 1"     
@@ -468,7 +475,7 @@
                     color="1.0 1.0 1.0 1" 
                     intensity="1.0"
                     castshadow="true"
-                    position="-20 20 0"
+                    position="0 10 0"
                 />
                 <!-- 
                     Directional light source with ID 'light5'.
@@ -482,7 +489,7 @@
                     color="1.0 1.0 1.0 1" 
                     intensity="1.0"
                     castshadow="true"
-                    position="20 20 0"
+                    position="20 10 0"
                 />
                 <!-- 
                     Directional light source with ID 'light6'.
