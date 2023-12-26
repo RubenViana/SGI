@@ -1,4 +1,5 @@
 import { State } from "./State.js";
+import { GamePauseState } from "./GamePauseState.js";
 
 class GamePlayState extends State {
     constructor(app) {
@@ -18,14 +19,41 @@ class GamePlayState extends State {
 
         document.addEventListener("keydown", this.onKeyDown, false);
         document.addEventListener("keyup", this.onKeyUp, false);
-        document.addEventListener("keypress", this.onKeyPress, false);
+        document.addEventListener("keypress", this.onKeyPress, false); //Not working properly!
 
+
+        // add car to the scene
+        this.app.scene.add(this.app.car);
     }
 
     update() {
         //display the main menu
         document.getElementById("gameHUD").style.display = "flex";
-        
+
+
+        // update car position
+        if (this.keys.forward) {
+            this.app.car.accelerate_forward();
+        }
+
+        if (this.keys.backward) {
+            this.app.car.accelerate_backward();
+        }
+
+        if (!this.keys.forward && !this.keys.backward){
+            this.app.car.decelerate();
+        }
+
+        if (this.keys.left) {
+            this.app.car.turnLeft();
+        }
+
+        if (this.keys.right) {
+            this.app.car.turnRight();
+        }
+
+        // update car position
+        this.app.car.update();
 
     }
 
@@ -33,7 +61,7 @@ class GamePlayState extends State {
         switch (event.keyCode) {
             case 112: // p
                 console.log("pause");
-                // this.setState(new GamePauseState(this.app)); //TODO: implement pause state, need to save the current state
+                // this.setState(new GamePauseState(this.app, this)); //TODO: implement pause state, need to save the current state
                 break;
         }
     }

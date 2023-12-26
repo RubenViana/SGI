@@ -5,7 +5,6 @@ import { MyGraph } from './builder/MyGraph.js';
 import {InitState} from './states/InitState.js';
 import {MainMenuState} from './states/MainMenuState.js';
 import {GamePlayState} from './states/GamePlayState.js';
-import {GameSettingsState} from './states/GameSettingsState.js';
 
 /**
  *  This class contains the contents of out application

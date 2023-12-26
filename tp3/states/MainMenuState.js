@@ -5,7 +5,6 @@ class MainMenuState extends State {
     constructor(app) {
         super(app);
         this.name = "MainMenuState";
-        this.nextState = null;
         
         // document.getElementById("HUD").innerHTML = this.name;
 
