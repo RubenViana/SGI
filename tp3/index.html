@@ -2,7 +2,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>SGI Table tennis world TP2</title>
+    <title>SGI Car Game</title>
 
     <link rel="shortcut icon" href="image/favicon/3d.png" />
     <link rel="stylesheet" href="styles.css">
@@ -21,11 +21,20 @@
 
 <body>
     <div id="canvas"></div>
-    <div id="camera"></div>
+    <div class="HUD" id="initalMenuHUD">
+      <h1>Your Game Title</h1>
+      <p>By: Game Authors</p>
+      <button id="playButton">Play</button>
+    </div>
+    <div class="HUD" id="gameSettingsHUD">
+      <h1>Game Settings</h1>
+      <button id="startButton">Start</button>
+      <button id="backButton">Back</button>
+    </div>
+    <div class="HUD" id="gameHUD">
+      <h1>Game</h1>
+    </div>
     <script type="module" src="main.js"></script>
-    <video style="display:none" id="video" autoplay="true" loop muted="true" preload="auto" width="200" height="262">
-      <!-- <source src="scenes/demo/videos/oceans.mp4" type="video/mp4"> -->
-    </video>
 </body>
 
 </html>
