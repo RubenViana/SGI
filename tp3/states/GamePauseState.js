@@ -6,8 +6,6 @@ class GamePauseState extends State {
         this.name = "GamePauseState";
         this.previousState = previousState;
 
-        this.onKeyPress = this.onKeyPress.bind(this);
-        document.addEventListener("keypress", this.onKeyPress, false);
     }
 
     update() {
@@ -17,8 +15,9 @@ class GamePauseState extends State {
     onKeyPress(event) {
         switch (event.keyCode) {
             case 112: // p
-                console.log("unpause");
-                this.setState(this.previousState); //TODO: implement pause state, need to save the current state
+                document.getElementById("pauseHUD").style.display = "none";
+                this.setState(this.previousState); // if the keys were pressed, they will still be pressed!!!
+                // this.previousState.clock.start(); // quick fix for stopping the clock
                 break;
         }
     }

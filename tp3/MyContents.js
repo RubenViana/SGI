@@ -34,12 +34,32 @@ class MyContents  {
 
         // Init states
         this.state = new InitState(this.app)
+
+        this.onKeyDown = this.onKeyDown.bind(this);
+        this.onKeyUp = this.onKeyUp.bind(this);
+        this.onKeyPress = this.onKeyPress.bind(this);
+
+        document.addEventListener("keydown", this.onKeyDown, false);
+        document.addEventListener("keyup", this.onKeyUp, false);
+        document.addEventListener("keypress", this.onKeyPress, false);
     }
 
     
     update() {
         this.state.update()
         // console.log(this.state.name)
+    }
+
+    onKeyDown(event) {
+        this.state.onKeyDown(event)
+    }
+
+    onKeyUp(event) {
+        this.state.onKeyUp(event)
+    }
+
+    onKeyPress(event) {
+        this.state.onKeyPress(event)
     }
     
 }

@@ -90,7 +90,6 @@ class MyVehicle extends THREE.Object3D {
             this.direction -= this.steering_speed
             this.rotation.y = this.direction;
         }
-        
     }
 
     unTurn() {
@@ -104,7 +103,6 @@ class MyVehicle extends THREE.Object3D {
             this.tyreRight.rotation.z = this.steering_speed;
             this.tyreLeft.rotation.z = this.steering_speed;
         }
-
     }
 
     update() {
