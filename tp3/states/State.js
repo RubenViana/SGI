@@ -11,6 +11,12 @@ class State {
     setState(state) {
         this.app.contents.state = state
     }
+
+    onKeyDown(event) {}
+
+    onKeyUp(event) {}
+
+    onKeyPress(event) {}
 }
 
 export { State };

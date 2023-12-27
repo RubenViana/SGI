@@ -40,6 +40,8 @@ class MyApp  {
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color( 0x101010 );
 
+        this.HUDscene = new THREE.Scene();
+
         this.stats = new Stats()
         this.stats.showPanel(1) // 0: fps, 1: ms, 2: mb, 3+: custom
         document.body.appendChild(this.stats.dom)
@@ -65,6 +67,8 @@ class MyApp  {
         this.renderer.shadowMap.enabled = true;
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         
+        this.renderer.autoClear = false;
+        
     }
 
     /**
@@ -72,6 +76,12 @@ class MyApp  {
      */
     initCameras() {
         const aspect = window.innerWidth / window.innerHeight;
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+
+        // Create a Orthographic Camera
+        this.cameraOrtho = new THREE.OrthographicCamera( - width / 2, width / 2, height / 2, - height / 2, 1, 10 );
+        this.cameraOrtho.position.z = 10;
 
         // Create a basic perspective camera
         const perspective1 = new THREE.PerspectiveCamera( 75, aspect, 0.1, 1000 )
@@ -179,16 +189,17 @@ class MyApp  {
         this.stats.begin()
         this.updateCameraIfRequired()
 
-        // update the animation if contents were provided
-        if (this.activeCamera !== undefined && this.activeCamera !== null) {
-            this.contents.update()
-        }
+        // update the contents
+        this.contents.update()
 
         // required if controls.enableDamping or controls.autoRotate are set to true
         this.controls.update();
 
         // render the scene
+        this.renderer.clear();
         this.renderer.render(this.scene, this.activeCamera);
+        this.renderer.clearDepth();
+        this.renderer.render(this.HUDscene, this.cameraOrtho);
 
         // subsequent async calls to the render loop
         requestAnimationFrame( this.render.bind(this) );
