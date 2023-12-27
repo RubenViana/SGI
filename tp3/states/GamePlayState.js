@@ -52,6 +52,10 @@ class GamePlayState extends State {
             this.app.car.turnRight();
         }
 
+        if (!this.keys.left && !this.keys.right){
+            this.app.car.unTurn();
+        }
+
         // update car position
         this.app.car.update();
 
