@@ -3,9 +3,10 @@ import { GamePauseState } from "./GamePauseState.js";
 import * as THREE from "three";
 
 class GamePlayState extends State {
-    constructor(app) {
+    constructor(app, gameSettings) {
         super(app);
         this.name = "GamePlayState";
+        this.gameSettings = gameSettings;
         
         this.keys = {
             forward: false,
@@ -15,37 +16,24 @@ class GamePlayState extends State {
         };
 
         // add car to the scene
-        this.app.scene.add(this.app.car);
+        this.app.scene.add(this.gameSettings.players[0].car);
 
         // clock
-        // this.elapsedTime = 0;
-        // this.clock = new THREE.Clock();
+        this.elapsedTime = 0;
+        this.clock = new THREE.Clock();
 
-        // game settings
-        this.gameSettings = {
-            laps: 3,
-            difficulty: 1,
-            track: 1,
-            players: [
-                {
-                    name: "Player 1",
-                    car: 1,
-                    time: 0,
-                    laps: 0,
-                    place: 0,
-                },
-                {
-                    name: "Player 2",
-                    car: 2,
-                    time: 0,
-                    laps: 0,
-                    place: 0,
-                }
-            ]
-        }; 
+        // create car camera
+        this.carCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        this.carCamera.position.set(0, 5, -10); // adjust the position relative to the car
+        this.carCamera.lookAt(this.gameSettings.players[0].car.position);
+        this.app.cameras["CarThirdPerson"] = this.carCamera;
     }
 
     update() {
+        // update clock
+        this.elapsedTime += this.clock.getDelta();
+
+
         // game logic
 
         // check if car crosses the finish line -> lap++
@@ -54,24 +42,48 @@ class GamePlayState extends State {
         // check which player has the best time -> determine winner
         // got to game over state
 
+        // check if car is out of bounds -> decrease car v_max
+        // check car collision with other car -> decrease car insta velocity
+
+        // check car collision with power up -> add power up to car
+        // check car collision with obstacle -> delay car
 
 
-        //display the main menu
-        document.getElementById("gameHUD").style.display = "flex";
+        this.updateCarCamera();
+
+        this.updateHUD();
 
         this.updateCar();
         // add a change camera option
 
-        // this.elapsedTime += this.clock.getDelta();
-        // console.log(this.elapsedTime);
+    }
+
+    updateCarCamera() {
+        // Set the car camera's position to follow the car
+        const car = this.gameSettings.players[0].car;
+        const distance = 10; // Distance from the car
+        const yOffset = 5; // Vertical offset from the car
+
+        const angle = car.rotation.y;
+        const offsetX = distance * Math.cos(-angle);
+        const offsetZ = distance * Math.sin(-angle);
+
+        this.carCamera.position.x = car.position.x - offsetX;
+        this.carCamera.position.y = car.position.y + yOffset;
+        this.carCamera.position.z = car.position.z - offsetZ;
+
+        this.app.controls.target = car.position;
     }
 
     onKeyPress(event) {
         switch (event.keyCode) {
             case 112: // p
-                document.getElementById("gameHUD").style.display = "none";
-                // this.clock.stop(); // quick fix for stopping the clock
+                // document.getElementById("gameHUD").style.display = "none";
+                this.clock.stop(); // quick fix for stopping the clock
                 this.setState(new GamePauseState(this.app, this));
+                break;
+            case 99: // c
+                this.app.setActiveCamera("CarThirdPerson");
                 break;
         }
     }
@@ -138,6 +150,12 @@ class GamePlayState extends State {
 
         // update car position
         this.app.car.update();
+    }
+
+    updateHUD() {
+        document.getElementById("gameHUD").style.display = "flex";
+        document.getElementById("laps").innerHTML = "Lap: " + this.gameSettings.players[0].laps + "/" + this.gameSettings.laps;
+        document.getElementById("time").innerHTML = "Time: " + this.elapsedTime.toFixed(2) + "s";
     }
 
 }
