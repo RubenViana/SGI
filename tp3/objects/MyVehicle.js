@@ -1,0 +1,312 @@
+import * as THREE from 'three';
+
+class MyVehicle extends THREE.Object3D {
+
+    constructor() {
+        super();
+
+        // Texture tire
+        this.tireTexture = new THREE.TextureLoader().load('./objects/textures/tire.png');
+        this.tireTexture.wrapS = THREE.RepeatWrapping;
+        this.tireTexture.wrapT = THREE.RepeatWrapping;
+        this.tireTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Tire related attributes (Torus)
+        this.tireRadius = 0.8;
+        this.tireTubeRabius = 0.4;
+        this.tireRadialSegments = 10;
+        this.tireTubularSegments = 24;
+        this.tireMaterial = new THREE.MeshPhongMaterial({ map: this.tireTexture });
+
+        // Tire 
+        let tireLeftFront = new THREE.TorusGeometry( this.tireRadius, this.tireTubeRabius, this.tireRadialSegments, this.tireTubularSegments );
+        this.tireMeshLF = new THREE.Mesh( tireLeftFront, this.tireMaterial );
+        this.tireMeshLF.position.x = 7;
+        this.tireMeshLF.position.y = 0;
+        this.tireMeshLF.position.z = -3;
+
+        let tireRightFront = new THREE.TorusGeometry( this.tireRadius, this.tireTubeRabius, this.tireRadialSegments, this.tireTubularSegments );
+        this.tireMeshRF = new THREE.Mesh( tireRightFront, this.tireMaterial );
+        this.tireMeshRF.position.x = 7;
+        this.tireMeshRF.position.y = 0;
+        this.tireMeshRF.position.z = 3;
+
+        let tireLeftBack = new THREE.TorusGeometry( this.tireRadius, this.tireTubeRabius, this.tireRadialSegments, this.tireTubularSegments );
+        this.tireMeshLB = new THREE.Mesh( tireLeftBack, this.tireMaterial );
+        this.tireMeshLB.position.x = -5;
+        this.tireMeshLB.position.y = 0;
+        this.tireMeshLB.position.z = -3;
+
+        let tireRightBack = new THREE.TorusGeometry( this.tireRadius, this.tireTubeRabius, this.tireRadialSegments, this.tireTubularSegments );
+        this.tireMeshRB = new THREE.Mesh( tireRightBack, this.tireMaterial );
+        this.tireMeshRB.position.x = -5;
+        this.tireMeshRB.position.y = 0;
+        this.tireMeshRB.position.z = 3;
+
+        // Texture axle
+        this.axleTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.axleTexture.wrapS = THREE.RepeatWrapping;
+        this.axleTexture.wrapT = THREE.RepeatWrapping;
+        this.axleTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Axle related attributes (Cylinder)
+        this.axleRadiusTop = 0.25;
+        this.axleRadiusBottom = 0.25;
+        this.axleHeight = 6;
+        this.axleRadialSegments = 32;
+        this.axleMaterial = new THREE.MeshPhongMaterial({ map: this.axleTexture });
+
+        // Axle
+        let axleFront = new THREE.CylinderGeometry( this.axleRadiusTop, this.axleRadiusBottom, this.axleHeight, this.axleRadialSegments );
+        this.axleMesh = new THREE.Mesh( axleFront, this.axleMaterial );
+        this.axleMesh.position.x = 7;
+        this.axleMesh.position.y = 0;
+        this.axleMesh.position.z = 0;
+        this.axleMesh.rotation.x = Math.PI / 2;
+
+        let axleTop = new THREE.CylinderGeometry( this.axleRadiusTop, this.axleRadiusBottom, this.axleHeight, this.axleRadialSegments );
+        this.axleTopMesh = new THREE.Mesh( axleTop, this.axleMaterial );
+        this.axleTopMesh.position.x = -5;
+        this.axleTopMesh.position.y = 0;
+        this.axleTopMesh.position.z = 0;
+        this.axleTopMesh.rotation.x = Math.PI / 2;
+
+        // Texture bench
+        this.benchTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.benchTexture.wrapS = THREE.RepeatWrapping;
+        this.benchTexture.wrapT = THREE.RepeatWrapping;
+        this.benchTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Bench related attributes (Box)
+        this.benchWidth = 5;
+        this.benchHeight = 2;
+        this.benchDepth = 4;
+        this.benchMaterial = new THREE.MeshPhongMaterial({ map: this.benchTexture });
+
+        // Bench
+        let bench = new THREE.BoxGeometry( this.benchWidth, this.benchHeight, this.benchDepth );
+        this.benchMesh = new THREE.Mesh( bench, this.benchMaterial );
+
+        // Texture bench back
+        this.benchBackTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.benchBackTexture.wrapS = THREE.RepeatWrapping;
+        this.benchBackTexture.wrapT = THREE.RepeatWrapping;
+        this.benchBackTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Bench back related attributes (Box)
+        this.benchBackRadiusTop = 2;
+        this.benchBackRadiusBottom = 0.75;
+        this.benchBackHeight = 6.0;
+        this.benchBackRadialSegments = 4;
+        this.benchBackMaterial = new THREE.MeshPhongMaterial({ map: this.benchBackTexture });
+
+        // Bench back
+        let benchBack = new THREE.CylinderGeometry( this.benchBackRadiusTop, this.benchBackRadiusBottom, this.benchBackHeight, this.benchBackRadialSegments );
+        this.benchBackMesh = new THREE.Mesh( benchBack, this.benchBackMaterial );
+        this.benchBackMesh.position.x = -3;
+        this.benchBackMesh.position.y = 0.5;
+        this.benchBackMesh.position.z = 0;
+        this.benchBackMesh.rotation.z = -Math.PI / 2;
+
+        // Texture general front
+        this.frontTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.frontTexture.wrapS = THREE.RepeatWrapping;
+        this.frontTexture.wrapT = THREE.RepeatWrapping;
+        this.frontTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Front related attributes (Box)
+        this.frontWidth = 5;
+        this.frontHeight = 2;
+        this.frontDepth = 2;
+        this.frontMaterial = new THREE.MeshPhongMaterial({ map: this.frontTexture });
+
+        // Front
+        let front = new THREE.BoxGeometry( this.frontWidth, this.frontHeight, this.frontDepth );
+        this.frontMesh = new THREE.Mesh( front, this.frontMaterial );
+        this.frontMesh.position.x = 3.5;
+        this.frontMesh.position.y = 0;
+        this.frontMesh.position.z = 0;
+
+        // Texture front face
+        this.frontFaceTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.frontFaceTexture.wrapS = THREE.RepeatWrapping;
+        this.frontFaceTexture.wrapT = THREE.RepeatWrapping;
+        this.frontFaceTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Front face related attributes (Cylinder)
+        this.frontFaceRadiusTop = 1.3;
+        this.frontFaceRadiusBottom = 0.4;
+        this.frontFaceHeight = 9;
+        this.frontFaceRadialSegments = 4; 
+        this.frontFaceMaterial = new THREE.MeshPhongMaterial({ map: this.frontFaceTexture });
+
+        // Front face
+        let frontFace = new THREE.CylinderGeometry( this.frontFaceRadiusTop, this.frontFaceRadiusBottom, this.frontFaceHeight, this.frontFaceRadialSegments );
+        this.frontFaceMesh = new THREE.Mesh( frontFace, this.frontFaceMaterial );
+        this.frontFaceMesh.position.x = 7;
+        this.frontFaceMesh.position.y = 0;
+        this.frontFaceMesh.position.z = 0;
+        this.frontFaceMesh.rotation.z = Math.PI / 2;
+
+        // Texture front wing
+        this.frontWingTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.frontWingTexture.wrapS = THREE.RepeatWrapping;
+        this.frontWingTexture.wrapT = THREE.RepeatWrapping;
+        this.frontWingTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Front wing related attributes (Box)
+        this.frontWingWidth = 1;
+        this.frontWingHeight = 0.1;
+        this.frontWingDepth = 7;
+        this.frontWingMaterial = new THREE.MeshPhongMaterial({ map: this.frontWingTexture });
+
+        // Front wing
+        let frontWing = new THREE.BoxGeometry( this.frontWingWidth, this.frontWingHeight, this.frontWingDepth );
+        this.frontWingMesh = new THREE.Mesh( frontWing, this.frontWingMaterial );
+        this.frontWingMesh.position.x = 10;
+        this.frontWingMesh.position.y = 0;
+        this.frontWingMesh.position.z = 0;
+
+        // Texture front wing left and right
+        this.frontWingLeftTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.frontWingLeftTexture.wrapS = THREE.RepeatWrapping;
+        this.frontWingLeftTexture.wrapT = THREE.RepeatWrapping;
+        this.frontWingLeftTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Front wing left and right related attributes (Cylinder)
+        this.frontWingLeftRadiusTop = 0.5;
+        this.frontWingLeftRadiusBottom = 0.2;
+        this.frontWingLeftHeight = 1.0;
+        this.frontWingLeftRadialSegments = 2;
+        this.frontWingLeftMaterial = new THREE.MeshPhongMaterial({ map: this.frontWingLeftTexture });
+
+        // Front wing left and right
+        let frontWingLeft = new THREE.CylinderGeometry( this.frontWingLeftRadiusTop, this.frontWingLeftRadiusBottom, this.frontWingLeftHeight, this.frontWingLeftRadialSegments );
+        this.frontWingLeftMesh = new THREE.Mesh( frontWingLeft, this.frontWingLeftMaterial );
+        this.frontWingLeftMesh.position.x = 10;
+        this.frontWingLeftMesh.position.y = 0.5;
+        this.frontWingLeftMesh.position.z = -3.5;
+        this.frontWingLeftMesh.rotation.y = Math.PI / 2;
+        this.frontWingLeftMesh.rotation.z = Math.PI;
+
+        let frontWingRight = new THREE.CylinderGeometry( this.frontWingLeftRadiusTop, this.frontWingLeftRadiusBottom, this.frontWingLeftHeight, this.frontWingLeftRadialSegments );
+        this.frontWingRightMesh = new THREE.Mesh( frontWingRight, this.frontWingLeftMaterial );
+        this.frontWingRightMesh.position.x = 10;
+        this.frontWingRightMesh.position.y = 0.5;
+        this.frontWingRightMesh.position.z = 3.5;
+        this.frontWingRightMesh.rotation.y = Math.PI / 2;
+        this.frontWingRightMesh.rotation.z = Math.PI;
+
+        // Texture little front wing
+        this.littleFrontWingTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.littleFrontWingTexture.wrapS = THREE.RepeatWrapping;
+        this.littleFrontWingTexture.wrapT = THREE.RepeatWrapping;
+        this.littleFrontWingTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Little front wing related attributes (Box)
+        this.littleFrontWingWidth = 0.5;
+        this.littleFrontWingHeight = 0.1;
+        this.littleFrontWingDepth = 3;
+        this.littleFrontWingMaterial = new THREE.MeshPhongMaterial({ map: this.littleFrontWingTexture });
+
+        // Little front wing
+        let littleFrontWing = new THREE.BoxGeometry( this.littleFrontWingWidth, this.littleFrontWingHeight, this.littleFrontWingDepth );
+        this.littleFrontWingMesh = new THREE.Mesh( littleFrontWing, this.littleFrontWingMaterial );
+        this.littleFrontWingMesh.position.x = 8.5;
+        this.littleFrontWingMesh.position.y = 0;
+        this.littleFrontWingMesh.position.z = 0;
+
+        // Texture wheel
+        this.wheelTexture = new THREE.TextureLoader().load('./objects/textures/tire.png');
+        this.wheelTexture.wrapS = THREE.RepeatWrapping;
+        this.wheelTexture.wrapT = THREE.RepeatWrapping;
+        this.wheelTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Wheel related attributes (Torus)
+        this.wheelRadius = 0.5;
+        this.wheelTubeRabius = 0.15;
+        this.wheelRadialSegments = 10;
+        this.wheelTubularSegments = 24;
+        this.wheelMaterial = new THREE.MeshPhongMaterial({ map: this.wheelTexture });
+
+        // Wheel
+        let wheel = new THREE.TorusGeometry( this.wheelRadius, this.wheelTubeRabius, this.wheelRadialSegments, this.wheelTubularSegments );
+        this.wheelMesh = new THREE.Mesh( wheel, this.wheelMaterial );
+        this.wheelMesh.position.x = 2;
+        this.wheelMesh.position.y = 1.2;
+        this.wheelMesh.position.z = 0;
+        this.wheelMesh.rotation.y = Math.PI / 2;
+
+        // Texture little back wing left and right
+        this.littleBackWingTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.littleBackWingTexture.wrapS = THREE.RepeatWrapping;
+        this.littleBackWingTexture.wrapT = THREE.RepeatWrapping;
+        this.littleBackWingTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Little back wing left and right related attributes (Cylinder)
+        this.littleBackWingRadiusTop = 0.8;
+        this.littleBackWingRadiusBottom = 0.3;
+        this.littleBackWingHeight = 3.0;
+        this.littleBackWingRadialSegments = 2;
+        this.littleBackWingMaterial = new THREE.MeshPhongMaterial({ map: this.littleBackWingTexture });
+
+        // Little back wing left and right
+        let littleBackWingLeft = new THREE.CylinderGeometry( this.littleBackWingRadiusTop, this.littleBackWingRadiusBottom, this.littleBackWingHeight, this.littleBackWingRadialSegments );
+        this.littleBackWingLeftMesh = new THREE.Mesh( littleBackWingLeft, this.littleBackWingMaterial );
+        this.littleBackWingLeftMesh.position.x = -5;
+        this.littleBackWingLeftMesh.position.y = 2;
+        this.littleBackWingLeftMesh.position.z = -2.5;
+        this.littleBackWingLeftMesh.rotation.y = Math.PI / 2;
+
+        let littleBackWingRight = new THREE.CylinderGeometry( this.littleBackWingRadiusTop, this.littleBackWingRadiusBottom, this.littleBackWingHeight, this.littleBackWingRadialSegments );
+        this.littleBackWingRightMesh = new THREE.Mesh( littleBackWingRight, this.littleBackWingMaterial );
+        this.littleBackWingRightMesh.position.x = -5;
+        this.littleBackWingRightMesh.position.y = 2;
+        this.littleBackWingRightMesh.position.z = 2.5;
+        this.littleBackWingRightMesh.rotation.y = Math.PI / 2;
+
+        // Texture back wing
+        this.backWingTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.backWingTexture.wrapS = THREE.RepeatWrapping;
+        this.backWingTexture.wrapT = THREE.RepeatWrapping;
+        this.backWingTexture.colorSpace = THREE.SRGBColorSpace;
+
+        // Back wing related attributes (Box)
+        this.backWingWidth = 1.5;
+        this.backWingHeight = 0.1;
+        this.backWingDepth = 5;
+        this.backWingMaterial = new THREE.MeshPhongMaterial({ map: this.backWingTexture });
+
+        // Back wing
+        let backWing = new THREE.BoxGeometry( this.backWingWidth, this.backWingHeight, this.backWingDepth );
+        this.backWingMesh = new THREE.Mesh( backWing, this.backWingMaterial );
+        this.backWingMesh.position.x = -5;
+        this.backWingMesh.position.y = 2.9;
+        this.backWingMesh.position.z = 0;
+        this.backWingMesh.rotation.z = -Math.PI / 7;
+
+
+
+        // Components added to the scene
+        this.add( this.tireMeshLF,
+                  this.tireMeshRF,
+                  this.tireMeshLB,
+                  this.tireMeshRB,
+                  this.axleMesh,
+                  this.axleTopMesh,
+                  this.benchMesh,
+                  this.benchBackMesh,
+                  this.frontMesh,
+                  this.frontFaceMesh,
+                  this.frontWingMesh,
+                  this.frontWingLeftMesh,
+                  this.frontWingRightMesh,
+                  this.littleFrontWingMesh,
+                  this.wheelMesh,
+                  this.littleBackWingLeftMesh,
+                  this.littleBackWingRightMesh,
+                  this.backWingMesh );
+    }
+}
+
+export { MyVehicle };
