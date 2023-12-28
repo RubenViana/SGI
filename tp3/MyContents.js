@@ -44,6 +44,14 @@ class MyContents  {
         this.directionalLightHelper = new THREE.DirectionalLightHelper( this.directionalLight );
         this.app.scene.add( this.directionalLightHelper );
 
+
+        document.addEventListener(
+            "pointermove",
+            this.onPointerMove.bind(this)
+        );
+
+        document.addEventListener("pointerdown", this.onPointerDown.bind(this));
+
         // Init states
         this.state = new InitState(this.app)
 
@@ -73,7 +81,14 @@ class MyContents  {
     onKeyPress(event) {
         this.state.onKeyPress(event)
     }
+
+    onPointerMove(event) {
+        this.state.onPointerMove(event)
+    }  
     
+    onPointerDown(event) {
+        this.state.onPointerDown(event)
+    }
 }
 
 export { MyContents };

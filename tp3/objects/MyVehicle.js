@@ -2,17 +2,33 @@ import * as THREE from 'three';
 
 class MyVehicle extends THREE.Object3D {
 
-    constructor(v_max, v_min, acceleration, deceleration, s_max) {
+    constructor(v_max, v_min, acceleration, deceleration, s_max, steering_speed) {
         super();
-        this.v_max = 1;
-        this.v_min = -0.5;
+        this.v_max_default = v_max;
+        this.v_max = this.v_max_default;
+        this.v_min = v_min;
         this.velocity = 0;
-        this.acceleration = 0.06;
-        this.deceleration = 0.03;
+        this.acceleration = acceleration;
+        this.deceleration = deceleration;
         this.direction = 0;
         this.steering = 0;
-        this.steering_speed = Math.PI / 70;
-        this.s_max = Math.PI / 4;
+        this.steering_speed = steering_speed;
+        this.s_max = s_max;
+        this.wheelSpinAngle = 0;
+
+        // Makes the pivot point of the car the back axis of the car
+        this.position.x = -5;
+        this.position.y = 2;
+        this.position.z = 0;
+
+        // Create a hitbox (bounding box)
+        const hitboxGeometry = new THREE.BoxGeometry(17, 5, 7); // Adjust dimensions as needed
+        const hitboxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true, visible: false});
+        this.hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
+        this.hitbox.position.x = 2.2;
+        this.hitbox.position.y = 3;
+        this.hitbox.position.z = 0;
+        this.add(this.hitbox);
 
         // Texture tire
         this.tireTexture = new THREE.TextureLoader().load('./objects/textures/tire.png');
@@ -295,8 +311,6 @@ class MyVehicle extends THREE.Object3D {
         this.backWingMesh.position.z = 0;
         this.backWingMesh.rotation.z = -Math.PI / 7;
 
-
-
         // Components added to the scene
         this.add( this.tireMeshLF,
                   this.tireMeshRF,
@@ -321,6 +335,9 @@ class MyVehicle extends THREE.Object3D {
     accelerate_forward() {
         if (this.velocity < this.v_max) {
             this.velocity += this.acceleration;
+        }
+        if (this.velocity > this.v_max) {
+            this.velocity -= this.deceleration;
         }
     }
 
@@ -377,22 +394,42 @@ class MyVehicle extends THREE.Object3D {
     }
 
     unTurn() {
-        if (this.steering > 0) {
-            this.steering -= this.steering_speed;
-            this.tireMeshLF.rotation.y = -this.steering_speed;
-            this.tireMeshRF.rotation.y = -this.steering_speed;
-        }
-        else if (this.steering < 0) {
-            this.steering += this.steering_speed;
-            this.tireMeshRF.rotation.y = this.steering_speed;
-            this.tireMeshLF.rotation.y = this.steering_speed;
-        }
+        // if (this.steering > 0) {
+        //     this.steering -= this.steering_speed;
+        //     this.tireMeshLF.rotation.y = -this.steering_speed;
+        //     this.tireMeshRF.rotation.y = -this.steering_speed;
+        // }
+        // if (this.steering < 0) {
+        //     this.steering += this.steering_speed;
+        //     this.tireMeshRF.rotation.y = this.steering_speed;
+        //     this.tireMeshLF.rotation.y = this.steering_speed;
+        // }
+
+        this.steering = 0;
+        this.tireMeshLF.rotation.y = 0;
+        this.tireMeshRF.rotation.y = 0;
+
     }
 
     update() {
         // Update position based on velocity and current rotation
         this.position.x += this.velocity * Math.cos(-this.direction);
         this.position.z += this.velocity * Math.sin(-this.direction);
+
+        // Calculate wheel spin angle based on car velocity
+        const wheelRadius = this.tireRadius; // Assuming all wheels have the same radius
+
+        // Calculate the angular velocity of the wheel
+        const angularVelocity = this.velocity / wheelRadius;
+
+        // Update the wheel spin angle
+        this.wheelSpinAngle += angularVelocity;
+
+        // Apply the wheel spin angle to the tire meshes
+        this.tireMeshLF.rotation.z = -this.wheelSpinAngle;
+        this.tireMeshRF.rotation.z = -this.wheelSpinAngle;
+        this.tireMeshLB.rotation.z = -this.wheelSpinAngle;
+        this.tireMeshRB.rotation.z = -this.wheelSpinAngle;
     }
 
 }

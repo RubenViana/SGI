@@ -15,21 +15,6 @@ class GamePlayState extends State {
             right: false,
         };
 
-        // add car to the scene
-        this.app.scene.add(this.gameSettings.players[0].car);
-
-        // add power up to the scene
-        this.app.scene.add(this.gameSettings.powerUp);
-        
-        // add plane to the scene
-        this.app.scene.add(this.gameSettings.plane);
-        
-        // add track to the scene
-        this.app.scene.add(this.gameSettings.track);
-        
-        // add obstacles to the scene
-        this.app.scene.add(this.gameSettings.obstacles);
-
         // clock
         this.elapsedTime = 0;
         this.clock = new THREE.Clock();
@@ -39,6 +24,14 @@ class GamePlayState extends State {
         this.carCamera.position.set(0, 5, -10); // adjust the position relative to the car
         this.carCamera.lookAt(this.gameSettings.players[0].car.position);
         this.app.cameras["CarThirdPerson"] = this.carCamera;
+
+        this.carCamera2 = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500);
+        this.carCamera2.position.set(this.gameSettings.players[0].car.position.x, this.gameSettings.players[0].car.position.y, this.gameSettings.players[0].car.position.z);
+        this.carCamera2.lookAt(this.gameSettings.players[0].car.position.x, this.gameSettings.players[0].car.position.y, this.gameSettings.players[0].car.position.z);
+        this.app.cameras["CarFirstPerson"] = this.carCamera2;
+
+        // set third person camera as active camera
+        this.app.setActiveCamera("CarThirdPerson");
     }
 
     update() {
@@ -60,17 +53,30 @@ class GamePlayState extends State {
         // check car collision with power up -> add power up to car
         // check car collision with obstacle -> delay car
 
-
-        this.updateCarCamera();
-
-        this.updateHUD();
-
         this.updateCar();
         // add a change camera option
 
+        if (this.app.activeCameraName == "CarThirdPerson"){
+            this.updateCarThirdPersonCamera();
+        }
+        else if (this.app.activeCameraName == "CarFirstPerson"){
+            this.updateCarFirstPersonCamera();
+        }
+        
+        // need to redo this, its a mess
+        if (this.gameSettings.track.isInsideTrack(this.gameSettings.players[0].car)){
+            // console.log("inside");
+            this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default;
+        }
+        else {
+            // console.log("outside");
+            this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default / 2;
+        }
+
+        this.updateHUD();
     }
 
-    updateCarCamera() {
+    updateCarThirdPersonCamera() {
         // Set the car camera's position to follow the car
         const car = this.gameSettings.players[0].car;
         const distance = 10; // Distance from the car
@@ -85,6 +91,31 @@ class GamePlayState extends State {
         this.carCamera.position.z = car.position.z - offsetZ;
 
         this.app.controls.target = car.position;
+        this.app.controls.enabled = false;
+    }
+
+    updateCarFirstPersonCamera() {
+        const angle = this.gameSettings.players[0].car.rotation.y;
+        const distance = 10;
+        const car = this.gameSettings.players[0].car;
+
+        const offsetX = distance * Math.cos(-angle);
+        const offsetZ = distance * Math.sin(-angle);
+
+        this.carCamera2.position.set(car.position.x, car.position.y + 2, car.position.z);
+        this.carCamera2.lookAt(car.position.x + offsetX, car.position.y + 1, car.position.z + offsetZ);
+
+        this.app.controls.target = new THREE.Vector3(car.position.x + offsetX, car.position.y + 2, car.position.z + offsetZ);
+        this.app.controls.enabled = false;
+    }
+
+    toggleCamera() {
+        if (this.app.activeCameraName == "CarThirdPerson"){
+            this.app.setActiveCamera("CarFirstPerson");
+        }
+        else if (this.app.activeCameraName == "CarFirstPerson"){
+            this.app.setActiveCamera("CarThirdPerson");
+        }
     }
 
     onKeyPress(event) {
@@ -95,7 +126,7 @@ class GamePlayState extends State {
                 this.setState(new GamePauseState(this.app, this));
                 break;
             case 99: // c
-                this.app.setActiveCamera("CarThirdPerson");
+                this.toggleCamera();
                 break;
         }
     }

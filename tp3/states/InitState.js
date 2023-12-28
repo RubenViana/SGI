@@ -33,71 +33,65 @@ class InitState extends State {
     // );
 
     // Add Plane to Scene
-
-    this.plane = new MyPlane();
-    this.app.plane = this.plane;
+    this.app.plane = new MyPlane();
 
     // Add Track to Scene
-
     this.app.track = new MyTrack();
 
     // Add PowerUp to Scene
-
     this.app.powerUp = new MyPowerUp();
 
     // Add Car to Scene
-
-    this.app.car = new MyVehicle();
+    this.app.car = new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90);
     this.app.car.scale.set(0.5, 0.5, 0.5);
     this.app.car.position.set(0, 0.4, 0);
 
     // Add Obstacles to Scene
 
     // First Curve
-    this.obstacles4 = new MyObstacle();
-    this.obstacles4.position.set(80, 0, 605);
-    this.obstacles5 = new MyObstacle();
-    this.obstacles5.position.set(54, 0, 590);
-    this.obstacles5.rotateY(-Math.PI / 5);
-    this.obstacles6 = new MyObstacle();
-    this.obstacles6.position.set(111, 0, 605);
-    this.obstacles6.rotateY(Math.PI / 5);
+    const obstacles4 = new MyObstacle();
+    obstacles4.position.set(80, 0, 605);
+    const obstacles5 = new MyObstacle();
+    obstacles5.position.set(54, 0, 590);
+    obstacles5.rotateY(-Math.PI / 5);
+    const obstacles6 = new MyObstacle();
+    obstacles6.position.set(111, 0, 605);
+    obstacles6.rotateY(Math.PI / 5);
 
     // Second Curve
-    this.obstacles1 = new MyObstacle();
-    this.obstacles1.position.set(120, 0, 160);
-    this.obstacles2 = new MyObstacle();
-    this.obstacles2.position.set(94, 0, 175);
-    this.obstacles2.rotateY(Math.PI / 5);
-    this.obstacles3 = new MyObstacle();
-    this.obstacles3.position.set(151, 0, 160);
-    this.obstacles3.rotateY(-Math.PI / 5);
+    const obstacles1 = new MyObstacle();
+    obstacles1.position.set(120, 0, 160);
+    const obstacles2 = new MyObstacle();
+    obstacles2.position.set(94, 0, 175);
+    obstacles2.rotateY(Math.PI / 5);
+    const obstacles3 = new MyObstacle();
+    obstacles3.position.set(151, 0, 160);
+    obstacles3.rotateY(-Math.PI / 5);
 
     // Third Curve
-    this.obstacles7 = new MyObstacle();
-    this.obstacles7.position.set(265, 0, 615);
-    this.obstacles8 = new MyObstacle();
-    this.obstacles8.position.set(296, 0, 615);
-    this.obstacles8.rotateY(Math.PI / 5);
-    this.obstacles9 = new MyObstacle();
-    this.obstacles9.position.set(238, 0, 600);
-    this.obstacles9.rotateY(-Math.PI / 5);
+    const obstacles7 = new MyObstacle();
+    obstacles7.position.set(265, 0, 615);
+    const obstacles8 = new MyObstacle();
+    obstacles8.position.set(296, 0, 615);
+    obstacles8.rotateY(Math.PI / 5);
+    const obstacles9 = new MyObstacle();
+    obstacles9.position.set(238, 0, 600);
+    obstacles9.rotateY(-Math.PI / 5);
 
     // Fourth Curve
-    this.obstacles10 = new MyObstacle();
-    this.obstacles10.position.set(300, 0, 300);
-    this.obstacles11 = new MyObstacle();
-    this.obstacles11.position.set(300, 0, 325);
-    this.obstacles11.rotateY(-Math.PI / 5);
-    this.obstacles12 = new MyObstacle();
-    this.obstacles12.position.set(300, 0, 300);
-    this.obstacles12.rotateY(Math.PI / 5);
+    const obstacles10 = new MyObstacle();
+    obstacles10.position.set(300, 0, 300);
+    const obstacles11 = new MyObstacle();
+    obstacles11.position.set(300, 0, 325);
+    obstacles11.rotateY(-Math.PI / 5);
+    const obstacles12 = new MyObstacle();
+    obstacles12.position.set(300, 0, 300);
+    obstacles12.rotateY(Math.PI / 5);
 
-    this.plane.add(this.obstacles1, this.obstacles2, this.obstacles3, this.obstacles4, this.obstacles5, this.obstacles6, this.obstacles7, this.obstacles8, this.obstacles9,
-                   this.obstacles10, this.obstacles11, this.obstacles12);
-    
-    this.app.obstacles = new MyObstacle();
-
+    this.app.obstacles = new THREE.Group();
+    this.app.obstacles.add(obstacles1, obstacles2, obstacles3, obstacles4, obstacles5, obstacles6, obstacles7, obstacles8, obstacles9,
+                   obstacles10, obstacles11, obstacles12);
+  
     // this.spriteLoader(); // load sprite to HUD
   }
 

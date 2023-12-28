@@ -129,6 +129,41 @@ class MyTrack extends THREE.Object3D {
         this.curve.scale.set(1,0.2,1);
         this.add(this.curve);
     }
+
+    isInsideTrack(car) {
+      // Get the car's position
+      const position = car.position;
+      const hitbox = car.hitbox;
+      const width = hitbox.geometry.parameters.width;
+      const depth = hitbox.geometry.parameters.depth;
+
+      const halfWidth = width / 4 - 1;
+      const halfDepth = depth / 4 - 1;
+
+      // Calculate the rotation matrix
+      const rotationMatrix = new THREE.Matrix4();
+      rotationMatrix.makeRotationY(car.rotation.y);
+
+      // Define the four corners of the rectangle
+      const points = [
+          new THREE.Vector3().set(-halfWidth, 10, -halfDepth).applyMatrix4(rotationMatrix).add(position),
+          new THREE.Vector3().set(-halfWidth, 10, halfDepth).applyMatrix4(rotationMatrix).add(position),
+          new THREE.Vector3().set(halfWidth, 10, halfDepth).applyMatrix4(rotationMatrix).add(position),
+          new THREE.Vector3().set(halfWidth, 10, -halfDepth).applyMatrix4(rotationMatrix).add(position),
+      ];
+
+      for (let i = 0; i < points.length; i++) {
+        // Create a ray from the given position towards the top of the track
+        const ray = new THREE.Raycaster(points[i], new THREE.Vector3(0, -1, 0));
+
+        // Check for intersections with the track
+        const intersections = ray.intersectObject(this.curve);
+
+        if (intersections.length === 0)
+          return false;
+      }
+      return true;
+  }
 }
 
 export { MyTrack };
