@@ -16,7 +16,7 @@ class MyPlane extends THREE.Object3D {
         this.planeHeight = 2000;
         this.planeDepth = 1;
         this.planeMaterial = new THREE.MeshPhongMaterial({map: this.planeTexture });
-        this.planeMaterial.map.repeat.set(100, 100);
+        this.planeMaterial.map.repeat.set(500, 500);
 
         // Plane
         this.planeGeometry = new THREE.BoxGeometry(this.planeWidth, this.planeHeight, this.planeDepth);
@@ -63,22 +63,36 @@ class MyPlane extends THREE.Object3D {
         this.goalPostRight = new THREE.Mesh(this.goalPostGeometry, this.goalPostMaterial);
         this.goalPostRight.position.set(35, 5, 300);
 
+        // Texture wall
+        this.wallTexture = new THREE.TextureLoader().load('./objects/textures/wall.png');
+        this.wallTexture.wrapS = THREE.RepeatWrapping;
+        this.wallTexture.wrapT = THREE.RepeatWrapping;
+        this.wallTexture.colorSpace = THREE.SRGBColorSpace;
+        this.wallTexture.repeat.set(30, 1);
+
         // PitStop Separator (Box)
         this.separatorWidth = 3;
         this.separatorHeight = 5;
         this.separatorDepth = 400;
-        this.separatorMaterial = new THREE.MeshPhongMaterial({ color: 0x808080 });
+        this.separatorMaterial = new THREE.MeshPhongMaterial({ map: this.wallTexture });
 
         this.separatorGeometry = new THREE.BoxGeometry(this.separatorWidth, this.separatorHeight, this.separatorDepth);
         this.separator = new THREE.Mesh(this.separatorGeometry, this.separatorMaterial);
         this.separator.position.set(50, 2.5, 300);
         this.separator.rotation.y = Math.PI/60;
 
+        // Texture road
+        this.roadTexture = new THREE.TextureLoader().load('./objects/textures/pitRoad.png');
+        this.roadTexture.wrapS = THREE.RepeatWrapping;
+        this.roadTexture.wrapT = THREE.RepeatWrapping;
+        this.roadTexture.colorSpace = THREE.SRGBColorSpace;
+        this.roadTexture.repeat.set(1, 30);
+
         // PitStop Road (Box)
         this.roadWidth = 9;
         this.roadHeight = 1.5;
         this.roadDepth = 550;
-        this.roadMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
+        this.roadMaterial = new THREE.MeshPhongMaterial({ map: this.roadTexture });
 
         this.roadGeometry = new THREE.BoxGeometry(this.roadWidth, this.roadHeight, this.roadDepth);
         this.road = new THREE.Mesh(this.roadGeometry, this.roadMaterial);
@@ -124,11 +138,17 @@ class MyPlane extends THREE.Object3D {
         this.wallBack.position.set(87.5, 5, 370);
         this.wallBack.rotation.y = Math.PI/60;
 
+        // Texture pillar
+        this.pillarTexture = new THREE.TextureLoader().load('./objects/textures/pillar.png');
+        this.pillarTexture.wrapS = THREE.RepeatWrapping;
+        this.pillarTexture.wrapT = THREE.RepeatWrapping;
+        this.pillarTexture.colorSpace = THREE.SRGBColorSpace;
+
         // PitStop Pillar (Box)
         this.pillarWidth = 18;
         this.pillarHeight = 8;
         this.pillarDepth = 1;
-        this.pillarMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
+        this.pillarMaterial = new THREE.MeshPhongMaterial({ map: this.pillarTexture });
 
         this.pillarGeometry = new THREE.BoxGeometry(this.pillarWidth, this.pillarHeight, this.pillarDepth);
         const totalPillars = 19; 
@@ -146,10 +166,17 @@ class MyPlane extends THREE.Object3D {
             this[`pillar${i}`] = pillar;
         }
 
+        // Texture lake
+        this.lakeTexture = new THREE.TextureLoader().load('./objects/textures/lake.png');
+        this.lakeTexture.wrapS = THREE.RepeatWrapping;
+        this.lakeTexture.wrapT = THREE.RepeatWrapping;
+        this.lakeTexture.colorSpace = THREE.SRGBColorSpace;
+        this.lakeTexture.repeat.set(50, 50);
+
         // Lake Bottom (Circle)
         this.lakeRadius = 50;
         this.lakeSegments = 32;
-        this.lakeMaterial = new THREE.MeshPhongMaterial({ color: 0x4adede });
+        this.lakeMaterial = new THREE.MeshPhongMaterial({ map: this.lakeTexture });
 
         this.lakeGeometry = new THREE.CircleGeometry(this.lakeRadius, this.lakeSegments);
         this.lake = new THREE.Mesh(this.lakeGeometry, this.lakeMaterial);
@@ -159,18 +186,25 @@ class MyPlane extends THREE.Object3D {
         // Lake Top (Circle)
         this.lakeTopRadius = 40;
         this.lakeTopSegments = 32;
-        this.lakeTopMaterial = new THREE.MeshPhongMaterial({ color: 0x4adede });
+        this.lakeTopMaterial = new THREE.MeshPhongMaterial({ map: this.lakeTexture });
 
         this.lakeTopGeometry = new THREE.CircleGeometry(this.lakeTopRadius, this.lakeTopSegments);
         this.lakeTop = new THREE.Mesh(this.lakeTopGeometry, this.lakeTopMaterial);
         this.lakeTop.position.set(430, 0.6, 120);
         this.lakeTop.rotation.x = -Math.PI / 2;
 
+        // Texture tree
+        this.treeTexture = new THREE.TextureLoader().load('./objects/textures/leaves.png');
+        this.treeTexture.wrapS = THREE.RepeatWrapping;
+        this.treeTexture.wrapT = THREE.RepeatWrapping;
+        this.treeTexture.colorSpace = THREE.SRGBColorSpace;
+        this.treeTexture.repeat.set(1, 2);
+
         // Tree (Cone)
         this.treeRadius = 2;
         this.treeHeight = 15;
         this.treeRadialSegments = 32;
-        this.treeMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+        this.treeMaterial = new THREE.MeshPhongMaterial({ map: this.treeTexture });
 
         this.treeGeometry = new THREE.ConeGeometry(this.treeRadius, this.treeHeight, this.treeRadialSegments);
         const totalTrees = 60; 
@@ -217,13 +251,18 @@ class MyPlane extends THREE.Object3D {
             this[`tree${i+110}`] = tree;
         }
 
+        // Texture tree stem
+        this.stemTexture = new THREE.TextureLoader().load('./objects/textures/stem.png');
+        this.stemTexture.wrapS = THREE.RepeatWrapping;
+        this.stemTexture.wrapT = THREE.RepeatWrapping;
+        this.stemTexture.colorSpace = THREE.SRGBColorSpace;
 
         // Tree Stem (Cylinder)
         this.stemRadiusTop = 0.5;
         this.stemRadiusBottom = 0.5;
         this.stemHeight = 6;
         this.stemRadialSegments = 32;
-        this.stemMaterial = new THREE.MeshPhongMaterial({ color: 0x8b4513 });
+        this.stemMaterial = new THREE.MeshPhongMaterial({ map: this.stemTexture });
         
         this.stemGeometry = new THREE.CylinderGeometry(this.stemRadiusTop, this.stemRadiusBottom, this.stemHeight, this.stemRadialSegments);
         
@@ -274,10 +313,16 @@ class MyPlane extends THREE.Object3D {
         this.advertisingBoard.position.set(205, 5, 225);
         this.advertisingBoard.rotation.y = -Math.PI / 3;
 
+        // Texture rocks
+        this.rockTexture = new THREE.TextureLoader().load('./objects/textures/rock.png');
+        this.rockTexture.wrapS = THREE.RepeatWrapping;
+        this.rockTexture.wrapT = THREE.RepeatWrapping;
+        this.rockTexture.colorSpace = THREE.SRGBColorSpace;
+
         // Rocks Sperators (Octahedron)
         this.rockRadius = 10;
         this.rockDetail = 2;
-        this.rockMaterial = new THREE.MeshPhongMaterial({ color: 0x808080 });
+        this.rockMaterial = new THREE.MeshPhongMaterial({ map: this.rockTexture });
 
         this.rockGeometry = new THREE.OctahedronGeometry(this.rockRadius, this.rockDetail);
         const totalRocks = 18; // Change this number as needed
@@ -305,11 +350,18 @@ class MyPlane extends THREE.Object3D {
             this[`rock${i}`] = rock;
         }
 
+        // Texture box
+        this.boxTexture = new THREE.TextureLoader().load('./objects/textures/box.png');
+        this.boxTexture.wrapS = THREE.RepeatWrapping;
+        this.boxTexture.wrapT = THREE.RepeatWrapping;
+        this.boxTexture.colorSpace = THREE.SRGBColorSpace;
+        this.boxTexture.repeat.set(50, 10);
+
         // Box Separator (Box)
         this.boxWidth = 8;
         this.boxHeight = 5;
         this.boxDepth = 200;
-        this.boxMaterial = new THREE.MeshPhongMaterial({ color: 0x808080 });
+        this.boxMaterial = new THREE.MeshPhongMaterial({ map: this.boxTexture });
 
         this.boxGeometry = new THREE.BoxGeometry(this.boxWidth, this.boxHeight, this.boxDepth);
         this.box = new THREE.Mesh(this.boxGeometry, this.boxMaterial);
