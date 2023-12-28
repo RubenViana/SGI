@@ -18,6 +18,18 @@ class GamePlayState extends State {
         // add car to the scene
         this.app.scene.add(this.gameSettings.players[0].car);
 
+        // add power up to the scene
+        this.app.scene.add(this.gameSettings.powerUp);
+        
+        // add plane to the scene
+        this.app.scene.add(this.gameSettings.plane);
+        
+        // add track to the scene
+        this.app.scene.add(this.gameSettings.track);
+        
+        // add obstacles to the scene
+        this.app.scene.add(this.gameSettings.obstacles);
+
         // clock
         this.elapsedTime = 0;
         this.clock = new THREE.Clock();

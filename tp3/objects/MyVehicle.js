@@ -14,26 +14,6 @@ class MyVehicle extends THREE.Object3D {
         this.steering_speed = Math.PI / 70;
         this.s_max = Math.PI / 4;
 
-        this.material = new THREE.MeshBasicMaterial({ color: 0x0000ff, wireframe: false });
-        this.geometry = new THREE.BoxGeometry(3, 1, 2);
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
-
-        this.material2 = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: false });
-        this.geometry2 = new THREE.BoxGeometry(1, 1, 1);
-        this.mesh2 = new THREE.Mesh(this.geometry2, this.material2);
-        this.mesh2.position.set(1.2, 0.5, 0);
-
-        const geometry = new THREE.CylinderGeometry( 0.5, 0.5, 0.2, 32 ); 
-        this.tyreLeft = new THREE.Mesh( geometry, this.material2 );
-        this.tyreLeft.rotation.x = Math.PI / 2;
-        this.tyreLeft.position.set(1.1, 0, -1.1);
-        
-        this.tyreRight = new THREE.Mesh( geometry, this.material2 );
-        this.tyreRight.rotation.x = Math.PI / 2;
-        this.tyreRight.position.set(1.1, 0, 1.1);
-
-        this.add(this.mesh, this.mesh2, this.tyreLeft, this.tyreRight);
-
         // Texture tire
         this.tireTexture = new THREE.TextureLoader().load('./objects/textures/tire.png');
         this.tireTexture.wrapS = THREE.RepeatWrapping;
@@ -51,29 +31,29 @@ class MyVehicle extends THREE.Object3D {
         let tireLeftFront = new THREE.TorusGeometry( this.tireRadius, this.tireTubeRabius, this.tireRadialSegments, this.tireTubularSegments );
         this.tireMeshLF = new THREE.Mesh( tireLeftFront, this.tireMaterial );
         this.tireMeshLF.position.x = 7;
-        this.tireMeshLF.position.y = 0;
+        this.tireMeshLF.position.y = 2;
         this.tireMeshLF.position.z = -3;
 
         let tireRightFront = new THREE.TorusGeometry( this.tireRadius, this.tireTubeRabius, this.tireRadialSegments, this.tireTubularSegments );
         this.tireMeshRF = new THREE.Mesh( tireRightFront, this.tireMaterial );
         this.tireMeshRF.position.x = 7;
-        this.tireMeshRF.position.y = 0;
+        this.tireMeshRF.position.y = 2;
         this.tireMeshRF.position.z = 3;
 
         let tireLeftBack = new THREE.TorusGeometry( this.tireRadius, this.tireTubeRabius, this.tireRadialSegments, this.tireTubularSegments );
         this.tireMeshLB = new THREE.Mesh( tireLeftBack, this.tireMaterial );
         this.tireMeshLB.position.x = -5;
-        this.tireMeshLB.position.y = 0;
+        this.tireMeshLB.position.y = 2;
         this.tireMeshLB.position.z = -3;
 
         let tireRightBack = new THREE.TorusGeometry( this.tireRadius, this.tireTubeRabius, this.tireRadialSegments, this.tireTubularSegments );
         this.tireMeshRB = new THREE.Mesh( tireRightBack, this.tireMaterial );
         this.tireMeshRB.position.x = -5;
-        this.tireMeshRB.position.y = 0;
+        this.tireMeshRB.position.y = 2;
         this.tireMeshRB.position.z = 3;
 
         // Texture axle
-        this.axleTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
+        this.axleTexture = new THREE.TextureLoader().load('./objects/textures/tire.png');
         this.axleTexture.wrapS = THREE.RepeatWrapping;
         this.axleTexture.wrapT = THREE.RepeatWrapping;
         this.axleTexture.colorSpace = THREE.SRGBColorSpace;
@@ -89,14 +69,14 @@ class MyVehicle extends THREE.Object3D {
         let axleFront = new THREE.CylinderGeometry( this.axleRadiusTop, this.axleRadiusBottom, this.axleHeight, this.axleRadialSegments );
         this.axleMesh = new THREE.Mesh( axleFront, this.axleMaterial );
         this.axleMesh.position.x = 7;
-        this.axleMesh.position.y = 0;
+        this.axleMesh.position.y = 2;
         this.axleMesh.position.z = 0;
         this.axleMesh.rotation.x = Math.PI / 2;
 
         let axleTop = new THREE.CylinderGeometry( this.axleRadiusTop, this.axleRadiusBottom, this.axleHeight, this.axleRadialSegments );
         this.axleTopMesh = new THREE.Mesh( axleTop, this.axleMaterial );
         this.axleTopMesh.position.x = -5;
-        this.axleTopMesh.position.y = 0;
+        this.axleTopMesh.position.y = 2;
         this.axleTopMesh.position.z = 0;
         this.axleTopMesh.rotation.x = Math.PI / 2;
 
@@ -115,6 +95,7 @@ class MyVehicle extends THREE.Object3D {
         // Bench
         let bench = new THREE.BoxGeometry( this.benchWidth, this.benchHeight, this.benchDepth );
         this.benchMesh = new THREE.Mesh( bench, this.benchMaterial );
+        this.benchMesh.position.y = 2;
 
         // Texture bench back
         this.benchBackTexture = new THREE.TextureLoader().load('./objects/textures/car.png');
@@ -133,7 +114,7 @@ class MyVehicle extends THREE.Object3D {
         let benchBack = new THREE.CylinderGeometry( this.benchBackRadiusTop, this.benchBackRadiusBottom, this.benchBackHeight, this.benchBackRadialSegments );
         this.benchBackMesh = new THREE.Mesh( benchBack, this.benchBackMaterial );
         this.benchBackMesh.position.x = -3;
-        this.benchBackMesh.position.y = 0.5;
+        this.benchBackMesh.position.y = 2.5;
         this.benchBackMesh.position.z = 0;
         this.benchBackMesh.rotation.z = -Math.PI / 2;
 
@@ -153,7 +134,7 @@ class MyVehicle extends THREE.Object3D {
         let front = new THREE.BoxGeometry( this.frontWidth, this.frontHeight, this.frontDepth );
         this.frontMesh = new THREE.Mesh( front, this.frontMaterial );
         this.frontMesh.position.x = 3.5;
-        this.frontMesh.position.y = 0;
+        this.frontMesh.position.y = 2;
         this.frontMesh.position.z = 0;
 
         // Texture front face
@@ -173,7 +154,7 @@ class MyVehicle extends THREE.Object3D {
         let frontFace = new THREE.CylinderGeometry( this.frontFaceRadiusTop, this.frontFaceRadiusBottom, this.frontFaceHeight, this.frontFaceRadialSegments );
         this.frontFaceMesh = new THREE.Mesh( frontFace, this.frontFaceMaterial );
         this.frontFaceMesh.position.x = 7;
-        this.frontFaceMesh.position.y = 0;
+        this.frontFaceMesh.position.y = 2;
         this.frontFaceMesh.position.z = 0;
         this.frontFaceMesh.rotation.z = Math.PI / 2;
 
@@ -193,7 +174,7 @@ class MyVehicle extends THREE.Object3D {
         let frontWing = new THREE.BoxGeometry( this.frontWingWidth, this.frontWingHeight, this.frontWingDepth );
         this.frontWingMesh = new THREE.Mesh( frontWing, this.frontWingMaterial );
         this.frontWingMesh.position.x = 10;
-        this.frontWingMesh.position.y = 0;
+        this.frontWingMesh.position.y = 2;
         this.frontWingMesh.position.z = 0;
 
         // Texture front wing left and right
@@ -213,7 +194,7 @@ class MyVehicle extends THREE.Object3D {
         let frontWingLeft = new THREE.CylinderGeometry( this.frontWingLeftRadiusTop, this.frontWingLeftRadiusBottom, this.frontWingLeftHeight, this.frontWingLeftRadialSegments );
         this.frontWingLeftMesh = new THREE.Mesh( frontWingLeft, this.frontWingLeftMaterial );
         this.frontWingLeftMesh.position.x = 10;
-        this.frontWingLeftMesh.position.y = 0.5;
+        this.frontWingLeftMesh.position.y = 2.5;
         this.frontWingLeftMesh.position.z = -3.5;
         this.frontWingLeftMesh.rotation.y = Math.PI / 2;
         this.frontWingLeftMesh.rotation.z = Math.PI;
@@ -221,7 +202,7 @@ class MyVehicle extends THREE.Object3D {
         let frontWingRight = new THREE.CylinderGeometry( this.frontWingLeftRadiusTop, this.frontWingLeftRadiusBottom, this.frontWingLeftHeight, this.frontWingLeftRadialSegments );
         this.frontWingRightMesh = new THREE.Mesh( frontWingRight, this.frontWingLeftMaterial );
         this.frontWingRightMesh.position.x = 10;
-        this.frontWingRightMesh.position.y = 0.5;
+        this.frontWingRightMesh.position.y = 2.5;
         this.frontWingRightMesh.position.z = 3.5;
         this.frontWingRightMesh.rotation.y = Math.PI / 2;
         this.frontWingRightMesh.rotation.z = Math.PI;
@@ -242,7 +223,7 @@ class MyVehicle extends THREE.Object3D {
         let littleFrontWing = new THREE.BoxGeometry( this.littleFrontWingWidth, this.littleFrontWingHeight, this.littleFrontWingDepth );
         this.littleFrontWingMesh = new THREE.Mesh( littleFrontWing, this.littleFrontWingMaterial );
         this.littleFrontWingMesh.position.x = 8.5;
-        this.littleFrontWingMesh.position.y = 0;
+        this.littleFrontWingMesh.position.y = 2;
         this.littleFrontWingMesh.position.z = 0;
 
         // Texture wheel
@@ -262,7 +243,7 @@ class MyVehicle extends THREE.Object3D {
         let wheel = new THREE.TorusGeometry( this.wheelRadius, this.wheelTubeRabius, this.wheelRadialSegments, this.wheelTubularSegments );
         this.wheelMesh = new THREE.Mesh( wheel, this.wheelMaterial );
         this.wheelMesh.position.x = 2;
-        this.wheelMesh.position.y = 1.2;
+        this.wheelMesh.position.y = 3.2;
         this.wheelMesh.position.z = 0;
         this.wheelMesh.rotation.y = Math.PI / 2;
 
@@ -283,14 +264,14 @@ class MyVehicle extends THREE.Object3D {
         let littleBackWingLeft = new THREE.CylinderGeometry( this.littleBackWingRadiusTop, this.littleBackWingRadiusBottom, this.littleBackWingHeight, this.littleBackWingRadialSegments );
         this.littleBackWingLeftMesh = new THREE.Mesh( littleBackWingLeft, this.littleBackWingMaterial );
         this.littleBackWingLeftMesh.position.x = -5;
-        this.littleBackWingLeftMesh.position.y = 2;
+        this.littleBackWingLeftMesh.position.y = 4;
         this.littleBackWingLeftMesh.position.z = -2.5;
         this.littleBackWingLeftMesh.rotation.y = Math.PI / 2;
 
         let littleBackWingRight = new THREE.CylinderGeometry( this.littleBackWingRadiusTop, this.littleBackWingRadiusBottom, this.littleBackWingHeight, this.littleBackWingRadialSegments );
         this.littleBackWingRightMesh = new THREE.Mesh( littleBackWingRight, this.littleBackWingMaterial );
         this.littleBackWingRightMesh.position.x = -5;
-        this.littleBackWingRightMesh.position.y = 2;
+        this.littleBackWingRightMesh.position.y = 4;
         this.littleBackWingRightMesh.position.z = 2.5;
         this.littleBackWingRightMesh.rotation.y = Math.PI / 2;
 
@@ -310,7 +291,7 @@ class MyVehicle extends THREE.Object3D {
         let backWing = new THREE.BoxGeometry( this.backWingWidth, this.backWingHeight, this.backWingDepth );
         this.backWingMesh = new THREE.Mesh( backWing, this.backWingMaterial );
         this.backWingMesh.position.x = -5;
-        this.backWingMesh.position.y = 2.9;
+        this.backWingMesh.position.y = 4.9;
         this.backWingMesh.position.z = 0;
         this.backWingMesh.rotation.z = -Math.PI / 7;
 
@@ -364,8 +345,8 @@ class MyVehicle extends THREE.Object3D {
     turnLeft() {
         if(this.steering < this.s_max) {
             this.steering += this.steering_speed;
-            this.tyreLeft.rotation.z = -this.steering;
-            this.tyreRight.rotation.z = -this.steering;
+            this.tireMeshLF.rotation.y = this.steering;
+            this.tireMeshRF.rotation.y = this.steering;
         }
 
         if(this.velocity < 0) {
@@ -381,8 +362,8 @@ class MyVehicle extends THREE.Object3D {
     turnRight() {
         if(this.steering > -this.s_max) {
             this.steering -= this.steering_speed;
-            this.tyreLeft.rotation.z = -this.steering;
-            this.tyreRight.rotation.z = -this.steering;
+            this.tireMeshLF.rotation.y = this.steering;
+            this.tireMeshRF.rotation.y = this.steering;
         }
 
         if(this.velocity < 0) {
@@ -398,13 +379,13 @@ class MyVehicle extends THREE.Object3D {
     unTurn() {
         if (this.steering > 0) {
             this.steering -= this.steering_speed;
-            this.tyreLeft.rotation.z = -this.steering_speed;
-            this.tyreRight.rotation.z = -this.steering_speed;
+            this.tireMeshLF.rotation.y = -this.steering_speed;
+            this.tireMeshRF.rotation.y = -this.steering_speed;
         }
         else if (this.steering < 0) {
             this.steering += this.steering_speed;
-            this.tyreRight.rotation.z = this.steering_speed;
-            this.tyreLeft.rotation.z = this.steering_speed;
+            this.tireMeshRF.rotation.y = this.steering_speed;
+            this.tireMeshLF.rotation.y = this.steering_speed;
         }
     }
 

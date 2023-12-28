@@ -32,6 +32,18 @@ class MyContents  {
             this.app.scene.add(this.axis)
         }
 
+        // add an ambient light
+        const ambientLight = new THREE.AmbientLight( 0x555555, 4 );
+        this.app.scene.add( ambientLight );
+        
+        // add a sun light
+        this.directionalLight = new THREE.DirectionalLight(0xf8e45c, 10);
+        this.directionalLight.castShadow = true;
+        this.app.scene.add(this.directionalLight);
+        this.directionalLight.position.set(-0, 30, 0); // Adjust the position of the light source
+        this.directionalLightHelper = new THREE.DirectionalLightHelper( this.directionalLight );
+        this.app.scene.add( this.directionalLightHelper );
+
         // Init states
         this.state = new InitState(this.app)
 

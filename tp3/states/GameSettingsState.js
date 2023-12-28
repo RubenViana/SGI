@@ -21,7 +21,10 @@ class GameSettingsState extends State {
         this.gameSettings = {
             laps: 3,
             difficulty: 1,
-            track: 1,
+            track: this.app.track,
+            plane: this.app.plane,
+            powerUp: this.app.powerUp,
+            obstacles: this.app.obstacles,
             players: [
                 {
                     name: "Player 1",

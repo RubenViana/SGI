@@ -13,7 +13,7 @@ class MyTrack extends THREE.Object3D {
 
         // Material track
         this.trackMaterial = new THREE.MeshPhongMaterial({ map: this.trackTexture });
-        this.trackMaterial.map.repeat.set(3, 3);
+        this.trackMaterial.map.repeat.set(200, 3);
 
         this.wireframeMaterial = new THREE.MeshBasicMaterial({
         color: 0x0000ff,
@@ -26,75 +26,75 @@ class MyTrack extends THREE.Object3D {
 
         // Track related attributes
         this.segments = 500;
-        this.width = 12;
-        this.textureRepeat = 100;
-        this.showWireframe = true;
+        this.width = 22;
+        this.textureRepeat = 1;
+        this.showWireframe = false;
         this.showMesh = true;
-        this.showLine = true;
+        this.showLine = false;
         this.closedCurve = false;
         this.path = new THREE.CatmullRomCurve3([
-            new THREE.Vector3(-337, 0, 431),
-            new THREE.Vector3(-325, 0, 533),
-            new THREE.Vector3(-318, 0, 558),
-            new THREE.Vector3(-308, 0, 579),
-            new THREE.Vector3(-283, 0, 585),
-            new THREE.Vector3(-260, 0, 580),
-            new THREE.Vector3(-249, 0, 561),
-            new THREE.Vector3(-240, 0, 538),
-            new THREE.Vector3(-233, 0, 511),
-            new THREE.Vector3(-177, 0, 256),
-            new THREE.Vector3(-163, 0, 245),
-            new THREE.Vector3(-147, 0, 241),
-            new THREE.Vector3(-136, 0, 253),
-            new THREE.Vector3(-128, 0, 278),
-            new THREE.Vector3(-123, 0, 389),
-            new THREE.Vector3(-126, 0, 509),
-            new THREE.Vector3(-123, 0, 556),
-            new THREE.Vector3(-122, 0, 578),
-            new THREE.Vector3(-114, 0, 590),
-            new THREE.Vector3(-94, 0, 583),
-            new THREE.Vector3(-77, 0, 569),
-            new THREE.Vector3(-61, 0, 545),
-            new THREE.Vector3(-50, 0, 520),
-            new THREE.Vector3(-26, 0, 432),
-            new THREE.Vector3(-14, 0, 290),
-            new THREE.Vector3(-22, 0, 132),
-            new THREE.Vector3(-53, 0, 30),
-            new THREE.Vector3(-99, 0, 14),
-            new THREE.Vector3(-148, 0, 17),
-            new THREE.Vector3(-183, 0, 45),
-            new THREE.Vector3(-241, 0, 192),
-            new THREE.Vector3(-264, 0, 246),
-            new THREE.Vector3(-278, 0, 253),
-            new THREE.Vector3(-294, 0, 245),
-            new THREE.Vector3(-313, 0, 192),
-            new THREE.Vector3(-340, 0, 35),
-            new THREE.Vector3(-350, 0, 22),
-            new THREE.Vector3(-371, 0, 13),
-            new THREE.Vector3(-467, 0, 28),
-            new THREE.Vector3(-531, 0, 90),
-            new THREE.Vector3(-550, 0, 210),
-            new THREE.Vector3(-430, 0, 236),
-            new THREE.Vector3(-414, 0, 245),
-            new THREE.Vector3(-408, 0, 259),
-            new THREE.Vector3(-416, 0, 274),
-            new THREE.Vector3(-438, 0, 285),
-            new THREE.Vector3(-522, 0, 319),
-            new THREE.Vector3(-559, 0, 372),
-            new THREE.Vector3(-546, 0, 504),
-            new THREE.Vector3(-485, 0, 558),
-            new THREE.Vector3(-404, 0, 582),
-            new THREE.Vector3(-388, 0, 576),
-            new THREE.Vector3(-380, 0, 559),
-            new THREE.Vector3(-376, 0, 542),
-            new THREE.Vector3(-375, 0, 521),
-            new THREE.Vector3(-374, 0, 455),
-            new THREE.Vector3(-372, 0, 431),
-            new THREE.Vector3(-366, 0, 415),
-            new THREE.Vector3(-352, 0, 404),
-            new THREE.Vector3(-343, 0, 413),
-            new THREE.Vector3(-337, 0, 431)
-          ]);
+          new THREE.Vector3(-571, 0, 414),
+          new THREE.Vector3(-570, 0, 476),
+          new THREE.Vector3(-565, 0, 537),
+          new THREE.Vector3(-439, 0, 578),
+          new THREE.Vector3(-403, 0, 576),
+          new THREE.Vector3(-385, 0, 555),
+          new THREE.Vector3(-381, 0, 526),
+          new THREE.Vector3(-379, 0, 501),
+          new THREE.Vector3(-377, 0, 430),
+          new THREE.Vector3(-371, 0, 387),
+          new THREE.Vector3(-357, 0, 372),
+          new THREE.Vector3(-336, 0, 367),
+          new THREE.Vector3(-318, 0, 378),
+          new THREE.Vector3(-312, 0, 409),
+          new THREE.Vector3(-312, 0, 530),
+          new THREE.Vector3(-306, 0, 565),
+          new THREE.Vector3(-292, 0, 581),
+          new THREE.Vector3(-273, 0, 587),
+          new THREE.Vector3(-253, 0, 580),
+          new THREE.Vector3(-238, 0, 567),
+          new THREE.Vector3(-226, 0, 535),
+          new THREE.Vector3(-219, 0, 501),
+          new THREE.Vector3(-165, 0, 220),
+          new THREE.Vector3(-148, 0, 189),
+          new THREE.Vector3(-127, 0, 184),
+          new THREE.Vector3(-110, 0, 197),
+          new THREE.Vector3(-104, 0, 221),
+          new THREE.Vector3(-113, 0, 357),
+          new THREE.Vector3(-131, 0, 512),
+          new THREE.Vector3(-129, 0, 553),
+          new THREE.Vector3(-117, 0, 573),
+          new THREE.Vector3(-97, 0, 580),
+          new THREE.Vector3(-75, 0, 575),
+          new THREE.Vector3(-59, 0, 563),
+          new THREE.Vector3(-40, 0, 513),
+          new THREE.Vector3(-17, 0, 348),
+          new THREE.Vector3(-11, 0, 175),
+          new THREE.Vector3(-31, 0, 35),
+          new THREE.Vector3(-71, 0, 12),
+          new THREE.Vector3(-127, 0, 8),
+          new THREE.Vector3(-187, 0, 20),
+          new THREE.Vector3(-218, 0, 72),
+          new THREE.Vector3(-247, 0, 213),
+          new THREE.Vector3(-258, 0, 262),
+          new THREE.Vector3(-275, 0, 271),
+          new THREE.Vector3(-293, 0, 263),
+          new THREE.Vector3(-307, 0, 214),
+          new THREE.Vector3(-323, 0, 74),
+          new THREE.Vector3(-340, 0, 22),
+          new THREE.Vector3(-360, 0, 10),
+          new THREE.Vector3(-467, 0, 20),
+          new THREE.Vector3(-534, 0, 84),
+          new THREE.Vector3(-558, 0, 209),
+          new THREE.Vector3(-427, 0, 221),
+          new THREE.Vector3(-404, 0, 233),
+          new THREE.Vector3(-395, 0, 249),
+          new THREE.Vector3(-403, 0, 268),
+          new THREE.Vector3(-444, 0, 281),
+          new THREE.Vector3(-527, 0, 298),
+          new THREE.Vector3(-572, 0, 341),
+          new THREE.Vector3(-571, 0, 414)
+        ]);
       
         // Track
 
@@ -123,6 +123,7 @@ class MyTrack extends THREE.Object3D {
         this.curve.add(this.mesh);
         this.curve.add(this.wireframe);
         this.curve.add(this.line);
+        this.curve.position.set(0, -1.4, 0);
       
         this.curve.rotateZ(Math.PI);
         this.curve.scale.set(1,0.2,1);
