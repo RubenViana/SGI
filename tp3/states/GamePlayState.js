@@ -1,6 +1,7 @@
 import { State } from "./State.js";
 import { GamePauseState } from "./GamePauseState.js";
 import * as THREE from "three";
+import { OBB } from 'three/addons/math/OBB.js';
 
 class GamePlayState extends State {
     constructor(app, gameSettings) {
@@ -54,15 +55,9 @@ class GamePlayState extends State {
         // check car collision with obstacle -> delay car
 
         this.updateCar();
-        // add a change camera option
+        this.updateCarCamera();
+        // this.updateCollisions();
 
-        if (this.app.activeCameraName == "CarThirdPerson"){
-            this.updateCarThirdPersonCamera();
-        }
-        else if (this.app.activeCameraName == "CarFirstPerson"){
-            this.updateCarFirstPersonCamera();
-        }
-        
         // need to redo this, its a mess
         if (this.gameSettings.track.isInsideTrack(this.gameSettings.players[0].car)){
             // console.log("inside");
@@ -74,6 +69,81 @@ class GamePlayState extends State {
         }
 
         this.updateHUD();
+    }
+
+    updateCollisions() {
+        for (let i = 0; i < this.gameSettings.plane.children.length; i++) {
+            const obj = this.gameSettings.plane.children[i];
+            this.checkCollisions(obj)
+        }
+    }
+
+    checkCollisions(obj) {
+        if (obj.type == "Mesh") {
+            if (obj.geometry.type == "BoxGeometry") {
+                // use parameters width, height and depth to check collision
+                const objBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+                objBB.setFromObject(obj);
+
+                let helper = new THREE.Box3Helper(objBB, 0x00ff00);
+                this.app.scene.add(helper);
+                setTimeout(() => {
+                    this.app.scene.remove(helper);
+                }, 100);
+            }
+            else  {         // use sphere for all other geometries
+                // use parameters radius to check collision
+                const objBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+                objBB.setFromObject(obj);
+
+                let helper = new THREE.Box3Helper(objBB, 0x00ff00);
+                this.app.scene.add(helper);
+                setTimeout(() => {
+                    this.app.scene.remove(helper);
+                }, 10);
+
+            }
+        }
+        else if (obj.type == "Group" || obj.type == "Object3D") {
+            for (let i = 0; i < obj.children.length; i++) {
+                const child = obj.children[i];
+                this.checkCollisions(child);
+            }
+        }
+    }
+
+    checkCollisionWithObstacles() {
+        let bb = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+        bb.setFromObject(this.gameSettings.players[0].car);
+        let helper = new THREE.Box3Helper(bb, 0x00ff00);
+        this.app.scene.add(helper);
+
+        setTimeout(() => {
+            this.app.scene.remove(helper);
+        }, 100);
+
+        for (let i = 0; i < this.gameSettings.obstacles.children.length; i++) {
+            const obj = this.gameSettings.obstacles.children[i];
+            console.log(obj);
+            obj.bb.copy(obj.protections).applyMatrix4(obj.matrixWorld);
+            if (this.checkCollision(bb, obj.bb)) {
+                console.log("Collision with obstacle detected!");
+                // this.gameSettings.players[0].car.velocity = 0;
+            }
+        }
+    }
+
+    checkCollision(ob1, ob2) {
+        return false;
+    }
+
+    updateCarCamera() {
+        if (this.app.activeCameraName == "CarThirdPerson"){
+            this.updateCarThirdPersonCamera();
+        }
+        else if (this.app.activeCameraName == "CarFirstPerson"){
+            this.updateCarFirstPersonCamera();
+        }
     }
 
     updateCarThirdPersonCamera() {
