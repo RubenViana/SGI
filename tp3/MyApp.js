@@ -43,7 +43,7 @@ class MyApp  {
         this.HUDscene = new THREE.Scene();
 
         this.stats = new Stats()
-        this.stats.showPanel(1) // 0: fps, 1: ms, 2: mb, 3+: custom
+        this.stats.showPanel(0) // 0: fps, 1: ms, 2: mb, 3+: custom
         document.body.appendChild(this.stats.dom)
 
         this.initCameras();
@@ -202,7 +202,10 @@ class MyApp  {
         this.renderer.render(this.HUDscene, this.cameraOrtho);
 
         // subsequent async calls to the render loop
-        requestAnimationFrame( this.render.bind(this) );
+        // set the render rate to 60fps
+        setTimeout( () => {
+            requestAnimationFrame( this.render.bind(this) );
+        }, 1000/60);
 
         this.lastCameraName = this.activeCameraName
         this.stats.end()
