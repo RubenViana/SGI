@@ -23,7 +23,7 @@ class MainMenuState extends State {
         this.app.scene.add(this.app.track);
         this.app.scene.add(this.app.plane);
         this.app.scene.add(this.app.powerUps);
-        this.app.scene.add(this.app.car);
+        // this.app.scene.add(this.app.car);
         this.app.scene.add(this.app.obstacles);
 
         this.app.scene.add(this.buttonsGroup);
@@ -93,7 +93,7 @@ class MainMenuState extends State {
         if (intersects.length > 0) {
             switch (intersects[0].object.name) {
                 case "Play":
-                    this.app.scene.remove(this.buttons);
+                    this.app.scene.remove(this.buttonsGroup);
                     this.setState(new GameSettingsState(this.app));
                     break;
                 case "Settings":

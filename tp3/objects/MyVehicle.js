@@ -3,7 +3,7 @@ import { OBB } from 'three/addons/math/OBB.js';
 
 class MyVehicle extends THREE.Object3D {
 
-    constructor(v_max, v_min, acceleration, deceleration, s_max, steering_speed) {
+    constructor(v_max, v_min, acceleration, deceleration, s_max, steering_speed, color) {
         super();
         this.v_max_default = v_max;
         this.v_max = this.v_max_default;
@@ -16,6 +16,7 @@ class MyVehicle extends THREE.Object3D {
         this.steering_speed = steering_speed;
         this.s_max = s_max;
         this.wheelSpinAngle = 0;
+        this.color = color;
 
         // Makes the pivot point of the car the back axis of the car
         this.position.x = -5;
@@ -37,6 +38,10 @@ class MyVehicle extends THREE.Object3D {
         this.hitbox.userData.obb = new OBB();
 
         this.add(this.hitbox);
+
+        // Car color
+        this.carMaterial = new THREE.MeshPhongMaterial({ color: this.color });
+        this.carMaterial2 = new THREE.MeshPhongMaterial({ color: 0x000000 });
 
 
         // Texture tire
@@ -119,7 +124,7 @@ class MyVehicle extends THREE.Object3D {
 
         // Bench
         let bench = new THREE.BoxGeometry( this.benchWidth, this.benchHeight, this.benchDepth );
-        this.benchMesh = new THREE.Mesh( bench, this.benchMaterial );
+        this.benchMesh = new THREE.Mesh( bench, this.carMaterial );
         this.benchMesh.position.y = 2;
 
         // Texture bench back
@@ -137,7 +142,7 @@ class MyVehicle extends THREE.Object3D {
 
         // Bench back
         let benchBack = new THREE.CylinderGeometry( this.benchBackRadiusTop, this.benchBackRadiusBottom, this.benchBackHeight, this.benchBackRadialSegments );
-        this.benchBackMesh = new THREE.Mesh( benchBack, this.benchBackMaterial );
+        this.benchBackMesh = new THREE.Mesh( benchBack, this.carMaterial );
         this.benchBackMesh.position.x = -3;
         this.benchBackMesh.position.y = 2.5;
         this.benchBackMesh.position.z = 0;
@@ -157,7 +162,7 @@ class MyVehicle extends THREE.Object3D {
 
         // Front
         let front = new THREE.BoxGeometry( this.frontWidth, this.frontHeight, this.frontDepth );
-        this.frontMesh = new THREE.Mesh( front, this.frontMaterial );
+        this.frontMesh = new THREE.Mesh( front, this.carMaterial );
         this.frontMesh.position.x = 3.5;
         this.frontMesh.position.y = 2;
         this.frontMesh.position.z = 0;
@@ -177,7 +182,7 @@ class MyVehicle extends THREE.Object3D {
 
         // Front face
         let frontFace = new THREE.CylinderGeometry( this.frontFaceRadiusTop, this.frontFaceRadiusBottom, this.frontFaceHeight, this.frontFaceRadialSegments );
-        this.frontFaceMesh = new THREE.Mesh( frontFace, this.frontFaceMaterial );
+        this.frontFaceMesh = new THREE.Mesh( frontFace, this.carMaterial );
         this.frontFaceMesh.position.x = 7;
         this.frontFaceMesh.position.y = 2;
         this.frontFaceMesh.position.z = 0;
@@ -197,7 +202,7 @@ class MyVehicle extends THREE.Object3D {
 
         // Front wing
         let frontWing = new THREE.BoxGeometry( this.frontWingWidth, this.frontWingHeight, this.frontWingDepth );
-        this.frontWingMesh = new THREE.Mesh( frontWing, this.frontWingMaterial );
+        this.frontWingMesh = new THREE.Mesh( frontWing, this.carMaterial );
         this.frontWingMesh.position.x = 10;
         this.frontWingMesh.position.y = 2;
         this.frontWingMesh.position.z = 0;
@@ -217,7 +222,7 @@ class MyVehicle extends THREE.Object3D {
 
         // Front wing left and right
         let frontWingLeft = new THREE.CylinderGeometry( this.frontWingLeftRadiusTop, this.frontWingLeftRadiusBottom, this.frontWingLeftHeight, this.frontWingLeftRadialSegments );
-        this.frontWingLeftMesh = new THREE.Mesh( frontWingLeft, this.frontWingLeftMaterial );
+        this.frontWingLeftMesh = new THREE.Mesh( frontWingLeft, this.carMaterial );
         this.frontWingLeftMesh.position.x = 10;
         this.frontWingLeftMesh.position.y = 2.5;
         this.frontWingLeftMesh.position.z = -3.5;
@@ -225,7 +230,7 @@ class MyVehicle extends THREE.Object3D {
         this.frontWingLeftMesh.rotation.z = Math.PI;
 
         let frontWingRight = new THREE.CylinderGeometry( this.frontWingLeftRadiusTop, this.frontWingLeftRadiusBottom, this.frontWingLeftHeight, this.frontWingLeftRadialSegments );
-        this.frontWingRightMesh = new THREE.Mesh( frontWingRight, this.frontWingLeftMaterial );
+        this.frontWingRightMesh = new THREE.Mesh( frontWingRight, this.carMaterial );
         this.frontWingRightMesh.position.x = 10;
         this.frontWingRightMesh.position.y = 2.5;
         this.frontWingRightMesh.position.z = 3.5;
@@ -246,7 +251,7 @@ class MyVehicle extends THREE.Object3D {
 
         // Little front wing
         let littleFrontWing = new THREE.BoxGeometry( this.littleFrontWingWidth, this.littleFrontWingHeight, this.littleFrontWingDepth );
-        this.littleFrontWingMesh = new THREE.Mesh( littleFrontWing, this.littleFrontWingMaterial );
+        this.littleFrontWingMesh = new THREE.Mesh( littleFrontWing, this.carMaterial2 );
         this.littleFrontWingMesh.position.x = 8.5;
         this.littleFrontWingMesh.position.y = 2;
         this.littleFrontWingMesh.position.z = 0;
@@ -258,8 +263,8 @@ class MyVehicle extends THREE.Object3D {
         this.wheelTexture.colorSpace = THREE.SRGBColorSpace;
 
         // Wheel related attributes (Torus)
-        this.wheelRadius = 0.5;
-        this.wheelTubeRabius = 0.15;
+        this.wheelRadius = 0.3;
+        this.wheelTubeRabius = 0.05;
         this.wheelRadialSegments = 10;
         this.wheelTubularSegments = 24;
         this.wheelMaterial = new THREE.MeshPhongMaterial({ map: this.wheelTexture });
@@ -268,7 +273,7 @@ class MyVehicle extends THREE.Object3D {
         let wheel = new THREE.TorusGeometry( this.wheelRadius, this.wheelTubeRabius, this.wheelRadialSegments, this.wheelTubularSegments );
         this.wheelMesh = new THREE.Mesh( wheel, this.wheelMaterial );
         this.wheelMesh.position.x = 2;
-        this.wheelMesh.position.y = 3.2;
+        this.wheelMesh.position.y = 3;
         this.wheelMesh.position.z = 0;
         this.wheelMesh.rotation.y = Math.PI / 2;
 
@@ -287,14 +292,14 @@ class MyVehicle extends THREE.Object3D {
 
         // Little back wing left and right
         let littleBackWingLeft = new THREE.CylinderGeometry( this.littleBackWingRadiusTop, this.littleBackWingRadiusBottom, this.littleBackWingHeight, this.littleBackWingRadialSegments );
-        this.littleBackWingLeftMesh = new THREE.Mesh( littleBackWingLeft, this.littleBackWingMaterial );
+        this.littleBackWingLeftMesh = new THREE.Mesh( littleBackWingLeft, this.carMaterial );
         this.littleBackWingLeftMesh.position.x = -5;
         this.littleBackWingLeftMesh.position.y = 4;
         this.littleBackWingLeftMesh.position.z = -2.5;
         this.littleBackWingLeftMesh.rotation.y = Math.PI / 2;
 
         let littleBackWingRight = new THREE.CylinderGeometry( this.littleBackWingRadiusTop, this.littleBackWingRadiusBottom, this.littleBackWingHeight, this.littleBackWingRadialSegments );
-        this.littleBackWingRightMesh = new THREE.Mesh( littleBackWingRight, this.littleBackWingMaterial );
+        this.littleBackWingRightMesh = new THREE.Mesh( littleBackWingRight, this.carMaterial );
         this.littleBackWingRightMesh.position.x = -5;
         this.littleBackWingRightMesh.position.y = 4;
         this.littleBackWingRightMesh.position.z = 2.5;
@@ -314,7 +319,7 @@ class MyVehicle extends THREE.Object3D {
 
         // Back wing
         let backWing = new THREE.BoxGeometry( this.backWingWidth, this.backWingHeight, this.backWingDepth );
-        this.backWingMesh = new THREE.Mesh( backWing, this.backWingMaterial );
+        this.backWingMesh = new THREE.Mesh( backWing, this.carMaterial );
         this.backWingMesh.position.x = -5;
         this.backWingMesh.position.y = 4.9;
         this.backWingMesh.position.z = 0;
@@ -339,6 +344,8 @@ class MyVehicle extends THREE.Object3D {
                   this.littleBackWingLeftMesh,
                   this.littleBackWingRightMesh,
                   this.backWingMesh );
+
+        this.scale.set(0.5, 0.5, 0.5);
     }
 
     accelerate_forward() {

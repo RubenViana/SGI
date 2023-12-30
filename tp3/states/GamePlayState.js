@@ -20,6 +20,14 @@ class GamePlayState extends State {
         this.elapsedTime = 0;
         this.clock = new THREE.Clock();
 
+        // set vehicles to the starting position
+        this.gameSettings.players[0].car.position.set(0, 0.3, 150);
+        this.gameSettings.players[0].car.rotation.y = Math.PI/2;
+        this.gameSettings.players[0].car.direction = Math.PI/2;
+        this.gameSettings.players[1].car.position.set(0, 0.3, 120);
+        this.gameSettings.players[1].car.rotation.y = Math.PI/2;
+        this.gameSettings.players[1].car.direction = Math.PI/2;
+
         // create car camera
         this.carCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         this.carCamera.position.set(0, 5, -10); // adjust the position relative to the car
@@ -33,6 +41,9 @@ class GamePlayState extends State {
 
         // set third person camera as active camera
         this.app.setActiveCamera("CarThirdPerson");
+
+        this.app.scene.add(this.gameSettings.players[0].car);
+        this.app.scene.add(this.gameSettings.players[1].car);
     }
 
     update() {
@@ -58,7 +69,9 @@ class GamePlayState extends State {
         this.updateCarCamera();
         this.updateCollisions();
 
-        
+        // tmp car2 update
+        this.gameSettings.players[1].car.update();
+
 
         this.updateHUD();
     }
@@ -78,6 +91,23 @@ class GamePlayState extends State {
                 this.gameSettings.players[0].car.hitbox.material.visible = true;
             }
         }
+
+        // collision with car
+        const car2 = this.gameSettings.players[1].car.hitbox;
+        const carObb2 = car2.userData.obb;
+        if ( carObb.intersectsOBB( carObb2 ) === true ) {
+            console.log("Collision with car detected!");
+
+            // only for testing
+            this.gameSettings.players[0].car.hitbox.material.visible = true;
+
+            this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default * 0.3;
+            setTimeout(() => {
+                this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default;
+            }, 3000);
+        }
+
+
         /* 
         // collision with obstacles
         for ( let i = 0; i < this.gameSettings.obstacles.children.length; i ++ ) {
@@ -101,7 +131,9 @@ class GamePlayState extends State {
         // need to redo this, its a mess
         if (this.gameSettings.track.isInsideTrack(this.gameSettings.players[0].car)){
             // console.log("inside");
-            this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default;
+            if (this.gameSettings.players[0].car.v_max === this.gameSettings.players[0].car.v_max_default / 2) {
+                this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default;
+            }
         }
         else {
             // console.log("outside");
@@ -211,31 +243,31 @@ class GamePlayState extends State {
     updateCar() {
         // update car position
         if (this.keys.forward) {
-            this.app.car.accelerate_forward();
+            this.gameSettings.players[0].car.accelerate_forward();
         }
 
         if (this.keys.backward) {
-            this.app.car.accelerate_backward();
+            this.gameSettings.players[0].car.accelerate_backward();
         }
 
         if (!this.keys.forward && !this.keys.backward){
-            this.app.car.decelerate();
+            this.gameSettings.players[0].car.decelerate();
         }
 
         if (this.keys.left) {
-            this.app.car.turnLeft();
+            this.gameSettings.players[0].car.turnLeft();
         }
 
         if (this.keys.right) {
-            this.app.car.turnRight();
+            this.gameSettings.players[0].car.turnRight();
         }
 
         if (!this.keys.left && !this.keys.right){
-            this.app.car.unTurn();
+            this.gameSettings.players[0].car.unTurn();
         }
 
         // update car position
-        this.app.car.update();
+        this.gameSettings.players[0].car.update();
     }
 
     updateHUD() {

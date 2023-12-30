@@ -58,11 +58,16 @@ class InitState extends State {
 
     this.app.powerUps = powerUps;
 
-    // Add Car to Scene
-    this.app.car = new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90);
-    this.app.car.scale.set(0.5, 0.5, 0.5);
-    this.app.car.position.set(0, 0.4, 0);
+    this.app.playerCars = [
+      new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90, 0xff0000),
+      new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90, 0x00ff00),
+      new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90, 0x0000ff),
+    ];
 
+    this.app.cpuCars = [
+      new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90, 0xff0000),
+      new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90, 0x0000ff),
+    ];
     // Add Obstacles to Scene   !!! -> this is not the correct 'obstacles' object, this is the delimitation of the track that needs to be in the plane object
 
     this.obstacles = new THREE.Group();

@@ -11,7 +11,7 @@ class State {
 
         this.raycaster = new THREE.Raycaster()
         this.raycaster.near = 1
-        this.raycaster.far = 100
+        this.raycaster.far = 1000
     }
     
     update() {}
@@ -93,6 +93,30 @@ class State {
         } else {
             this.restoreColorOfFirstPickedObj()
         }
+    }
+
+    pickingCarHelper(intersects) {
+        if (intersects.length > 0) {
+            const obj = intersects[0].object.parent;
+            this.changeScaleOfFirstPickedObj(obj)
+        } else {
+            this.restoreScaleOfFirstPickedObj()
+        }
+    }
+
+    changeScaleOfFirstPickedObj(obj) {
+        if (this.lastPickedCar != obj) {
+            if (this.lastPickedCar)
+                this.lastPickedCar.scale.set(0.5, 0.5, 0.5);
+            this.lastPickedCar = obj;
+            this.lastPickedCar.scale.set(0.6, 0.6, 0.6);
+        }
+    }
+
+    restoreScaleOfFirstPickedObj() {
+        if (this.lastPickedCar)
+            this.lastPickedCar.scale.set(0.5, 0.5, 0.5);
+        this.lastPickedCar = null;
     }
 }
 
