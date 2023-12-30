@@ -39,7 +39,24 @@ class InitState extends State {
     this.app.track = new MyTrack();
 
     // Add PowerUp to Scene
-    this.app.powerUp = new MyPowerUp();
+    const powerUps = new THREE.Group();
+    const pu1 = new MyPowerUp();
+    pu1.position.set(0, 3, 100);
+    pu1.update();
+    const pu2 = new MyPowerUp();
+    pu2.position.set(0, 3, 200);
+    pu2.update();
+    const pu3 = new MyPowerUp();
+    pu3.position.set(5, 3, 130);
+    pu3.update();
+
+    powerUps.add(
+      pu1,
+      pu2,
+      pu3
+    );
+
+    this.app.powerUps = powerUps;
 
     // Add Car to Scene
     this.app.car = new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90);

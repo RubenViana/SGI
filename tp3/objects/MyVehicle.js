@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { OBB } from 'three/addons/math/OBB.js';
 
 class MyVehicle extends THREE.Object3D {
 
@@ -23,12 +24,20 @@ class MyVehicle extends THREE.Object3D {
 
         // Create a hitbox (bounding box)
         const hitboxGeometry = new THREE.BoxGeometry(17, 5, 7); // Adjust dimensions as needed
-        const hitboxMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true, visible: false});
-        this.hitbox = new THREE.Mesh(hitboxGeometry, hitboxMaterial);
+
+        // setup OBB on geometry level (doing this manually for now)
+        hitboxGeometry.userData.obb = new OBB();
+        hitboxGeometry.userData.obb.halfSize.copy( new THREE.Vector3( 17, 5, 7 ).multiplyScalar(0.5) );
+
+        this.hitbox = new THREE.Mesh(hitboxGeometry, new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true, visible: false}));
         this.hitbox.position.x = 2.2;
         this.hitbox.position.y = 3;
         this.hitbox.position.z = 0;
+
+        this.hitbox.userData.obb = new OBB();
+
         this.add(this.hitbox);
+
 
         // Texture tire
         this.tireTexture = new THREE.TextureLoader().load('./objects/textures/tire.png');
@@ -430,6 +439,16 @@ class MyVehicle extends THREE.Object3D {
         this.tireMeshRF.rotation.z = -this.wheelSpinAngle;
         this.tireMeshLB.rotation.z = -this.wheelSpinAngle;
         this.tireMeshRB.rotation.z = -this.wheelSpinAngle;
+
+        // only for testing
+        this.hitbox.material.visible = false;
+        
+        this.hitbox.updateMatrix();
+        this.hitbox.updateMatrixWorld();
+
+        // update OBB
+        this.hitbox.userData.obb.copy( this.hitbox.geometry.userData.obb );
+        this.hitbox.userData.obb.applyMatrix4( this.hitbox.matrixWorld );
     }
 
 }

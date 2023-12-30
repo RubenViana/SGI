@@ -22,7 +22,7 @@ class MainMenuState extends State {
         // add race track to scene
         this.app.scene.add(this.app.track);
         this.app.scene.add(this.app.plane);
-        this.app.scene.add(this.app.powerUp);
+        this.app.scene.add(this.app.powerUps);
         this.app.scene.add(this.app.car);
         this.app.scene.add(this.app.obstacles);
 

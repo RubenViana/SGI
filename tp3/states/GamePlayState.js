@@ -53,11 +53,51 @@ class GamePlayState extends State {
 
         // check car collision with power up -> add power up to car
         // check car collision with obstacle -> delay car
-
+        
         this.updateCar();
         this.updateCarCamera();
-        // this.updateCollisions();
+        this.updateCollisions();
 
+        
+
+        this.updateHUD();
+    }
+
+    updateCollisions() {
+        const car = this.gameSettings.players[0].car.hitbox;
+        const carObb = car.userData.obb;
+
+        // collision with power ups
+        for ( let i = 0; i < this.gameSettings.powerUps.children.length; i ++ ) {
+            const objectToTest = this.gameSettings.powerUps.children[ i ];
+            const obbToTest = objectToTest.userData.obb;
+            if ( carObb.intersectsOBB( obbToTest ) === true ) {
+                console.log("Collision with power up detected!");
+
+                // only for testing
+                this.gameSettings.players[0].car.hitbox.material.visible = true;
+            }
+        }
+        /* 
+        // collision with obstacles
+        for ( let i = 0; i < this.gameSettings.obstacles.children.length; i ++ ) {
+            const objectToTest = this.gameSettings.obstacles.children[ i ];
+            const obbToTest = objectToTest.userData.obb;
+            if ( carObb.intersectsOBB( obbToTest ) === true ) {
+                console.log("Collision with obstacle detected!");
+            }
+        }
+
+        // collision with other plane objects
+        for ( let i = 0; i < this.gameSettings.plane.children.length; i ++ ) {
+            const objectToTest = this.gameSettings.plane.children[ i ];
+            const obbToTest = objectToTest.userData.obb;
+            if ( carObb.intersectsOBB( obbToTest ) === true ) {
+                console.log("Collision with plane object detected!");
+            }
+        } */
+
+        // collision with track
         // need to redo this, its a mess
         if (this.gameSettings.track.isInsideTrack(this.gameSettings.players[0].car)){
             // console.log("inside");
@@ -67,75 +107,8 @@ class GamePlayState extends State {
             // console.log("outside");
             this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default / 2;
         }
-
-        this.updateHUD();
     }
 
-    updateCollisions() {
-        for (let i = 0; i < this.gameSettings.plane.children.length; i++) {
-            const obj = this.gameSettings.plane.children[i];
-            this.checkCollisions(obj)
-        }
-    }
-
-    checkCollisions(obj) {
-        if (obj.type == "Mesh") {
-            if (obj.geometry.type == "BoxGeometry") {
-                // use parameters width, height and depth to check collision
-                const objBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-                objBB.setFromObject(obj);
-
-                let helper = new THREE.Box3Helper(objBB, 0x00ff00);
-                this.app.scene.add(helper);
-                setTimeout(() => {
-                    this.app.scene.remove(helper);
-                }, 100);
-            }
-            else  {         // use sphere for all other geometries
-                // use parameters radius to check collision
-                const objBB = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-                objBB.setFromObject(obj);
-
-                let helper = new THREE.Box3Helper(objBB, 0x00ff00);
-                this.app.scene.add(helper);
-                setTimeout(() => {
-                    this.app.scene.remove(helper);
-                }, 10);
-
-            }
-        }
-        else if (obj.type == "Group" || obj.type == "Object3D") {
-            for (let i = 0; i < obj.children.length; i++) {
-                const child = obj.children[i];
-                this.checkCollisions(child);
-            }
-        }
-    }
-
-    checkCollisionWithObstacles() {
-        let bb = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
-        bb.setFromObject(this.gameSettings.players[0].car);
-        let helper = new THREE.Box3Helper(bb, 0x00ff00);
-        this.app.scene.add(helper);
-
-        setTimeout(() => {
-            this.app.scene.remove(helper);
-        }, 100);
-
-        for (let i = 0; i < this.gameSettings.obstacles.children.length; i++) {
-            const obj = this.gameSettings.obstacles.children[i];
-            console.log(obj);
-            obj.bb.copy(obj.protections).applyMatrix4(obj.matrixWorld);
-            if (this.checkCollision(bb, obj.bb)) {
-                console.log("Collision with obstacle detected!");
-                // this.gameSettings.players[0].car.velocity = 0;
-            }
-        }
-    }
-
-    checkCollision(ob1, ob2) {
-        return false;
-    }
 
     updateCarCamera() {
         if (this.app.activeCameraName == "CarThirdPerson"){
