@@ -66,8 +66,8 @@ class GamePlayState extends State {
         // check car collision with obstacle -> delay car
         
         this.updateCar();
-        this.updateCarCamera();
         this.updateCollisions();
+        this.updateCarCamera();
 
         // tmp car2 update
         this.gameSettings.players[1].car.update();
@@ -98,6 +98,10 @@ class GamePlayState extends State {
         if ( carObb.intersectsOBB( carObb2 ) === true ) {
             console.log("Collision with car detected!");
 
+            this.gameSettings.players[0].car.position.x -= (this.gameSettings.players[0].car.velocity * Math.cos(-this.gameSettings.players[0].car.direction)) * 2;
+            this.gameSettings.players[0].car.position.z -= (this.gameSettings.players[0].car.velocity * Math.sin(-this.gameSettings.players[0].car.direction)) * 2;
+            this.gameSettings.players[0].car.velocity = 0;
+
             // only for testing
             this.gameSettings.players[0].car.hitbox.material.visible = true;
 
@@ -108,24 +112,18 @@ class GamePlayState extends State {
         }
 
 
-        /* 
-        // collision with obstacles
-        for ( let i = 0; i < this.gameSettings.obstacles.children.length; i ++ ) {
-            const objectToTest = this.gameSettings.obstacles.children[ i ];
-            const obbToTest = objectToTest.userData.obb;
-            if ( carObb.intersectsOBB( obbToTest ) === true ) {
-                console.log("Collision with obstacle detected!");
-            }
-        }
+        
+        // // collision with obstacles
+        // for ( let i = 0; i < this.gameSettings.obstacles.children.length; i ++ ) {
+        //     const objectToTest = this.gameSettings.obstacles.children[ i ];
+        //     const obbToTest = objectToTest.userData.obb;
+        //     if ( carObb.intersectsOBB( obbToTest ) === true ) {
+        //         console.log("Collision with obstacle detected!");
+        //     }
+        // }
 
         // collision with other plane objects
-        for ( let i = 0; i < this.gameSettings.plane.children.length; i ++ ) {
-            const objectToTest = this.gameSettings.plane.children[ i ];
-            const obbToTest = objectToTest.userData.obb;
-            if ( carObb.intersectsOBB( obbToTest ) === true ) {
-                console.log("Collision with plane object detected!");
-            }
-        } */
+        this.checkCollision(this.gameSettings.plane.children);
 
         // collision with track
         // need to redo this, its a mess
@@ -138,6 +136,32 @@ class GamePlayState extends State {
         else {
             // console.log("outside");
             this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default / 2;
+        }
+    }
+
+    checkCollision(list) {
+        const car = this.gameSettings.players[0].car.hitbox;
+        const carObb = car.userData.obb;
+        for ( let i = 0; i < list.length; i ++ ) {
+            const objectToTest = list[ i ];
+            
+            if (objectToTest.type === "Mesh") {
+                const obbToTest = objectToTest.userData.obb;
+                if ( carObb.intersectsOBB( obbToTest ) === true ) {
+                    console.log("Collision with plane object detected!");
+
+                    this.gameSettings.players[0].car.position.x -= (this.gameSettings.players[0].car.velocity * Math.cos(-this.gameSettings.players[0].car.direction)) * 2;
+                    this.gameSettings.players[0].car.position.z -= (this.gameSettings.players[0].car.velocity * Math.sin(-this.gameSettings.players[0].car.direction)) * 2;
+                    this.gameSettings.players[0].car.velocity = 0;
+
+                    // only for testing
+                    this.gameSettings.players[0].car.hitbox.material.visible = true;
+                }
+            }
+            else {
+                this.checkCollision(objectToTest.children);
+            }
+            
         }
     }
 

@@ -207,10 +207,7 @@ class InitState extends State {
     obstacles39.rotateY(Math.PI / 3);
 
     const obstacles = new THREE.Group();
-    obstacles.add(obstacles1, obstacles2, obstacles3, obstacles4, obstacles5, obstacles6, obstacles7, obstacles8, obstacles9, obstacles10, obstacles11, obstacles12, obstacles13, obstacles14, obstacles15, obstacles16, obstacles17, obstacles18,
-      obstacles19, obstacles20, obstacles21, obstacles22, obstacles23, obstacles24, obstacles25, obstacles26, obstacles27,
-      obstacles28, obstacles29, obstacles30, obstacles31, obstacles32, obstacles33, obstacles34, obstacles35, obstacles36,
-      obstacles37, obstacles38, obstacles39);
+    
 
     this.app.obstacles = obstacles;
 
