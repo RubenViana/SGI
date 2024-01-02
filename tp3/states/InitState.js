@@ -8,7 +8,7 @@ import { MyObstacle } from "../objects/MyObstacle.js";
 import { MyAdvertisement } from "../objects/MyAdvertisement.js";
 import { MyBoxSeparator } from "../objects/MyBoxSeparator.js";
 import { MyGoal } from "../objects/MyGoal.js";
-import { MyLakes } from "../objects/MyLakes.js";
+import { MyLakes } from "../MyLakes.js";
 import { MyTrees } from "../objects/MyTrees.js";
 import { MyRocks } from "../objects/MyRocks.js";
 import { MyPitStop } from "../objects/MyPitStop.js";
@@ -16,7 +16,6 @@ import { MyRoad } from "../objects/MyRoad.js";
 import { MySeparator } from "../objects/MySeparator.js";
 import { MyLimiters } from "../objects/MyLimiters.js";
 import * as THREE from 'three';
-import {FontLoader} from 'three/addons/loaders/FontLoader.js';
 
 class InitState extends State {
   constructor(app) {

@@ -55,20 +55,20 @@ class GamePlayState extends State {
         //Add lapSprite sprite
         this.lapSprite = new Sprite("1 / 3");
         this.lapSprite.scale.set(100, 80, 1);
-        this.lapSprite.position.set(window.innerWidth / 2 - 150, window.innerHeight / 2 - 50, 0); // Adjust position accordingly
+        this.lapSprite.position.set(window.innerWidth / 2.2, window.innerHeight / 2.2, 0); // Adjust position accordingly
         this.app.HUDscene.add(this.lapSprite);
         this.lapSprite.visible = false;
 
 
         this.timerSprite = new Sprite("0:00");
         this.timerSprite.scale.set(100, 80, 1);
-        this.timerSprite.position.set(window.innerWidth / 2 - 900, window.innerHeight / 2 - 50, 0);
+        this.timerSprite.position.set(window.innerWidth / 40, window.innerHeight / 2.2, 0);
         this.app.HUDscene.add(this.timerSprite);
         this.timerSprite.visible = false;
 
         this.speedSprite = new Sprite("Speed: 0", 512 * 1.3, 256 * 1.3);
         this.speedSprite.scale.set(200, 100, 1);
-        this.speedSprite.position.set(-window.innerWidth / 4 + 500, window.innerHeight / 4 - 500, 1); // Position bottom right
+        this.speedSprite.position.set(window.innerWidth / 2.2, -window.innerHeight / 3, 1); // Position bottom right
         this.app.HUDscene.add(this.speedSprite);
         this.speedSprite.visible = false;
 
@@ -77,12 +77,12 @@ class GamePlayState extends State {
 
         const sprite = new THREE.Sprite( material );
         sprite.scale.set(512, 256 * 1.3, 1);
-        sprite.position.set(-window.innerWidth / 4 + 500, window.innerHeight / 4 - 500, 1);
+        sprite.position.set(window.innerWidth / 40, -window.innerHeight / 4, 1);
         this.app.HUDscene.add( sprite );
 
         this.speedometer = new Speedometer(0, 512 * 1.3, 256 * 1.3);
         this.speedometer.scale.set(350, 200, 0);
-        this.speedometer.position.set(-window.innerWidth / 4 + 500, window.innerHeight / 4 - 500, 1); 
+        this.speedometer.position.set(window.innerWidth / 40, -window.innerHeight / 4, 1); 
         this.app.HUDscene.add(this.speedometer);
         this.speedometer.visible = false;
     }
@@ -364,7 +364,7 @@ class GamePlayState extends State {
             this.timerSprite.updateText(`${this.elapsedTime.toFixed(2)}`, '#ffffff');
         }
         else {
-            this.speedSprite.updateText(`Speed: ${(Math.abs(this.gameSettings.players[0].car.velocity) * 10).toFixed(0)}`);
+            this.speedSprite.updateText(`Speed: ${(Math.abs(this.gameSettings.players[0].car.velocity) * 10).toFixed(0)}`, '#800000');
             this.timerSprite.updateText(`${this.elapsedTime.toFixed(2)}`, '#800000');
         }
         this.speedometer.updateSpeed(this.gameSettings.players[0].car.velocity*100);

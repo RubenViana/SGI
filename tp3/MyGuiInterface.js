@@ -29,6 +29,14 @@ class MyGuiInterface  {
      * Initialize the gui interface
      */
     init() {
+        // add a folder to the gui interface for the box
+        const gui = this.datgui.addFolder( 'Options' );
+        const shaderList = this.contents.fromShaderList()
+		gui.add(this.contents, 'selectedObjectIndex', this.contents.objectList).onChange(this.contents.onSelectedObjectChanged.bind(this.contents)).name('Object Type');
+		gui.add(this.contents, 'selectedShaderIndex', shaderList).name('Shader examples').onChange(this.contents.onSelectedShaderChanged.bind(this.contents));
+		gui.add(this.contents, 'showShaderCode').name('Show Shader Code').onChange(this.contents.onShaderCodeVizChanged.bind(this.contents));
+		gui.add(this.contents, 'scaleFactor',0,1,0.01).onChange(this.contents.onScaleFactorChanged.bind(this.contents));
+        gui.add(this.contents, 'blendFactor',0,1,0.01).onChange(this.contents.onBlendFactorChanged.bind(this.contents));
     }
 }
 
