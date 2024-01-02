@@ -3,7 +3,7 @@ import { OBB } from 'three/addons/math/OBB.js';
 
 class MyLimiters extends THREE.Object3D {
 
-    constructor() {
+    constructor(a, b, c) {
         super();
 
         // Material curve protections (Cylinder)
@@ -14,7 +14,7 @@ class MyLimiters extends THREE.Object3D {
         this.curveProtectionMaterialRed = new THREE.MeshPhongMaterial({ color: 0xff0000 });
         this.curveProtectionMaterialWhite = new THREE.MeshPhongMaterial({ color: 0xffffff });
 
-        // Curve protections
+        // Curve protectionsz
         this.curveProtectionGeometry = new THREE.CylinderGeometry(this.curveProtectionRadiusTop, this.curveProtectionRadiusBottom, this.curveProtectionHeight, this.curveProtectionRadialSegments);
         this.curveProtectionGeometry.userData.obb = new OBB();
         this.curveProtectionGeometry.userData.obb.halfSize.copy(new THREE.Vector3(this.curveProtectionRadiusTop / 2, this.curveProtectionHeight / 2, this.curveProtectionRadiusBottom / 2));
@@ -28,19 +28,23 @@ class MyLimiters extends THREE.Object3D {
         this.curveProtectionRight.userData.obb = new OBB();
         this.curveProtectionRightRight = new THREE.Mesh(this.curveProtectionGeometry, this.curveProtectionMaterialWhite);
         this.curveProtectionRightRight.userData.obb = new OBB();
-        this.curveProtectionLeftLeft.position.set(0, 1.25, 0);
-        this.curveProtectionLeft.position.set(6, 1.25, 0);
-        this.curveProtectionCenter.position.set(12, 1.25, 0);
-        this.curveProtectionRight.position.set(18, 1.25, 0);
-        this.curveProtectionRightRight.position.set(24, 1.25, 0);
+        this.curveProtectionLeftLeft.position.set(0 + a - Math.cos(c) * 12 + 12, 1.25, 0 + b + Math.sin(c) * 12);
+        this.curveProtectionLeft.position.set(6 + a - Math.cos(c) * 6 + 6, 1.25, 0 + b + Math.sin(c) * 6);
+        this.curveProtectionCenter.position.set(12 + a, 1.25, 0 + b);
+        this.curveProtectionRight.position.set(18 + a + Math.cos(c) * 6 - 6, 1.25, 0 + b - Math.sin(c) * 6);
+        this.curveProtectionRightRight.position.set(24 + a + Math.cos(c) * 12 - 12, 1.25, 0 + b - Math.sin(c) * 12);
+
         
+
         this.update();
 
-        this.add( this.curveProtectionLeftLeft,
+        this.add(
+            this.curveProtectionLeftLeft,
             this.curveProtectionLeft,
             this.curveProtectionCenter,
             this.curveProtectionRight,
-            this.curveProtectionRightRight);
+            this.curveProtectionRightRight
+        );
     }
 
     update() {

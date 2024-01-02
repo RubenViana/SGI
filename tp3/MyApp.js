@@ -116,6 +116,17 @@ class MyApp  {
         orthoFront.position.set(0,0, this.frustumSize /4) 
         orthoFront.lookAt( new THREE.Vector3(0,0,0) );
         this.cameras['Front'] = orthoFront
+
+        // create a HUD camera
+        this.hudCamera = new THREE.OrthographicCamera(
+            -window.innerWidth / 2,   // left
+            window.innerWidth / 2,    // right
+            window.innerHeight / 2,   // top
+            -window.innerHeight / 2,  // bottom
+            1,                        // near
+            50                        // far
+        );
+        this.hudCamera.position.set(40, 40, 40);
     }
 
     /**
@@ -195,11 +206,12 @@ class MyApp  {
         // required if controls.enableDamping or controls.autoRotate are set to true
         this.controls.update();
 
+        this.renderer.autoClear = false;
         // render the scene
         this.renderer.clear();
         this.renderer.render(this.scene, this.activeCamera);
         this.renderer.clearDepth();
-        this.renderer.render(this.HUDscene, this.cameraOrtho);
+        this.renderer.render(this.HUDscene, this.hudCamera);
 
         // subsequent async calls to the render loop
         // set the render rate to 60fps

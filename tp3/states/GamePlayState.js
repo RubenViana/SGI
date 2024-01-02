@@ -2,6 +2,8 @@ import { State } from "./State.js";
 import { GamePauseState } from "./GamePauseState.js";
 import * as THREE from "three";
 import { OBB } from 'three/addons/math/OBB.js';
+import { Sprite } from "../Sprite.js";
+import { Speedometer } from "../Speedometer.js";
 
 class GamePlayState extends State {
     constructor(app, gameSettings) {
@@ -44,6 +46,40 @@ class GamePlayState extends State {
 
         this.app.scene.add(this.gameSettings.players[0].car);
         this.app.scene.add(this.gameSettings.players[1].car);
+
+        //Add lapSprite sprite
+        this.lapSprite = new Sprite("1 / 3");
+        this.lapSprite.scale.set(100, 80, 1);
+        this.lapSprite.position.set(window.innerWidth / 2 - 150, window.innerHeight / 2 - 50, 0); // Adjust position accordingly
+        this.app.HUDscene.add(this.lapSprite);
+        this.lapSprite.visible = false;
+
+
+        this.timerSprite = new Sprite("0:00");
+        this.timerSprite.scale.set(100, 80, 1);
+        this.timerSprite.position.set(window.innerWidth / 2 - 900, window.innerHeight / 2 - 50, 0);
+        this.app.HUDscene.add(this.timerSprite);
+        this.timerSprite.visible = false;
+
+        this.speedSprite = new Sprite("Speed: 0", 512 * 1.3, 256 * 1.3);
+        this.speedSprite.scale.set(200, 100, 1);
+        this.speedSprite.position.set(-window.innerWidth / 4 + 500, window.innerHeight / 4 - 500, 1); // Position bottom right
+        this.app.HUDscene.add(this.speedSprite);
+        this.speedSprite.visible = false;
+
+        const map = new THREE.TextureLoader().load( "./objects/textures/speedometer.png" );
+        const material = new THREE.SpriteMaterial( { map: map } );
+
+        const sprite = new THREE.Sprite( material );
+        sprite.scale.set(512, 256 * 1.3, 1);
+        sprite.position.set(-window.innerWidth / 4 + 500, window.innerHeight / 4 - 500, 1);
+        this.app.HUDscene.add( sprite );
+
+        this.speedometer = new Speedometer(0, 512 * 1.3, 256 * 1.3);
+        this.speedometer.scale.set(350, 200, 0);
+        this.speedometer.position.set(-window.innerWidth / 4 + 500, window.innerHeight / 4 - 500, 1); 
+        this.app.HUDscene.add(this.speedometer);
+        this.speedometer.visible = false;
     }
 
     update() {
@@ -295,9 +331,27 @@ class GamePlayState extends State {
     }
 
     updateHUD() {
-        document.getElementById("gameHUD").style.display = "flex";
-        document.getElementById("laps").innerHTML = "Lap: " + this.gameSettings.players[0].laps + "/" + this.gameSettings.laps;
-        document.getElementById("time").innerHTML = "Time: " + this.elapsedTime.toFixed(2) + "s";
+
+        if (this.gameSettings.track.isInsideTrack(this.gameSettings.players[0].car)){
+            this.speedSprite.updateText(`Speed: ${(Math.abs(this.gameSettings.players[0].car.velocity) * 10).toFixed(0)}`, '#ffffff');
+            this.timerSprite.updateText(`${this.elapsedTime.toFixed(2)}`, '#ffffff');
+        }
+        else {
+            this.speedSprite.updateText(`Speed: ${(Math.abs(this.gameSettings.players[0].car.velocity) * 10).toFixed(0)}`);
+            this.timerSprite.updateText(`${this.elapsedTime.toFixed(2)}`, '#800000');
+        }
+        this.speedometer.updateSpeed(this.gameSettings.players[0].car.velocity*100);
+        this.speedSprite.visible = true;
+        this.speedometer.visible = true;
+
+        this.lapSprite.updateText(`${this.gameSettings.players[0].laps} / 3`);
+        this.lapSprite.visible = true;
+
+        this.timerSprite.visible = true;
+        
+        //document.getElementById("gameHUD").style.display = "flex";
+        //document.getElementById("laps").innerHTML = "Lap: " + this.gameSettings.players[0].laps + "/" + this.gameSettings.laps;
+        //document.getElementById("time").innerHTML = "Time: " + this.elapsedTime.toFixed(2) + "s";
     }
 
 }

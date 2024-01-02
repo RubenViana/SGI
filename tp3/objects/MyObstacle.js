@@ -1,40 +1,38 @@
 import * as THREE from 'three';
+import { OBB } from 'three/addons/math/OBB.js';
 
 class MyObstacle extends THREE.Object3D {
 
     constructor() {
         super();
 
-        // Material curve protections (Cylinder)
-        this.curveProtectionRadiusTop = 3;
-        this.curveProtectionRadiusBottom = 3;
-        this.curveProtectionHeight = 2.5;
-        this.curveProtectionRadialSegments = 32;
-        this.curveProtectionMaterialRed = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-        this.curveProtectionMaterialWhite = new THREE.MeshPhongMaterial({ color: 0xffffff });
+        // Material obstacle (Box)
+        this.obstacleWidth = 8;
+        this.obstacleHeight = 5;
+        this.obstacleDepth = 200;
+        this.obstacleMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
 
-        // Curve protections
-        this.curveProtectionGeometry = new THREE.CylinderGeometry(this.curveProtectionRadiusTop, this.curveProtectionRadiusBottom, this.curveProtectionHeight, this.curveProtectionRadialSegments);
-        this.curveProtectionLeftLeft = new THREE.Mesh(this.curveProtectionGeometry, this.curveProtectionMaterialWhite);
-        this.curveProtectionLeft = new THREE.Mesh(this.curveProtectionGeometry, this.curveProtectionMaterialRed);
-        this.curveProtectionCenter = new THREE.Mesh(this.curveProtectionGeometry, this.curveProtectionMaterialWhite);
-        this.curveProtectionRight = new THREE.Mesh(this.curveProtectionGeometry, this.curveProtectionMaterialRed);
-        this.curveProtectionRightRight = new THREE.Mesh(this.curveProtectionGeometry, this.curveProtectionMaterialWhite);
-        this.curveProtectionLeftLeft.position.set(0, 1.25, 0);
-        this.curveProtectionLeft.position.set(6, 1.25, 0);
-        this.curveProtectionCenter.position.set(12, 1.25, 0);
-        this.curveProtectionRight.position.set(18, 1.25, 0);
-        this.curveProtectionRightRight.position.set(24, 1.25, 0);
+        // Obstacle
+        this.obstacleGeometry = new THREE.BoxGeometry(this.obstacleWidth, this.obstacleHeight, this.obstacleDepth);
+        this.obstacleGeometry.userData.obb = new OBB();
+        this.obstacleGeometry.userData.obb.halfSize.copy(new THREE.Vector3(this.obstacleWidth / 2, this.obstacleHeight / 2, this.obstacleDepth / 2));
 
+        this.obstacle = new THREE.Mesh(this.obstacleGeometry, this.obstacleMaterial);
+        this.obstacle.position.set(345, 2.5, 510);
 
+        this.obstacle.userData.obb = new OBB();
 
+        this.update();
+        
+        this.add( this.obstacle );
 
-        this.add( this.curveProtectionLeftLeft,
-                  this.curveProtectionLeft,
-                  this.curveProtectionCenter,
-                  this.curveProtectionRight,
-                  this.curveProtectionRightRight);
+    }
 
+    update() {
+        this.obstacle.updateMatrix();
+        this.obstacle.updateMatrixWorld();
+        this.obstacle.userData.obb.copy(this.obstacleGeometry.userData.obb);
+        this.obstacle.userData.obb.applyMatrix4(this.obstacle.matrixWorld);
     }
 }
 

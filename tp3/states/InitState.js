@@ -5,6 +5,16 @@ import { MyTrack } from "../objects/MyTrack.js";
 import { MyVehicle } from "../objects/MyVehicle.js";
 import { MyPowerUp } from "../objects/MyPowerUp.js";
 import { MyObstacle } from "../objects/MyObstacle.js";
+import { MyAdvertisement } from "../objects/MyAdvertisement.js";
+import { MyBoxSeparator } from "../objects/MyBoxSeparator.js";
+import { MyGoal } from "../objects/MyGoal.js";
+import { MyLakes } from "../objects/MyLakes.js";
+import { MyTrees } from "../objects/MyTrees.js";
+import { MyRocks } from "../objects/MyRocks.js";
+import { MyPitStop } from "../objects/MyPitStop.js";
+import { MyRoad } from "../objects/MyRoad.js";
+import { MySeparator } from "../objects/MySeparator.js";
+import { MyLimiters } from "../objects/MyLimiters.js";
 import * as THREE from 'three';
 
 class InitState extends State {
@@ -33,10 +43,14 @@ class InitState extends State {
     // );
 
     // Add Plane to Scene
-    this.app.plane = new MyPlane();
+    this.plane =new MyPlane();
 
     // Add Track to Scene
     this.app.track = new MyTrack();
+
+    // Add Obstacles to Scene
+
+    this.app.obstacles = new MyObstacle();
 
     // Add PowerUp to Scene
     const powerUps = new THREE.Group();
@@ -70,147 +84,158 @@ class InitState extends State {
     ];
     // Add Obstacles to Scene   !!! -> this is not the correct 'obstacles' object, this is the delimitation of the track that needs to be in the plane object
 
-    this.obstacles = new THREE.Group();
-    this.app.obstacles = this.obstacles;
+   
+    // Add Advertisement to Scene
+
+    this.advertisement = new MyAdvertisement();
+
+    // Add Box Separator to Scene
+
+    this.boxSeparator = new MyBoxSeparator();
+
+    // Add Goal to Scene
+
+    this.goal = new MyGoal();
+
+    // Add Lakes to Scene
+
+    this.lakes = new MyLakes();
+
+    // Add Trees to Scene
+
+    this.trees = new MyTrees();
+
+    // Add Rocks to Scene
+
+    this.rocks = new MyRocks();
+
+    // Add PitStop to Scene
+
+    this.pitStop = new MyPitStop();
+
+    // Add Road to Scene
+
+    this.road = new MyRoad();
+
+    // Add Separator to Scene
+
+    this.separator = new MySeparator();
+
+    // Add limiters to Scene
+
+    const limiters = new THREE.Group();
 
     // First Curve
-    const obstacles4 = new MyObstacle();
-    obstacles4.position.set(80, 0, 605);
-    const obstacles5 = new MyObstacle();
-    obstacles5.position.set(54, 0, 590);
-    obstacles5.rotateY(-Math.PI / 5);
-    const obstacles6 = new MyObstacle();
-    obstacles6.position.set(111, 0, 605);
-    obstacles6.rotateY(Math.PI / 5);
+    const limiters4 = new MyLimiters(83, 610, 0);
+    limiters4.update();
+    const limiters5 = new MyLimiters(55, 600, -Math.PI / 5);
+    limiters5.update();
+    const limiters6 = new MyLimiters(111, 600, Math.PI / 5);
+    limiters6.update();
 
     // Second Curve
-    const obstacles1 = new MyObstacle();
-    obstacles1.position.set(120, 0, 160);
-    const obstacles2 = new MyObstacle();
-    obstacles2.position.set(94, 0, 175);
-    obstacles2.rotateY(Math.PI / 5);
-    const obstacles3 = new MyObstacle();
-    obstacles3.position.set(151, 0, 160);
-    obstacles3.rotateY(-Math.PI / 5);
+    const limiters1 = new MyLimiters(117, 155, 0);
+    limiters1.update();
+    const limiters2 = new MyLimiters(90, 166, Math.PI / 5);
+    limiters2.update();
+    const limiters3 = new MyLimiters(145, 165, -Math.PI / 5);
+    limiters3.update();
 
     // Third Curve
-    const obstacles7 = new MyObstacle();
-    obstacles7.position.set(265, 0, 615);
-    const obstacles8 = new MyObstacle();
-    obstacles8.position.set(296, 0, 615);
-    obstacles8.rotateY(Math.PI / 5);
-    const obstacles9 = new MyObstacle();
-    obstacles9.position.set(238, 0, 600);
-    obstacles9.rotateY(-Math.PI / 5);
+    const limiters7 = new MyLimiters(265, 615, 0);
+    limiters7.update();
+    const limiters8 = new MyLimiters(293, 605, Math.PI / 5);
+    limiters8.update();
+    const limiters9 = new MyLimiters(237, 605, -Math.PI / 5);
+    limiters9.update();
 
-    const obstacles10 = new MyObstacle();
-    obstacles10.position.set(330, 0, 340);
-    const obstacles11 = new MyObstacle();
-    obstacles11.position.set(361, 0, 340);
-    obstacles11.rotateY(-Math.PI / 5);
-    const obstacles12 = new MyObstacle();
-    obstacles12.position.set(304, 0, 355);
-    obstacles12.rotateY(Math.PI / 5);
+    // Fourth Curve
+    const limiters10 = new MyLimiters(330, 340, 0);
+    limiters10.update();
+    const limiters11 = new MyLimiters(358, 349, -Math.PI / 5);
+    limiters11.update();
+    const limiters12 = new MyLimiters(302, 349, Math.PI / 5);
+    limiters12.update();
 
     // Fifth Curve
-    const obstacles13 = new MyObstacle();
-    obstacles13.position.set(400, 0, 605);
-    const obstacles14 = new MyObstacle();
-    obstacles14.position.set(374, 0, 590);
-    obstacles14.rotateY(-Math.PI / 5);
-    const obstacles15 = new MyObstacle();
-    obstacles15.position.set(431, 0, 605);
+    const limiters13 = new MyLimiters(400, 605, 0);
+    limiters13.update();
+    const limiters14 = new MyLimiters(372, 595, -Math.PI / 5);
+    limiters14.update();
+    const limiters15 = new MyLimiters(431, 605, 0);
+    limiters15.update();
 
     // Sixth Curve
-    const obstacles16 = new MyObstacle();
-    obstacles16.position.set(573, 0, 564);
-    obstacles16.rotateY(Math.PI / 5);
-    const obstacles17 = new MyObstacle();
-    obstacles17.position.set(596, 0, 544);
-    obstacles17.rotateY(Math.PI / 2);
-    const obstacles18 = new MyObstacle();
-    obstacles18.position.set(596, 0, 513);
-    obstacles18.rotateY(Math.PI / 2);
+    const limiters16 = new MyLimiters(575, 569, Math.PI / 5);
+    limiters16.update();
+    const limiters17 = new MyLimiters(590, 544, Math.PI / 2);
+    limiters17.update();
+    const limiters18 = new MyLimiters(590, 513, Math.PI / 2);
+    limiters18.update();
 
     // Seventh Curve
-    const obstacles19 = new MyObstacle();
-    obstacles19.position.set(580, 0, 300);
-    obstacles19.rotateY(-Math.PI / 3);
-    const obstacles20 = new MyObstacle();
-    obstacles20.position.set(555, 0, 282);
-    obstacles20.rotateY(-Math.PI / 5);
-    const obstacles21 = new MyObstacle();
-    obstacles21.position.set(528, 0, 267);
-    obstacles21.rotateY(-Math.PI / 7);
+    const limiters19 = new MyLimiters(576, 310, -Math.PI / 3);
+    limiters19.update();
+    const limiters20 = new MyLimiters(555, 287, -Math.PI / 5);
+    limiters20.update();
+    const limiters21 = new MyLimiters(528, 272, -Math.PI / 7);
+    limiters21.update();
 
     // Eighth Curve
-    const obstacles22 = new MyObstacle();
-    obstacles22.position.set(370, 0, 260);
-    obstacles22.rotateY(Math.PI / 2);
-    const obstacles23 = new MyObstacle();
-    obstacles23.position.set(370, 0, 229);
-    obstacles23.rotateY(Math.PI / 3);
-    const obstacles24 = new MyObstacle();
-    obstacles24.position.set(370, 0, 267);
-    obstacles24.rotateY(-Math.PI / 3);
+    const limiters22 = new MyLimiters(355, 250, Math.PI / 2);
+    limiters22.update();
+    const limiters23 = new MyLimiters(365, 221, Math.PI / 3);
+    limiters23.update();
+    const limiters24 = new MyLimiters(365, 279, -Math.PI / 3);
+    limiters24.update();
 
     // Ninth Curve
-    const obstacles25 = new MyObstacle();
-    obstacles25.position.set(548, 0, 245);
-    obstacles25.rotateY(Math.PI / 7);
-    const obstacles26 = new MyObstacle();
-    obstacles26.position.set(575, 0, 230);
-    obstacles26.rotateY(Math.PI / 3);
-    const obstacles27 = new MyObstacle();
-    obstacles27.position.set(589, 0, 203);
-    obstacles27.rotateY(Math.PI / 2);
+    const limiters25 = new MyLimiters(548, 240, Math.PI / 7);
+    limiters25.update();
+    const limiters26 = new MyLimiters(570, 220, Math.PI / 3);
+    limiters26.update();
+    const limiters27 = new MyLimiters(579, 192, Math.PI / 2);
+    limiters27.update();
 
     // Tenth Curve
-    const obstacles28 = new MyObstacle();
-    obstacles28.position.set(345, 0, -18);
-    const obstacles29 = new MyObstacle();  
-    obstacles29.position.set(319, 0, -3);
-    obstacles29.rotateY(Math.PI / 5);
-    const obstacles30 = new MyObstacle();
-    obstacles30.position.set(316, 0, 2);
-    obstacles30.rotateY(-Math.PI / 1.5);
+    const limiters28 = new MyLimiters(355, -18, 0);
+    limiters28.update();
+    const limiters29 = new MyLimiters(327, -9, Math.PI / 5);
+    limiters29.update();
+    const limiters30 = new MyLimiters(306, 12, -Math.PI / 1.5);
+    limiters30.update();
 
     // Eleventh Curve
-    const obstacles31 = new MyObstacle();
-    obstacles31.position.set(260, 0, 300);
-    const obstacles32 = new MyObstacle();
-    obstacles32.position.set(234, 0, 285);
-    obstacles32.rotateY(-Math.PI / 5);
-    const obstacles33 = new MyObstacle();
-    obstacles33.position.set(291, 0, 300);
-    obstacles33.rotateY(Math.PI / 5);
+    const limiters31 = new MyLimiters(260, 300, 0);
+    limiters31.update();
+    const limiters32 = new MyLimiters(232, 290, -Math.PI / 5);
+    limiters32.update();
+    const limiters33 = new MyLimiters(289, 290, Math.PI / 5);
+    limiters33.update();
 
     // Twelfth Curve
-    const obstacles34 = new MyObstacle();
-    obstacles34.position.set(150, 0, -18);
-    const obstacles35 = new MyObstacle();
-    obstacles35.position.set(180, 0, -15);
-    obstacles35.rotateY(-Math.PI / 5);
-    const obstacles36 = new MyObstacle();
-    obstacles36.position.set(205, 0, 3);
-    obstacles36.rotateY(-Math.PI / 4);
+    const limiters34 = new MyLimiters(150, -18, 0);
+    limiters34.update();
+    const limiters35 = new MyLimiters(179, -10, -Math.PI / 5);
+    limiters35.update();
+    const limiters36 = new MyLimiters(202, 10, -Math.PI / 4);
+    limiters36.update();
 
     // Thirteenth Curve
-    const obstacles37 = new MyObstacle();
-    obstacles37.position.set(40, 0, -5);
-    obstacles37.rotateY(Math.PI / 7);
-    const obstacles38 = new MyObstacle();
-    obstacles38.position.set(14, 0, 12);
-    obstacles38.rotateY(Math.PI / 5);
-    const obstacles39 = new MyObstacle();
-    obstacles39.position.set(-2, 0, 38);
-    obstacles39.rotateY(Math.PI / 3);
+    const limiters37 = new MyLimiters(32, -3, Math.PI / 7);
+    limiters37.update();
+    const limiters38 = new MyLimiters(6, 12, Math.PI / 5);
+    limiters38.update();
+    const limiters39 = new MyLimiters(-14, 34, Math.PI / 3);
+    limiters39.update();
 
-    const obstacles = new THREE.Group();
-    
+    limiters.add(limiters4, limiters5, limiters6, limiters1, limiters2, limiters3, limiters7, limiters8, limiters9, limiters10, limiters11, limiters12, limiters13, limiters14, limiters15, limiters16, limiters17, limiters18, limiters19, limiters20, limiters21, limiters22, limiters23, limiters24, limiters25, limiters26, limiters27, limiters28, limiters29, limiters30, limiters31, limiters32, limiters33, limiters34, limiters35, limiters36, limiters37, limiters38, limiters39);
 
-    this.app.obstacles = obstacles;
+    this.app.limiters = limiters;
 
+    this.plane.add( this.advertisement, this.boxSeparator, this.goal, this.lakes, this.trees, this.rocks, this.pitStop, this.road, this.separator, limiters);
+
+    this.app.plane = this.plane;
     // this.spriteLoader(); // load sprite to HUD
   }
 
