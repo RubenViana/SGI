@@ -17,10 +17,6 @@ export default class PauseMenu extends THREE.Sprite {
         
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw the semi-transparent rectangle
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)'; // Semi-transparent black
-        ctx.fillRect(10, 10, canvas.width - 10, canvas.height - 10); // Adjust size and position as needed
         
         // Set text properties
         ctx.font = 'Bold 80px Games';

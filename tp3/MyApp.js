@@ -30,6 +30,9 @@ class MyApp  {
         this.gui = null
         this.axis = null
         this.contents == null
+
+        this.clock = new THREE.Clock()
+        this.clock.start()
     }
     /**
      * initializes the application
