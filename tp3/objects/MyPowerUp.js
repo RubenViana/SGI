@@ -3,8 +3,9 @@ import { OBB } from 'three/addons/math/OBB.js';
 
 class MyPowerUp extends THREE.Object3D {
 
-    constructor() {
+    constructor(type) {
         super();
+        this.type = type;
 
         // Texture powerUp
         this.powerUpTexture = new THREE.TextureLoader().load('./objects/textures/powerUp.png');

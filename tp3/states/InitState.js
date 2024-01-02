@@ -43,7 +43,7 @@ class InitState extends State {
     // );
 
     // Add Plane to Scene
-    this.plane =new MyPlane();
+    this.plane = new MyPlane();
 
     // Add Track to Scene
     this.app.track = new MyTrack();
@@ -54,20 +54,16 @@ class InitState extends State {
 
     // Add PowerUp to Scene
     const powerUps = new THREE.Group();
-    const pu1 = new MyPowerUp();
+    const pu1 = new MyPowerUp("speed");
     pu1.position.set(0, 3, 100);
     pu1.update();
-    const pu2 = new MyPowerUp();
+    const pu2 = new MyPowerUp("time");
     pu2.position.set(0, 3, 200);
     pu2.update();
-    const pu3 = new MyPowerUp();
-    pu3.position.set(5, 3, 130);
-    pu3.update();
 
     powerUps.add(
       pu1,
-      pu2,
-      pu3
+      pu2
     );
 
     this.app.powerUps = powerUps;

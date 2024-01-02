@@ -117,8 +117,8 @@ class GamePlayState extends State {
 
         if (this.gameSettings.players[0].laps == this.gameSettings.laps + 1 /* && this.gameSettings.players[1].laps == this.gameSettings.laps */) {
             console.log("Game over!");
-            this.gameSettings.players[0].time = this.elapsedTime;
-            this.gameSettings.players[1].time = this.elapsedTime;
+            this.gameSettings.players[0].time = this.elapsedTime - this.gameSettings.players[0].timeDiscount;
+            this.gameSettings.players[1].time = this.elapsedTime - this.gameSettings.players[1].timeDiscount;
             this.setState(new GameOverState(this.app));
         }
 
@@ -148,7 +148,17 @@ class GamePlayState extends State {
             const objectToTest = this.gameSettings.powerUps.children[ i ];
             const obbToTest = objectToTest.userData.obb;
             if ( carObb.intersectsOBB( obbToTest ) === true ) {
-                console.log("Collision with power up detected!");
+                if (objectToTest.type === "speed") {
+                    console.log("Collision with speed power up detected!");
+                    this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default * 2;
+                    setTimeout(() => {
+                        this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default;
+                    }, 3000);
+                }
+                else if (objectToTest.type === "time") {
+                    console.log("Collision with time power up detected!");
+                    this.gameSettings.players[0].timeDiscount += 2;
+                }
 
                 // only for testing
                 this.gameSettings.players[0].car.hitbox.material.visible = true;
@@ -361,13 +371,14 @@ class GamePlayState extends State {
 
         if (this.gameSettings.track.isInsideTrack(this.gameSettings.players[0].car)){
             this.speedSprite.updateText(`Speed: ${(Math.abs(this.gameSettings.players[0].car.velocity) * 10).toFixed(0)}`, '#ffffff');
-            this.timerSprite.updateText(`${this.elapsedTime.toFixed(2)}`, '#ffffff');
         }
         else {
             this.speedSprite.updateText(`Speed: ${(Math.abs(this.gameSettings.players[0].car.velocity) * 10).toFixed(0)}`, '#800000');
-            this.timerSprite.updateText(`${this.elapsedTime.toFixed(2)}`, '#800000');
         }
-        this.speedometer.updateSpeed(this.gameSettings.players[0].car.velocity*100);
+
+        this.timerSprite.updateText(`${this.elapsedTime.toFixed(2)}`, '#ffffff');
+
+        this.speedometer.updateSpeed(Math.abs(this.gameSettings.players[0].car.velocity)*100);
         this.speedSprite.visible = true;
         this.speedometer.visible = true;
 
@@ -375,10 +386,6 @@ class GamePlayState extends State {
         this.lapSprite.visible = true;
 
         this.timerSprite.visible = true;
-        
-        //document.getElementById("gameHUD").style.display = "flex";
-        //document.getElementById("laps").innerHTML = "Lap: " + this.gameSettings.players[0].laps + "/" + this.gameSettings.laps;
-        //document.getElementById("time").innerHTML = "Time: " + this.elapsedTime.toFixed(2) + "s";
     }
 
 }

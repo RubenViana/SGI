@@ -37,6 +37,7 @@ class MyGuiInterface  {
 		gui.add(this.contents, 'showShaderCode').name('Show Shader Code').onChange(this.contents.onShaderCodeVizChanged.bind(this.contents));
 		gui.add(this.contents, 'scaleFactor',0,1,0.01).onChange(this.contents.onScaleFactorChanged.bind(this.contents));
         gui.add(this.contents, 'blendFactor',0,1,0.01).onChange(this.contents.onBlendFactorChanged.bind(this.contents));
+        gui.close();
     }
 }
 

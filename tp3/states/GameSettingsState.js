@@ -22,6 +22,7 @@ class GameSettingsState extends State {
                     name: "Player 1",
                     car: null,
                     time: 0,
+                    timeDiscount: 0,
                     laps: 0,
                     place: 0,
                 },
@@ -29,6 +30,7 @@ class GameSettingsState extends State {
                     name: "Player 2",
                     car: null,
                     time: 0,
+                    timeDiscount: 0,
                     laps: 0,
                     place: 0,
                 }

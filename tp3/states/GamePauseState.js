@@ -23,7 +23,7 @@ class GamePauseState extends State {
     onKeyPress(event) {
         switch (event.keyCode) {
             case 112: // p
-                document.getElementById("pauseHUD").style.display = "none";
+                // document.getElementById("pauseHUD").style.display = "none";
                 this.pauseMenu.visible = false;
                 this.setState(this.previousState); // if the keys were pressed, they will still be pressed!!!
                 this.previousState.clock.start(); // quick fix for stopping the clock
