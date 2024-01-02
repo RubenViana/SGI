@@ -11,13 +11,15 @@ class MainMenuState extends State {
         this.name = "MainMenuState";
         
 
-        this.buttons = [
-            this.buildButton("Play", "#0000ff", 20, 6, 1, 0, 12, 0),
-            this.buildButton("Settings", "#ff0000", 20, 6, 1, 0, 4, 0),
-        ];
+        // this.buttons = [
+        //     this.buildButton("Play", "#0000ff", 20, 6, 1, 0, 12, 0),
+        //     this.buildButton("Settings", "#ff0000", 20, 6, 1, 0, 4, 0),
+        // ];
 
         this.buttonsGroup = new THREE.Group();
-        this.buttonsGroup.add(this.buttons[0], this.buttons[1]); 
+        // this.buttonsGroup.add(this.buttons[0], this.buttons[1]); 
+        this.buildButton("Play", "#0000ff", 4, 1, 0, 12, 0);
+        this.buildButton("Settings", "#ff0000", 4, 1, 0, 4, 0);
         
         // add race track to scene
         this.app.scene.add(this.app.track);
@@ -63,7 +65,7 @@ class MainMenuState extends State {
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
 
         //3. compute intersections
-        var intersects = this.raycaster.intersectObjects(this.buttons);
+        var intersects = this.raycaster.intersectObjects(this.buttonsGroup.children);
 
         //4. highlight the picked object
         this.pickingHelper(intersects)
@@ -85,10 +87,7 @@ class MainMenuState extends State {
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
 
         //3. compute intersections
-        var intersects = this.raycaster.intersectObjects(this.buttons);
-
-        //4. highlight the picked object
-        this.pickingHelper(intersects)
+        var intersects = this.raycaster.intersectObjects(this.buttonsGroup.children);
 
         if (intersects.length > 0) {
             switch (intersects[0].object.name) {

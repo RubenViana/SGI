@@ -23,12 +23,17 @@ class GamePlayState extends State {
         this.clock = new THREE.Clock();
 
         // set vehicles to the starting position
-        this.gameSettings.players[0].car.position.set(0, 0.3, 150);
+        this.gameSettings.players[0].car.position.set(10, 0.3, 320);
         this.gameSettings.players[0].car.rotation.y = Math.PI/2;
         this.gameSettings.players[0].car.direction = Math.PI/2;
-        this.gameSettings.players[1].car.position.set(0, 0.3, 120);
+        this.gameSettings.players[1].car.position.set(18, 0.3, 320);
         this.gameSettings.players[1].car.rotation.y = Math.PI/2;
         this.gameSettings.players[1].car.direction = Math.PI/2;
+
+        // save old position
+        this.oldPosition = [];
+        this.oldPosition[0] = this.gameSettings.players[0].car.position.clone();
+        this.oldPosition[1] = this.gameSettings.players[1].car.position.clone();
 
         // create car camera
         this.carCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -102,6 +107,7 @@ class GamePlayState extends State {
         // check car collision with obstacle -> delay car
         
         this.updateCar();
+        this.crossFinishLine();
         this.updateCollisions();
         this.updateCarCamera();
 
@@ -109,7 +115,28 @@ class GamePlayState extends State {
         this.gameSettings.players[1].car.update();
 
 
+        if (this.gameSettings.players[0].laps == this.gameSettings.laps + 1 /* && this.gameSettings.players[1].laps == this.gameSettings.laps */) {
+            console.log("Game over!");
+            this.gameSettings.players[0].time = this.elapsedTime;
+            this.gameSettings.players[1].time = this.elapsedTime;
+            this.setState(new GameOverState(this.app));
+        }
+
         this.updateHUD();
+    }
+
+    crossFinishLine() {
+        //finishLine = 14,12,300
+        for (let i = 0; i < this.gameSettings.players.length; i++) {
+            const position = this.gameSettings.players[i].car.position;
+
+            if (position.x > 14 - 12 && position.x < 14 + 12 && this.oldPosition[i].z >= 300 && position.z <= 300) {
+                console.log("Crossed finish line!");
+                this.gameSettings.players[i].laps++;
+            }
+            
+            this.oldPosition[i] = position.clone();
+        }
     }
 
     updateCollisions() {

@@ -2,7 +2,7 @@ import { State } from "./State.js";
 import { GamePlayState } from "./GamePlayState.js";
 import { MainMenuState } from "./MainMenuState.js";
 import * as THREE from 'three';
-import { MapControls } from 'three/addons/controls/MapControls.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 class GameSettingsState extends State {
     constructor(app) {
@@ -35,57 +35,73 @@ class GameSettingsState extends State {
             ]
         }; 
 
-        this.buttons = [
-            this.buildButton("Start", "#0000ff", 8, 3, 0.5, 0, 8, -10),
-            this.buildButton("Back", "#ff0000", 8, 3, 0.5, 0, 4, -10),
-        ];
+        this.animationTime = 0;
 
         // add difficulty buttons !!!
 
         this.buttonsGroup = new THREE.Group();
-        this.buttonsGroup.add(this.buttons[0], this.buttons[1]);
+        this.buildButton("Start", "#0000ff", 2, 0.6, 0, 5, 0);
+        this.buildButton("Back", "#ff0000", 2, 0.6, 0, 2, 0);
+
+        this.buttonsGroup.position.set(72, 0, 400);
+        this.buttonsGroup.rotateY(-Math.PI / 2);
 
         this.app.scene.add(this.buttonsGroup);
 
         // create menu camera
         this.menuCamera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 5000);
-        this.menuCamera.position.set(-10, 20, -30);
+        this.menuCamera.position.set(50, 14, 400);
         this.menuCamera.lookAt(this.buttonsGroup.position);
         this.app.cameras["Menu"] = this.menuCamera;
 
         this.app.setActiveCamera("Menu");
 
-        this.app.controls = new MapControls(this.app.activeCamera, this.app.renderer.domElement);
+        this.app.controls = new OrbitControls(this.app.activeCamera, this.app.renderer.domElement);
+        this.app.controls.target.set(74, 0, 400);
 
         this.playerCarsGroup = new THREE.Group();
 
         for (let i = 0; i < this.app.playerCars.length; i++) {
-            this.app.playerCars[i].position.set(0, 0, i * 8);
+            this.app.playerCars[i].position.set(0, 0, i * 6);
             this.playerCarsGroup.add(this.app.playerCars[i]);
         }
 
         this.cpuCarsGroup = new THREE.Group();
         for (let i = 0; i < this.app.cpuCars.length; i++) {
-            this.app.cpuCars[i].position.set(0, 0, -i * 8);
+            this.app.cpuCars[i].position.set(0, 0, -i * 6);
             this.cpuCarsGroup.add(this.app.cpuCars[i]);
         }
 
-        this.playerCarsGroup.position.set(10, 0, -10);
-        this.playerCarsGroup.rotateY(Math.PI / 2);
+        this.playerCarsGroup.position.set(82, 0, 390);
+        this.playerCarsGroup.rotateY(Math.PI);
 
-        this.cpuCarsGroup.position.set(-10, 0, -10);
-        this.cpuCarsGroup.rotateY(Math.PI / 2);
+        this.cpuCarsGroup.position.set(82, 0, 410);
+        this.cpuCarsGroup.rotateY(Math.PI);
+
 
         this.app.scene.add(this.playerCarsGroup, this.cpuCarsGroup);
 
         this.gameSettings.players[0].car = this.app.playerCars[0];
         this.gameSettings.players[1].car = this.app.cpuCars[0];
+
+        this.playersName = new THREE.Group();
+        this.createText("Player 1", 0x404040, 3, 1, -15, 0, 0);
+        this.createText("CPU", 0x404040, 3, 1, 15, 0, 0);
+
+        this.playersName.position.set(72, 13, 400);
+        this.playersName.rotateY(-Math.PI / 2);
+
+        this.app.scene.add(this.playersName);
     }
 
     update() {
+        this.gameSettings.players[0].car.position.y = Math.sin(this.animationTime * 0.1)*0.5 + 0.5;
         this.gameSettings.players[0].car.scale.set(0.6, 0.6, 0.6);
+        this.gameSettings.players[1].car.position.y = Math.sin(this.animationTime * 0.1)*0.5 + 0.5;
         this.gameSettings.players[1].car.scale.set(0.6, 0.6, 0.6);
         // make game settings configurable here
+
+        this.animationTime += 1;
     }
 
     onPointerMove(event) {
@@ -104,7 +120,7 @@ class GameSettingsState extends State {
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
 
         //3. compute intersections
-        var intersects = this.raycaster.intersectObjects(this.buttons);
+        var intersects = this.raycaster.intersectObjects(this.buttonsGroup.children);
 
         //4. highlight the picked object
         this.pickingHelper(intersects)
@@ -129,12 +145,11 @@ class GameSettingsState extends State {
         this.raycaster.setFromCamera(this.pointer, this.app.activeCamera);
 
         //3. compute intersections
-        var intersects = this.raycaster.intersectObjects(this.buttons);
+        var intersects = this.raycaster.intersectObjects(this.buttonsGroup.children);
 
         if (intersects.length > 0) {
             switch (intersects[0].object.name) {
                 case "Start":
-                    this.app.scene.remove(this.buttons);
                     this.gameSettings.players[0].car.scale.set(0.5, 0.5, 0.5);
                     this.gameSettings.players[1].car.scale.set(0.5, 0.5, 0.5);
                     this.setState(new GamePlayState(this.app, this.gameSettings));
@@ -150,6 +165,7 @@ class GameSettingsState extends State {
 
         if (intersects2.length > 0) {
             this.gameSettings.players[0].car.scale.set(0.5, 0.5, 0.5);
+            this.gameSettings.players[0].car.position.y = 0;
             this.gameSettings.players[0].car = intersects2[0].object.parent;
         }
 
@@ -157,6 +173,7 @@ class GameSettingsState extends State {
 
         if (intersects3.length > 0) {
             this.gameSettings.players[1].car.scale.set(0.5, 0.5, 0.5);
+            this.gameSettings.players[1].car.position.y = 0;
             this.gameSettings.players[1].car = intersects3[0].object.parent;
         }
 

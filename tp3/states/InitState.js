@@ -16,6 +16,7 @@ import { MyRoad } from "../objects/MyRoad.js";
 import { MySeparator } from "../objects/MySeparator.js";
 import { MyLimiters } from "../objects/MyLimiters.js";
 import * as THREE from 'three';
+import {FontLoader} from 'three/addons/loaders/FontLoader.js';
 
 class InitState extends State {
   constructor(app) {
@@ -233,7 +234,7 @@ class InitState extends State {
 
     this.app.limiters = limiters;
 
-    this.plane.add( this.advertisement, this.boxSeparator, this.goal, this.lakes, this.trees, this.rocks, this.pitStop, this.road, this.separator, limiters);
+    this.plane.add( this.advertisement, this.boxSeparator, this.goal, this.lakes, this.trees, this.rocks, this.pitStop, /* this.road, this.separator, */ limiters);
 
     this.app.plane = this.plane;
     // this.spriteLoader(); // load sprite to HUD

@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+import {TextGeometry} from 'three/addons/geometries/TextGeometry.js';
+import {FontLoader} from 'three/addons/loaders/FontLoader.js';
 
 
 class State {
@@ -33,28 +35,68 @@ class State {
     /**
      * builds the box mesh with material assigned
      */
-    buildButton(name, color, width, height, depth, xpos, ypos, zpos) {
+    buildButton(name, color, size, height, xpos, ypos, zpos) {
+        var loader = new FontLoader();
+        var font;
+    
+        loader.load('./fonts/helvetiker_regular.typeface.json', function (response) {
+            font = response;
+    
+            var textGeometry = new TextGeometry(name, {
+                font: font,
+                size: size,
+                height: height,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.02,
+                bevelOffset: 0,
+                bevelSegments: 5
 
-        let boxMaterial = new THREE.MeshPhongMaterial({
-            color: color,
-            specular: "#000000",
-            emissive: "#000000",
-            shininess: 90,
-        });
+            });
+    
+            textGeometry.center();
+    
+            var textMaterial = new THREE.MeshBasicMaterial({ color: color });
+            this.textMesh = new THREE.Mesh(textGeometry, textMaterial);
+            this.textMesh.name = name;
+            // Adjust position if needed
+            this.textMesh.position.set(xpos, ypos, zpos);
+            this.buttonsGroup.add(this.textMesh);
 
-        // Create a Cube Mesh with basic material
-        let box = new THREE.BoxGeometry(
-            width,
-            height,
-            depth
-        );
-        this.boxMesh = new THREE.Mesh(box, boxMaterial);
-        this.boxMesh.name = name
-        this.boxMesh.position.x = xpos;
-        this.boxMesh.position.y = ypos;
-        this.boxMesh.position.z = zpos;
+        }.bind(this));
+    }
 
-        return this.boxMesh;
+    createText(name, color, size, height, xpos, ypos, zpos) {
+        var loader = new FontLoader();
+        var font;
+    
+        loader.load('./fonts/helvetiker_regular.typeface.json', function (response) {
+            font = response;
+    
+            var textGeometry = new TextGeometry(name, {
+                font: font,
+                size: size,
+                height: height,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.02,
+                bevelOffset: 0,
+                bevelSegments: 5
+
+            });
+    
+            textGeometry.center();
+    
+            var textMaterial = new THREE.MeshBasicMaterial({ color: color });
+            this.textMesh = new THREE.Mesh(textGeometry, textMaterial);
+            this.textMesh.name = name;
+            // Adjust position if needed
+            this.textMesh.position.set(xpos, ypos, zpos);
+            this.playersName.add(this.textMesh);
+
+        }.bind(this));
     }
 
 
@@ -106,16 +148,20 @@ class State {
 
     changeScaleOfFirstPickedObj(obj) {
         if (this.lastPickedCar != obj) {
-            if (this.lastPickedCar)
+            if (this.lastPickedCar){
                 this.lastPickedCar.scale.set(0.5, 0.5, 0.5);
+                this.lastPickedCar.position.y = 0;
+            }
             this.lastPickedCar = obj;
             this.lastPickedCar.scale.set(0.6, 0.6, 0.6);
         }
     }
 
     restoreScaleOfFirstPickedObj() {
-        if (this.lastPickedCar)
+        if (this.lastPickedCar){
             this.lastPickedCar.scale.set(0.5, 0.5, 0.5);
+            this.lastPickedCar.position.y = 0;
+        }
         this.lastPickedCar = null;
     }
 }
