@@ -140,26 +140,35 @@ class State {
     pickingCarHelper(intersects) {
         if (intersects.length > 0) {
             const obj = intersects[0].object.parent;
-            this.changeScaleOfFirstPickedObj(obj)
+            this.changeScaleOfFirstPickedObj(obj, 0.5, 0.6)
         } else {
-            this.restoreScaleOfFirstPickedObj()
+            this.restoreScaleOfFirstPickedObj(0.5)
         }
     }
 
-    changeScaleOfFirstPickedObj(obj) {
+    pickingObstacleHelper(intersects) {
+        if (intersects.length > 0) {
+            const obj = intersects[0].object;
+            this.changeScaleOfFirstPickedObj(obj, 1, 1.2)
+        } else {
+            this.restoreScaleOfFirstPickedObj(1)
+        }
+    }
+
+    changeScaleOfFirstPickedObj(obj, scale, scale2) {
         if (this.lastPickedCar != obj) {
             if (this.lastPickedCar){
-                this.lastPickedCar.scale.set(0.5, 0.5, 0.5);
+                this.lastPickedCar.scale.set(scale, scale, scale);
                 this.lastPickedCar.position.y = 0;
             }
             this.lastPickedCar = obj;
-            this.lastPickedCar.scale.set(0.6, 0.6, 0.6);
+            this.lastPickedCar.scale.set(scale2, scale2, scale2);
         }
     }
 
-    restoreScaleOfFirstPickedObj() {
+    restoreScaleOfFirstPickedObj(scale) {
         if (this.lastPickedCar){
-            this.lastPickedCar.scale.set(0.5, 0.5, 0.5);
+            this.lastPickedCar.scale.set(scale, scale, scale);
             this.lastPickedCar.position.y = 0;
         }
         this.lastPickedCar = null;

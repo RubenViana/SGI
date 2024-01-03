@@ -14,9 +14,9 @@ class MyPowerUp extends THREE.Object3D {
         this.powerUpTexture.colorSpace = THREE.SRGBColorSpace;
 
         // powerUp related attributes (Box)
-        this.powerUpWidth = 3; 
-        this.powerUpHeight = 3;
-        this.powerUpDepth = 3;
+        this.powerUpWidth = 2; 
+        this.powerUpHeight = 2;
+        this.powerUpDepth = 2;
         this.powerUpMaterial = new THREE.MeshPhongMaterial({ map: this.powerUpTexture });
 
         //PowerUp

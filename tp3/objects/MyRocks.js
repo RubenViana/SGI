@@ -19,7 +19,7 @@ class MyRocks extends THREE.Object3D {
 
         this.rockGeometry = new THREE.OctahedronGeometry(this.rockRadius, this.rockDetail);
         this.rockGeometry.userData.obb = new OBB();
-        this.rockGeometry.userData.obb.halfSize.copy(new THREE.Vector3(this.rockRadius / 2, this.rockRadius / 2, this.rockRadius / 2));
+        this.rockGeometry.userData.obb.halfSize.copy(new THREE.Vector3(this.rockRadius, this.rockRadius, this.rockRadius));
         const totalRocks = 18; // Change this number as needed
         const startXrocks = 140;
         const startZrocks = 250;

@@ -49,16 +49,40 @@ class InitState extends State {
     this.app.track = new MyTrack();
 
     // Add Obstacles to Scene
+    const obstacles = new THREE.Group();
 
-    this.app.obstacles = new MyObstacle();
+    // const obstacle1 = new MyObstacle("speed");
+    // obstacle1.position.set(20, 3, 100);
+    // obstacle1.update();
+    // const obstacle2 = new MyObstacle("time");
+    // obstacle2.position.set(20, 3, 200);
+    // obstacle2.update();
+
+    // obstacles.add(
+    //   obstacle1,
+    //   obstacle2
+    // );
+
+    const numberOfObstacles = 5;
+    for (let i = 0; i < numberOfObstacles; i++) {
+      for (let j = 0; j < numberOfObstacles; j++) {
+        const obstacle = Math.random() < 0.5 ? new MyObstacle("speed") : new MyObstacle("time");
+        obstacle.position.set(470 + i*4, 2, 440 + j*4);
+        obstacle.update();
+        obstacles.add(obstacle);
+      }
+    }
+
+    this.app.obstacles = obstacles;
+
 
     // Add PowerUp to Scene
     const powerUps = new THREE.Group();
     const pu1 = new MyPowerUp("speed");
-    pu1.position.set(0, 3, 100);
+    pu1.position.set(0, 2, 100);
     pu1.update();
     const pu2 = new MyPowerUp("time");
-    pu2.position.set(0, 3, 200);
+    pu2.position.set(0, 2, 200);
     pu2.update();
 
     powerUps.add(
@@ -78,7 +102,6 @@ class InitState extends State {
       new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90, 0xff0000),
       new MyVehicle(1.5, -0.5, 0.06, 0.03, Math.PI / 4, Math.PI / 90, 0x0000ff),
     ];
-    // Add Obstacles to Scene   !!! -> this is not the correct 'obstacles' object, this is the delimitation of the track that needs to be in the plane object
 
    
     // Add Advertisement to Scene

@@ -1,5 +1,5 @@
 import { State } from "./State.js";
-import { PauseMenu } from "../Pause.js";
+import { Sprite } from "../Sprite.js";
 
 class GamePauseState extends State {
     constructor(app, previousState) {
@@ -7,7 +7,7 @@ class GamePauseState extends State {
         this.name = "GamePauseState";
         this.previousState = previousState;
 
-        this.pauseMenu = new PauseMenu();
+        this.pauseMenu = new Sprite("Pause")
         this.pauseMenu.scale.set(100, 80, 1);
         this.pauseMenu.position.set(window.innerWidth / 40, window.innerHeight / 30, 0);
         this.app.HUDscene.add(this.pauseMenu);
@@ -15,8 +15,6 @@ class GamePauseState extends State {
     }
 
     update() {
-        //document.getElementById("pauseHUD").style.display = "flex";
-        this.pauseMenu.updateText();
         this.pauseMenu.visible = true;
     }
 
@@ -27,6 +25,7 @@ class GamePauseState extends State {
                 this.pauseMenu.visible = false;
                 this.setState(this.previousState); // if the keys were pressed, they will still be pressed!!!
                 this.previousState.clock.start(); // quick fix for stopping the clock
+                this.previousState.resetKeys();
                 break;
         }
     }

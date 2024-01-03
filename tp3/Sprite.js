@@ -20,7 +20,7 @@ export default class Sprite extends THREE.Sprite
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
         // Set text properties
-        ctx.font = 'Bold 80px Games';
+        ctx.font = 'Bold 80px Luckiest Guy';
         ctx.fillStyle = color;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';

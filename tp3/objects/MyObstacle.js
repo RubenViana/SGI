@@ -3,14 +3,21 @@ import { OBB } from 'three/addons/math/OBB.js';
 
 class MyObstacle extends THREE.Object3D {
 
-    constructor() {
+    constructor(type) {
         super();
+        this.type = type;
+
+        // Texture obstacle
+        this.obstacleTexture = new THREE.TextureLoader().load('./objects/textures/obstacle.jpg');
+        this.obstacleTexture.wrapS = THREE.RepeatWrapping;
+        this.obstacleTexture.wrapT = THREE.RepeatWrapping;
+        this.obstacleTexture.colorSpace = THREE.SRGBColorSpace;
 
         // Material obstacle (Box)
-        this.obstacleWidth = 8;
-        this.obstacleHeight = 5;
-        this.obstacleDepth = 200;
-        this.obstacleMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+        this.obstacleWidth = 2;
+        this.obstacleHeight = 2;
+        this.obstacleDepth = 2;
+        this.obstacleMaterial = new THREE.MeshPhongMaterial({ map: this.obstacleTexture});
 
         // Obstacle
         this.obstacleGeometry = new THREE.BoxGeometry(this.obstacleWidth, this.obstacleHeight, this.obstacleDepth);
@@ -18,9 +25,8 @@ class MyObstacle extends THREE.Object3D {
         this.obstacleGeometry.userData.obb.halfSize.copy(new THREE.Vector3(this.obstacleWidth / 2, this.obstacleHeight / 2, this.obstacleDepth / 2));
 
         this.obstacle = new THREE.Mesh(this.obstacleGeometry, this.obstacleMaterial);
-        this.obstacle.position.set(345, 2.5, 510);
 
-        this.obstacle.userData.obb = new OBB();
+        this.userData.obb = new OBB();
 
         this.update();
         
@@ -29,10 +35,10 @@ class MyObstacle extends THREE.Object3D {
     }
 
     update() {
-        this.obstacle.updateMatrix();
-        this.obstacle.updateMatrixWorld();
-        this.obstacle.userData.obb.copy(this.obstacleGeometry.userData.obb);
-        this.obstacle.userData.obb.applyMatrix4(this.obstacle.matrixWorld);
+        this.updateMatrix();
+        this.updateMatrixWorld();
+        this.userData.obb.copy(this.obstacleGeometry.userData.obb);
+        this.userData.obb.applyMatrix4(this.matrixWorld);
     }
 }
 

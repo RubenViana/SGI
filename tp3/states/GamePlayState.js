@@ -1,5 +1,6 @@
 import { State } from "./State.js";
 import { GamePauseState } from "./GamePauseState.js";
+import { SelectObstacleState } from "./SelectObstacleState.js";
 import * as THREE from "three";
 import { OBB } from 'three/addons/math/OBB.js';
 import { Sprite } from "../Sprite.js";
@@ -59,7 +60,6 @@ class GamePlayState extends State {
         this.app.HUDscene.add(this.lapSprite);
         this.lapSprite.visible = false;
 
-
         this.timerSprite = new Sprite("0:00");
         this.timerSprite.scale.set(100, 80, 1);
         this.timerSprite.position.set(window.innerWidth / 40, window.innerHeight / 2.2, 0);
@@ -85,6 +85,40 @@ class GamePlayState extends State {
         this.speedometer.position.set(window.innerWidth / 40, -window.innerHeight / 4, 1); 
         this.app.HUDscene.add(this.speedometer);
         this.speedometer.visible = false;
+
+        // sprite for powerUp speed
+        this.speedPowerUp = new Sprite("Speed 2x", 512, 256);
+        this.speedPowerUp.scale.set(200, 160, 1);
+        this.speedPowerUp.position.set( - window.innerWidth/2.4, window.innerHeight / 2.2, 0);
+        this.app.HUDscene.add(this.speedPowerUp);
+        this.speedPowerUp.visible = false;
+
+        this.speedPowerUpTimer = new Sprite("0 s");
+        this.speedPowerUpTimer.scale.set(100*0.8, 80*0.8, 1);
+        this.speedPowerUpTimer.position.set( - window.innerWidth/2.4, window.innerHeight / 2.4, 0);
+        this.app.HUDscene.add(this.speedPowerUpTimer);
+        this.speedPowerUpTimer.visible = false;
+
+        // sprite for added time
+        this.extraTime = new Sprite("0");
+        this.extraTime.scale.set(100*0.8, 80*0.8, 1);
+        this.extraTime.position.set(window.innerWidth/40, window.innerHeight / 2.4, 0);
+        this.app.HUDscene.add(this.extraTime);
+        this.extraTime.visible = false;
+
+        // sprite for obstacle speed
+        this.speedObstacle = new Sprite("Speed 0.3x", 512, 256);
+        this.speedObstacle.scale.set(200, 160, 1);
+        this.speedObstacle.position.set( - window.innerWidth/2.4, window.innerHeight / 2.2, 0);
+        this.app.HUDscene.add(this.speedObstacle);
+        this.speedObstacle.visible = false;
+
+        this.speedObstacleTimer = new Sprite("0 s");
+        this.speedObstacleTimer.scale.set(100*0.8, 80*0.8, 1);
+        this.speedObstacleTimer.position.set( - window.innerWidth/2.4, window.innerHeight / 2.4, 0);
+        this.app.HUDscene.add(this.speedObstacleTimer);
+        this.speedObstacleTimer.visible = false;
+
     }
 
     update() {
@@ -114,11 +148,31 @@ class GamePlayState extends State {
         // tmp car2 update
         this.gameSettings.players[1].car.update();
 
+        if (this.pwuTimeout != null){
+            if ((this.elapsedTime - this.pwuTimeout) >= 3) {
+                this.speedPowerUp.visible = false;
+                this.speedPowerUpTimer.visible = false;
+                this.pwuTimeout = null;
+
+                this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default;
+            }
+        } 
+
+        if (this.obsTimeout != null){
+            if ((this.elapsedTime - this.obsTimeout) >= 3) {
+                this.speedObstacle.visible = false;
+                this.speedObstacleTimer.visible = false;
+                this.obsTimeout = null;
+
+                this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default;
+            }
+        }
+
 
         if (this.gameSettings.players[0].laps == this.gameSettings.laps + 1 /* && this.gameSettings.players[1].laps == this.gameSettings.laps */) {
             console.log("Game over!");
-            this.gameSettings.players[0].time = this.elapsedTime - this.gameSettings.players[0].timeDiscount;
-            this.gameSettings.players[1].time = this.elapsedTime - this.gameSettings.players[1].timeDiscount;
+            this.gameSettings.players[0].time = this.elapsedTime + this.gameSettings.players[0].addedTime;
+            this.gameSettings.players[1].time = this.elapsedTime + this.gameSettings.players[1].addedTime;
             this.setState(new GameOverState(this.app));
         }
 
@@ -148,20 +202,68 @@ class GamePlayState extends State {
             const objectToTest = this.gameSettings.powerUps.children[ i ];
             const obbToTest = objectToTest.userData.obb;
             if ( carObb.intersectsOBB( obbToTest ) === true ) {
+                // select a obstacle to place on the track
+                this.clock.stop(); // quick fix for stopping the clock
+                this.setState(new SelectObstacleState(this.app, this));
+                
                 if (objectToTest.type === "speed") {
-                    console.log("Collision with speed power up detected!");
+                    // console.log("Collision with speed power up detected!");
+                    
+                    this.speedObstacle.visible = false;
+                    this.speedObstacleTimer.visible = false;
+                    this.obsTimeout = null;
+                    
                     this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default * 2;
-                    setTimeout(() => {
-                        this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default;
-                    }, 3000);
+                    this.speedPowerUp.visible = true;
+                    this.speedPowerUpTimer.visible = true;
+                    this.pwuTimeout = this.elapsedTime;
+                    
                 }
                 else if (objectToTest.type === "time") {
-                    console.log("Collision with time power up detected!");
-                    this.gameSettings.players[0].timeDiscount += 2;
+                    // console.log("Collision with time power up detected!");
+                    this.gameSettings.players[0].addedTime -= 2;
+                    this.extraTime.visible = true;
                 }
 
                 // only for testing
-                this.gameSettings.players[0].car.hitbox.material.visible = true;
+                // this.gameSettings.players[0].car.hitbox.material.visible = true;
+
+                // make power up invisible for 10 sec
+                this.gameSettings.powerUps.remove(objectToTest);
+                setTimeout(() => {
+                    this.gameSettings.powerUps.add(objectToTest);
+                }, 10000);
+            }
+        }
+
+        // collision with obstacles
+        for ( let i = 0; i < this.gameSettings.obstacles.children.length; i ++ ) {
+            const objectToTest = this.gameSettings.obstacles.children[ i ];
+            const obbToTest = objectToTest.userData.obb;
+            if ( carObb.intersectsOBB( obbToTest ) === true ) {
+                if (objectToTest.type === "speed") {
+                    // console.log("Collision with speed obstacle detected!");
+
+                    this.speedPowerUp.visible = false;
+                    this.speedPowerUpTimer.visible = false;
+                    this.pwuTimeout = null;
+
+                    this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default * 0.7;
+                    this.speedObstacle.visible = true;
+                    this.speedObstacleTimer.visible = true;
+                    this.obsTimeout = this.elapsedTime;
+                    
+                }
+                else if (objectToTest.type === "time") {
+                    // console.log("Collision with time obstacle detected!");
+                    this.gameSettings.players[0].addedTime += 2;
+                    this.extraTime.visible = true;
+                }
+
+                // only for testing
+                // this.gameSettings.players[0].car.hitbox.material.visible = true;
+
+                // TODO: return the obstacle to the obstacles park
             }
         }
 
@@ -183,17 +285,6 @@ class GamePlayState extends State {
                 this.gameSettings.players[0].car.v_max = this.gameSettings.players[0].car.v_max_default;
             }, 3000);
         }
-
-
-        
-        // // collision with obstacles
-        // for ( let i = 0; i < this.gameSettings.obstacles.children.length; i ++ ) {
-        //     const objectToTest = this.gameSettings.obstacles.children[ i ];
-        //     const obbToTest = objectToTest.userData.obb;
-        //     if ( carObb.intersectsOBB( obbToTest ) === true ) {
-        //         console.log("Collision with obstacle detected!");
-        //     }
-        // }
 
         // collision with other plane objects
         this.checkCollision(this.gameSettings.plane.children);
@@ -386,6 +477,37 @@ class GamePlayState extends State {
         this.lapSprite.visible = true;
 
         this.timerSprite.visible = true;
+
+        // NOT WORKING PROPERLY
+        this.speedPowerUp.updateText(`Speed 2x`, '#00ff00');
+        if (this.speedPowerUp.visible) {
+            this.speedPowerUpTimer.updateText(`${3 - (this.elapsedTime - this.pwuTimeout).toFixed(0)} s`);
+        }
+
+        this.speedObstacle.updateText(`Speed 0.7x`, '#ff0000');
+        if (this.speedObstacle.visible) {
+            this.speedObstacleTimer.updateText(`${3 - (this.elapsedTime - this.obsTimeout).toFixed(0)} s`);
+        }
+
+        const addedTime = this.gameSettings.players[0].addedTime;
+        if (addedTime > 0) {
+            this.extraTime.updateText(`+${addedTime}`, '#ff0000');
+        }
+        else if (addedTime < 0) {
+            this.extraTime.updateText(`${addedTime}`, '#00ff00');
+        }
+        else {
+            this.extraTime.updateText(`${addedTime}`, '#ffffff');
+        }
+    }
+
+    resetKeys() {
+        this.keys = {
+            forward: false,
+            backward: false,
+            left: false,
+            right: false,
+        };
     }
 
 }
