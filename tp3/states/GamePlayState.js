@@ -309,6 +309,7 @@ class GamePlayState extends State {
             if ( carObb.intersectsOBB( obbToTest ) === true ) {
                 // select a obstacle to place on the track
                 this.clock.stop(); // quick fix for stopping the clock
+                this.enemyClock.stop();
                 this.setState(new SelectObstacleState(this.app, this));
                 
                 if (objectToTest.type === "speed") {

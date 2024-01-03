@@ -94,6 +94,7 @@ class SelectObstacleState extends State {
                 this.setState(this.previousState);
                 this.previousState.clock.start();
                 this.previousState.resetKeys();
+                this.previousState.enemyClock.start();
                 this.app.setActiveCamera("CarThirdPerson");
             }
             else {
