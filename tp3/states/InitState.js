@@ -66,7 +66,7 @@ class InitState extends State {
     const numberOfObstacles = 5;
     for (let i = 0; i < numberOfObstacles; i++) {
       for (let j = 0; j < numberOfObstacles; j++) {
-        const obstacle = Math.random() < 0.5 ? new MyObstacle("speed") : new MyObstacle("time");
+        const obstacle = Math.random() < 0.5 ? new MyObstacle("speed", 470 + i*4, 2, 440 + j*4) : new MyObstacle("time", 470 + i*4, 2, 440 + j*4);
         obstacle.position.set(470 + i*4, 2, 440 + j*4);
         obstacle.update();
         obstacles.add(obstacle);

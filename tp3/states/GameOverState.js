@@ -1,10 +1,7 @@
 import { State } from "./State.js";
-import { PauseMenu } from "../Sprites/Pause.js";
-import { MyFirework } from "../objects/MyFirework.js";
 import { GamePlayState } from "./GamePlayState.js";
 import { InitState } from "./InitState.js";
-import { Sprite } from "../Sprites/Sprite.js";
-import { MainMenuState } from "./MainMenuState.js";
+import { Sprite } from "../sprites/Sprite.js";
 import * as THREE from "three";
 
 class GameOverState extends State {

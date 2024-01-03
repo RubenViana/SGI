@@ -2,9 +2,8 @@ import { State } from "./State.js";
 import { GamePauseState } from "./GamePauseState.js";
 import { SelectObstacleState } from "./SelectObstacleState.js";
 import * as THREE from "three";
-import { OBB } from 'three/addons/math/OBB.js';
-import { Sprite } from "../Sprites/Sprite.js";
-import { Speedometer } from "../Sprites/Speedometer.js";
+import { Sprite } from "../sprites/Sprite.js";
+import { Speedometer } from "../sprites/Speedometer.js";
 import { GameOverState } from "./GameOverState.js";
 import { MyFirework } from "../objects/MyFirework.js";
 import { MyRoute } from "../objects/MyRoute.js";
@@ -202,12 +201,17 @@ class GamePlayState extends State {
         }
 
 
-        if (this.gameSettings.players[0].laps == this.gameSettings.laps + 1 /* && this.gameSettings.players[1].laps == this.gameSettings.laps */) {
+        for (let i = 0; i < this.gameSettings.players.length; i++) {
+            if (this.gameSettings.players[i].laps == this.gameSettings.laps + 1) { 
+                this.gameSettings.players[i].time = this.elapsedTime + this.gameSettings.players[i].addedTime;
+            }
+        }
+
+        if (this.gameSettings.players[0].laps == this.gameSettings.laps + 1 && this.gameSettings.players[1].laps == this.gameSettings.laps) {
             console.log("Game over!");
-            this.gameSettings.players[0].time = this.elapsedTime + this.gameSettings.players[0].addedTime;
-            this.gameSettings.players[1].time = this.elapsedTime + this.gameSettings.players[1].addedTime;
             this.setState(new GameOverState(this.app, this.gameSettings));
         }
+        
 
         this.updateHUD();
     }
@@ -250,11 +254,11 @@ class GamePlayState extends State {
         // Create AnimationActions for each clip
         this.enemyActionAnimation = this.enemyMixer.clipAction(positionClip)
         this.enemyActionAnimation.setLoop(THREE.LoopRepeat);
-        this.enemyActionAnimation.repetitions = 3;
+        this.enemyActionAnimation.repetitions = 4;
 
         this.enemyRotationAnimation = this.enemyMixer.clipAction(rotationClip)
         this.enemyRotationAnimation.setLoop(THREE.LoopRepeat);
-        this.enemyRotationAnimation.repetitions = 3;
+        this.enemyRotationAnimation.repetitions = 4;
     }
 
     // Plays enemy Animation
@@ -285,7 +289,7 @@ class GamePlayState extends State {
         for (let i = 0; i < this.gameSettings.players.length; i++) {
             const position = this.gameSettings.players[i].car.position;
 
-            if (position.x > 14 - 12 && position.x < 14 + 12 && this.oldPosition[i].z >= 300 && position.z <= 300) {
+            if (position.x > -7 && position.x < 35 && this.oldPosition[i].z >= 300 && position.z <= 300) {
                 console.log("Crossed finish line!");
                 this.gameSettings.players[i].laps++;
             }
@@ -364,7 +368,8 @@ class GamePlayState extends State {
                 // only for testing
                 // this.gameSettings.players[0].car.hitbox.material.visible = true;
 
-                // TODO: return the obstacle to the obstacles park
+                // return the obstacle to the obstacles park
+                objectToTest.resetPosition();
             }
         }
 
@@ -599,7 +604,7 @@ class GamePlayState extends State {
             this.extraTime.updateText(`${addedTime}`, '#00ff00');
         }
         else {
-            this.extraTime.updateText(`${addedTime}`, '#ffffff');
+            this.extraTime.visible = false;
         }
     }
 

@@ -3,9 +3,12 @@ import { OBB } from 'three/addons/math/OBB.js';
 
 class MyObstacle extends THREE.Object3D {
 
-    constructor(type) {
+    constructor(type, x, y, z) {
         super();
         this.type = type;
+        this.x = x;
+        this.y = y;
+        this.z = z;
 
         // Texture obstacle
         this.obstacleTexture = new THREE.TextureLoader().load('./objects/textures/obstacle.jpg');
@@ -39,6 +42,11 @@ class MyObstacle extends THREE.Object3D {
         this.updateMatrixWorld();
         this.userData.obb.copy(this.obstacleGeometry.userData.obb);
         this.userData.obb.applyMatrix4(this.matrixWorld);
+    }
+
+    resetPosition() {
+        this.position.set(this.x, this.y, this.z);
+        this.update();
     }
 }
 

@@ -13,8 +13,8 @@ class MyPlane extends THREE.Object3D {
         this.planeTexture.colorSpace = THREE.SRGBColorSpace;
 
         // Material plane (box)
-        this.planeWidth = 2000;
-        this.planeHeight = 2000;
+        this.planeWidth = 1000;
+        this.planeHeight = 1000;
         this.planeDepth = 1;
         this.planeMaterial = new THREE.MeshPhongMaterial({map: this.planeTexture });
         this.planeMaterial.map.repeat.set(500, 500);
@@ -25,7 +25,7 @@ class MyPlane extends THREE.Object3D {
         this.planeGeometry.userData.obb.halfSize.copy(new THREE.Vector3(this.planeWidth / 2, this.planeHeight / 2, this.planeDepth / 2));
 
         this.mesh = new THREE.Mesh(this.planeGeometry, this.planeMaterial);
-        this.mesh.position.set(500, 0, 400);
+        this.mesh.position.set(300, 0, 300);
         this.mesh.rotation.x = -Math.PI / 2;
 
         this.mesh.userData.obb = new OBB();
