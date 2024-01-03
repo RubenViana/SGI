@@ -1,9 +1,9 @@
 import { State } from "./State.js";
-import { PauseMenu } from "../Pause.js";
-import { MyFirework } from "../MyFirework.js";
+import { PauseMenu } from "../Sprites/Pause.js";
+import { MyFirework } from "../objects/MyFirework.js";
 import { GamePlayState } from "./GamePlayState.js";
 import { InitState } from "./InitState.js";
-import { Sprite } from "../Sprite.js";
+import { Sprite } from "../Sprites/Sprite.js";
 import { MainMenuState } from "./MainMenuState.js";
 import * as THREE from "three";
 

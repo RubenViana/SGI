@@ -5,10 +5,10 @@ import { MyGraph } from './builder/MyGraph.js';
 import {InitState} from './states/InitState.js';
 import {MainMenuState} from './states/MainMenuState.js';
 import {GamePlayState} from './states/GamePlayState.js';
-import { MyLakes } from './MyLakes.js';
-import { MyShader } from './MyShader.js';
+import { MyLakes } from './objects/MyLakes.js';
+import { MyShader } from './shaders/MyShader.js';
 import { MyPowerUp } from './objects/MyPowerUp.js';
-import { MyTest } from './MyTest.js';
+import { MyTest } from './objects/MyTest.js';
 
 /**
  *  This class contains the contents of out application

@@ -1,5 +1,5 @@
 import { State } from "./State.js";
-import { PauseMenu } from "../Pause.js";
+import { PauseMenu } from "../Sprites/Pause.js";
 
 class GamePauseState extends State {
     constructor(app, previousState) {

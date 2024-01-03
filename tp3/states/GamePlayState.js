@@ -2,10 +2,10 @@ import { State } from "./State.js";
 import { GamePauseState } from "./GamePauseState.js";
 import * as THREE from "three";
 import { OBB } from 'three/addons/math/OBB.js';
-import { Sprite } from "../Sprite.js";
-import { Speedometer } from "../Speedometer.js";
+import { Sprite } from "../Sprites/Sprite.js";
+import { Speedometer } from "../Sprites/Speedometer.js";
 import { GameOverState } from "./GameOverState.js";
-import { MyFirework } from "../MyFirework.js";
+import { MyFirework } from "../objects/MyFirework.js";
 import { MyRoute } from "../objects/MyRoute.js";
 
 class GamePlayState extends State {
