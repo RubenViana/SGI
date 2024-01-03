@@ -29,7 +29,7 @@ class MyLakes extends THREE.Object3D {
 
         this.lakeTopGeometry = new THREE.CircleGeometry(this.lakeTopRadius, this.lakeTopSegments);
         this.lakeTopMaterial = new THREE.MeshPhongMaterial({ map: this.lakeTexture });
-        this.lakeTop = new THREE.Mesh(this.lakeTopGeometry, this.lakeTopMaterial);
+        this.lakeTop = new THREE.Mesh(this.lakeTopGeometry, this.material);
         this.lakeTop.position.set(-50, 330, 0.6);
 
         this.mesh.add(this.lakeTop);

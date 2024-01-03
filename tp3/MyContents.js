@@ -55,11 +55,11 @@ class MyContents  {
      */
     init() {
         // create once 
-        if (this.axis === null) {
-            // create and attach the axis to the scene
-            this.axis = new MyAxis(this)
-            this.app.scene.add(this.axis)
-        }
+        // if (this.axis === null) {
+        //     // create and attach the axis to the scene
+        //     this.axis = new MyAxis(this)
+        //     this.app.scene.add(this.axis)
+        // }
 
         // add an ambient light
         const ambientLight = new THREE.AmbientLight( 0x555555, 4 );
@@ -69,9 +69,9 @@ class MyContents  {
         this.directionalLight = new THREE.DirectionalLight(0xf8e45c, 10);
         this.directionalLight.castShadow = true;
         this.app.scene.add(this.directionalLight);
-        this.directionalLight.position.set(-0, 30, 0); // Adjust the position of the light source
-        this.directionalLightHelper = new THREE.DirectionalLightHelper( this.directionalLight );
-        this.app.scene.add( this.directionalLightHelper );
+        // this.directionalLight.position.set(-0, 30, 0); // Adjust the position of the light source
+        // this.directionalLightHelper = new THREE.DirectionalLightHelper( this.directionalLight );
+        // this.app.scene.add( this.directionalLightHelper );
 
 
         document.addEventListener(
@@ -94,10 +94,7 @@ class MyContents  {
 
         // the available objects
         this.objects = [
-			new MyLakes(this.app),
-            new MyTest(this.app),
-            new MyPlane(this.app),
-            new MyGoal(this.app),
+			new MyLakes(this.app)
 		]
         this.selectedObjectIndex = 0
 
@@ -227,6 +224,8 @@ class MyContents  {
         if (this.selectedObject !== null) {
             this.selectedObject.mesh.material = shader.material
             this.selectedObject.mesh.material.needsUpdate = true
+            this.selectedObject.lakeTop.material = shader.material
+            this.selectedObject.lakeTop.material.needsUpdate = true
         }
         // update shader code
         this.shaderDescription.innerHTML = "<xmp>" + shader.name + ": "+ shader.description + "</xmp>";
