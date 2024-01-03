@@ -3,14 +3,18 @@ import { GamePauseState } from "./GamePauseState.js";
 import { SelectObstacleState } from "./SelectObstacleState.js";
 import * as THREE from "three";
 import { OBB } from 'three/addons/math/OBB.js';
-import { Sprite } from "../Sprite.js";
-import { Speedometer } from "../Speedometer.js";
+import { Sprite } from "../Sprites/Sprite.js";
+import { Speedometer } from "../Sprites/Speedometer.js";
+import { GameOverState } from "./GameOverState.js";
+import { MyFirework } from "../objects/MyFirework.js";
+import { MyRoute } from "../objects/MyRoute.js";
 
 class GamePlayState extends State {
     constructor(app, gameSettings) {
         super(app);
         this.name = "GamePlayState";
         this.gameSettings = gameSettings;
+        this.fireworks = []
         
         this.keys = {
             forward: false,
@@ -119,12 +123,38 @@ class GamePlayState extends State {
         this.app.HUDscene.add(this.speedObstacleTimer);
         this.speedObstacleTimer.visible = false;
 
+
+        this.enemyMixer = null
+        this.enemyClock = new THREE.Clock();
+        this.difficultyLevel = this.gameSettings.difficulty * 0.1
+        this.createEnemyAnimation();
+        this.startEnemyAnimation();
     }
 
     update() {
         // update clock
         this.elapsedTime += this.clock.getDelta();
 
+        if (this.gameSettings.players[0].laps == 3 || this.gameSettings.players[1].laps == 3) {
+            // add new fireworks every 5% of the calls
+            if(Math.random()  < 0.05 ) {
+                this.fireworks.push(new MyFirework(this.app, this))
+                //console.log("firework added")
+            }
+
+            // for each fireworks 
+            for( let i = 0; i < this.fireworks.length; i++ ) {
+                // is firework finished?
+                if (this.fireworks[i].done) {
+                    // remove firework 
+                    this.fireworks.splice(i,1) 
+                    //console.log("firework removed")
+                    continue 
+                }
+                // otherwise upsdate  firework
+                this.fireworks[i].update()
+            }
+        }
 
         // game logic
 
@@ -144,6 +174,9 @@ class GamePlayState extends State {
         this.crossFinishLine();
         this.updateCollisions();
         this.updateCarCamera();
+
+        this.updateEnemyPosition();
+        this.updateEnemyAnimation();
 
         // tmp car2 update
         this.gameSettings.players[1].car.update();
@@ -173,10 +206,78 @@ class GamePlayState extends State {
             console.log("Game over!");
             this.gameSettings.players[0].time = this.elapsedTime + this.gameSettings.players[0].addedTime;
             this.gameSettings.players[1].time = this.elapsedTime + this.gameSettings.players[1].addedTime;
-            this.setState(new GameOverState(this.app));
+            this.setState(new GameOverState(this.app, this.gameSettings));
         }
 
         this.updateHUD();
+    }
+
+    //Create and defines enemy vehicle animation
+    createEnemyAnimation(){
+
+        //Create Position KF Track
+        let positions = [...this.gameSettings.players[1].car.position]
+        let posIndex = 0
+        let posIndexs = [0]
+        this.pathBot = new MyRoute();
+        for(let position of this.pathBot.pathBot.points){
+            positions.push(...position)
+            posIndexs.push(++posIndex)
+        }
+
+        const positionKF = new THREE.VectorKeyframeTrack('.position', posIndexs, positions,
+            THREE.InterpolateLinear  /* THREE.InterpolateLinear (default), THREE.InterpolateDiscrete,*/
+        )
+
+        //Create Rotation KF Track
+        let quarterions = []
+        let index = 0
+        let indexs = []
+        for(let rotation of this.pathBot.pathBot_rotation){
+            quarterions.push(...rotation)
+            indexs.push(index++)
+        }
+
+        const quaternionKF = new THREE.QuaternionKeyframeTrack('.quaternion', indexs, quarterions);
+
+        //Create clips for animation (position and rotation)
+        const positionClip = new THREE.AnimationClip('positionAnimation', posIndex, [positionKF])
+        const rotationClip = new THREE.AnimationClip('rotationAnimation', index, [quaternionKF])
+
+        // Create an AnimationMixer
+        this.enemyMixer = new THREE.AnimationMixer(this.gameSettings.players[1].car)
+
+        // Create AnimationActions for each clip
+        this.enemyActionAnimation = this.enemyMixer.clipAction(positionClip)
+        this.enemyActionAnimation.setLoop(THREE.LoopRepeat);
+        this.enemyActionAnimation.repetitions = 3;
+
+        this.enemyRotationAnimation = this.enemyMixer.clipAction(rotationClip)
+        this.enemyRotationAnimation.setLoop(THREE.LoopRepeat);
+        this.enemyRotationAnimation.repetitions = 3;
+    }
+
+    // Plays enemy Animation
+    startEnemyAnimation() {
+        // Play both animations
+        if (this.enemyActionAnimation && this.enemyRotationAnimation) {
+            this.enemyActionAnimation.play();
+            this.enemyRotationAnimation.play();
+        }
+    }
+
+
+
+    //Updates enemy position
+    updateEnemyPosition(){
+        this.gameSettings.players[1].car.position.copy(this.gameSettings.players[1].car.position)
+    }
+
+    //Updates adversary mixer clock 
+    updateEnemyAnimation() {
+        if (this.enemyMixer) {
+          this.enemyMixer.update(this.enemyClock.getDelta()*this.difficultyLevel);
+        }
     }
 
     crossFinishLine() {
@@ -386,6 +487,7 @@ class GamePlayState extends State {
             case 112: // p
                 // document.getElementById("gameHUD").style.display = "none";
                 this.clock.stop(); // quick fix for stopping the clock
+                this.enemyClock.stop();
                 this.setState(new GamePauseState(this.app, this));
                 break;
             case 99: // c

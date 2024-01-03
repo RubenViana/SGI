@@ -3,8 +3,8 @@ import { OBB } from 'three/addons/math/OBB.js';
 
 class MyPlane extends THREE.Object3D {
 
-    constructor() {
-        super();
+    constructor(app) {
+        super(app);
 
         // Texture plane
         this.planeTexture = new THREE.TextureLoader().load('./objects/textures/plane.png');
@@ -24,23 +24,43 @@ class MyPlane extends THREE.Object3D {
         this.planeGeometry.userData.obb = new OBB();
         this.planeGeometry.userData.obb.halfSize.copy(new THREE.Vector3(this.planeWidth / 2, this.planeHeight / 2, this.planeDepth / 2));
 
-        this.plane = new THREE.Mesh(this.planeGeometry, this.planeMaterial);
-        this.plane.position.set(500, 0, 400);
-        this.plane.rotation.x = -Math.PI / 2;
+        this.mesh = new THREE.Mesh(this.planeGeometry, this.planeMaterial);
+        this.mesh.position.set(500, 0, 400);
+        this.mesh.rotation.x = -Math.PI / 2;
 
-        this.plane.userData.obb = new OBB();
+        this.mesh.userData.obb = new OBB();
 
         this.update();
 
-        this.add(this.plane,);
+        this.add(this.mesh,);
+
+        this.setFillMode();
     }
 
     update() {
-        this.plane.updateMatrix();
-        this.plane.updateMatrixWorld();
-        this.plane.userData.obb.copy(this.planeGeometry.userData.obb);
-        this.plane.userData.obb.applyMatrix4(this.plane.matrixWorld);
+        this.mesh.updateMatrix();
+        this.mesh.updateMatrixWorld();
+        this.mesh.userData.obb.copy(this.planeGeometry.userData.obb);
+        this.mesh.userData.obb.applyMatrix4(this.mesh.matrixWorld);
     }
+
+    setFillMode() { 
+		this.planeMaterial.wireframe = false;
+		this.planeMaterial.needsUpdate = true;
+	}
+
+	setLineMode() { 
+		this.planeMaterial.wireframe = true;
+		this.planeMaterial.needsUpdate = true;
+	}
+
+	setWireframe(value) {
+		if (value) {
+			this.setLineMode()
+		} else {
+			this.setFillMode()
+		}
+	}
 }
 
 export { MyPlane };

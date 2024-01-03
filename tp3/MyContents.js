@@ -5,10 +5,12 @@ import { MyGraph } from './builder/MyGraph.js';
 import {InitState} from './states/InitState.js';
 import {MainMenuState} from './states/MainMenuState.js';
 import {GamePlayState} from './states/GamePlayState.js';
-import { MyLakes } from './MyLakes.js';
-import { MyShader } from './MyShader.js';
+import { MyLakes } from './objects/MyLakes.js';
+import { MyShader } from './shaders/MyShader.js';
 import { MyPowerUp } from './objects/MyPowerUp.js';
-import { MyTest } from './MyTest.js';
+import { MyTest } from './objects/MyTest.js';
+import { MyPlane } from './objects/MyPlane.js';
+import { MyGoal } from './objects/MyGoal.js';
 
 /**
  *  This class contains the contents of out application
@@ -36,7 +38,9 @@ class MyContents  {
 		this.oldSelectedObjectIndex = null;
 		this.objectList = {
 			'Lake': 0,
-            'Lake pulsation': 1,
+            'Test': 1,
+            'Plane': 2,
+            'Goal': 3,
 		}
 
         // initial configuration of interface
@@ -92,16 +96,20 @@ class MyContents  {
         this.objects = [
 			new MyLakes(this.app),
             new MyTest(this.app),
+            new MyPlane(this.app),
+            new MyGoal(this.app),
 		]
         this.selectedObjectIndex = 0
 
         // Materials and textures initialization
-        const texture1 = new THREE.TextureLoader().load('./objects/textures/lake.png')
+        const texture1 = new THREE.TextureLoader().load('./objects/textures/waterTex1.jpg')
         texture1.wrapS = THREE.RepeatWrapping;
         texture1.wrapT = THREE.RepeatWrapping;
         
         // load second texture
         const texture2 = new THREE.TextureLoader().load('./objects/textures/waterMap.jpg' )
+
+        const texture3 = new THREE.TextureLoader().load('./objects/textures/waterGray.jpg' )
 
         // shaders initialization
         this.shaders = [
@@ -111,7 +119,7 @@ class MyContents  {
                 //normScale: {type: 'f', value: 0.1 },
                 displacement: {type: 'f', value: 0.0 },
                 normalizationFactor: {type: 'f', value: 1 },
-                blendScale: {type: 'f', value: 0.5 },
+                blendScale: {type: 'f', value: 0.07 },
                 timeFactor: {type: 'f', value: 0.0 },
                 
             }),
@@ -140,7 +148,7 @@ class MyContents  {
             }),
 			new MyShader(this.app, 'Simple texture', "load a texture", "shaders/texture1.vert", "shaders/texture1.frag", {
                 uSampler: {type: 'sampler2D', value: texture1 },
-                normScale: {type: 'f', value: 0.1 },
+                //normScale: {type: 'f', value: 0.1 },
                 displacement: {type: 'f', value: 0.0 },
                 normalizationFactor: {type: 'f', value: 1 },
             }),
@@ -151,8 +159,19 @@ class MyContents  {
                 displacement: {type: 'f', value: 0.0 },
                 normalizationFactor: {type: 'f', value: 1 },
                 blendScale: {type: 'f', value: 0.5 },
-            })
-			
+            }),
+            new MyShader(this.app, 'Pulsation', "Radial change with time factor", "shaders/pulsation.vert", "shaders/pulsation.frag", {
+                normScale: {type: 'f', value: 1 },
+                displacement: {type: 'f', value: 0.0 },
+                normalizationFactor: {type: 'f', value: 1 },
+                timeFactor: {type: 'f', value: this.clock },
+                colorA: {type: 'vec3', value: new THREE.Color(1,1,0)}
+            }),
+			new MyShader(this.app, 'Relevo', "Show relevo", "shaders/plane.vert", "shaders/plane.frag", {
+                uSampler1: {type: 'sampler2D', value: texture1 },
+                uSampler2: {type: 'sampler2D', value: texture3 },
+                height: {type: 'f', value: 1.0 },
+            }),
 		];
 
         this.waitForShaders()
@@ -235,6 +254,14 @@ class MyContents  {
                 this.showTest()
                 this.setCurrentShader(this.currentShader)
             }
+            else if (this.selectedObjectIndex == 2) {
+                this.showPlane()
+                this.setCurrentShader(this.currentShader)
+            }
+            else if (this.selectedObjectIndex == 3) {
+                this.showGoal()
+                this.setCurrentShader(this.currentShader)
+            }
             this.oldSelectedObjectIndex = this.selectedObjectIndex
         }
 	}
@@ -259,6 +286,16 @@ class MyContents  {
 
     showTest() {
         this.selectedObject = this.objects[1]
+        this.app.scene.add(this.selectedObject.mesh)
+    }
+
+    showPlane() {
+        this.selectedObject = this.objects[2]
+        this.app.scene.add(this.selectedObject.mesh)
+    }
+
+    showGoal() {
+        this.selectedObject = this.objects[3]
         this.app.scene.add(this.selectedObject.mesh)
     }
 

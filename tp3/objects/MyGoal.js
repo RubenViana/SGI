@@ -17,17 +17,17 @@ class MyGoal extends THREE.Object3D {
         this.goalWidth = 50;
         this.goalHeight = 3;
         this.goalDepth = 0.1;
-        this.goalMaterial = new THREE.MeshPhongMaterial({map: this.goalTexture });
+        this.goalMaterial = new THREE.MeshPhongMaterial({map: this.goalTexture, side: THREE.DoubleSide });
 
         // Goal
         this.goalGeometry = new THREE.BoxGeometry(this.goalWidth, this.goalHeight, this.goalDepth);
         this.goalGeometry.userData.obb = new OBB();
         this.goalGeometry.userData.obb.halfSize.copy(new THREE.Vector3(this.goalWidth / 2, this.goalHeight / 2, this.goalDepth / 2));
 
-        this.goal = new THREE.Mesh(this.goalGeometry, this.goalMaterial);
-        this.goal.position.set(14, 12, 300);
+        this.mesh = new THREE.Mesh(this.goalGeometry, this.goalMaterial);
+        this.mesh.position.set(14, 12, 300);
 
-        this.goal.userData.obb = new OBB();
+        this.mesh.userData.obb = new OBB();
 
 
         // Texture goal post
@@ -60,14 +60,15 @@ class MyGoal extends THREE.Object3D {
 
         this.update();
         
-        this.add(this.goal, this.goalPostLeft, this.goalPostRight);
+        this.add(this.mesh, this.goalPostLeft, this.goalPostRight);
+        this.setFillMode();
     }
 
     update(){
-        this.goal.updateMatrix();
-        this.goal.updateMatrixWorld();
-        this.goal.userData.obb.copy(this.goalGeometry.userData.obb);
-        this.goal.userData.obb.applyMatrix4(this.goal.matrixWorld);
+        this.mesh.updateMatrix();
+        this.mesh.updateMatrixWorld();
+        this.mesh.userData.obb.copy(this.goalGeometry.userData.obb);
+        this.mesh.userData.obb.applyMatrix4(this.mesh.matrixWorld);
         this.goalPostLeft.updateMatrix();
         this.goalPostLeft.updateMatrixWorld();
         this.goalPostLeft.userData.obb.copy(this.goalPostGeometry.userData.obb);
@@ -77,6 +78,24 @@ class MyGoal extends THREE.Object3D {
         this.goalPostRight.userData.obb.copy(this.goalPostGeometry.userData.obb);
         this.goalPostRight.userData.obb.applyMatrix4(this.goalPostRight.matrixWorld);
     }
+
+    setFillMode() { 
+		this.goalMaterial.wireframe = false;
+		this.goalMaterial.needsUpdate = true;
+	}
+
+	setLineMode() { 
+		this.goalMaterial.wireframe = true;
+		this.goalMaterial.needsUpdate = true;
+	}
+
+	setWireframe(value) {
+		if (value) {
+			this.setLineMode()
+		} else {
+			this.setFillMode()
+		}
+	}
 }
 
 export { MyGoal };
