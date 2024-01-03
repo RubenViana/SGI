@@ -208,7 +208,7 @@ class GamePlayState extends State {
         }
 
         if (this.gameSettings.players[0].laps == this.gameSettings.laps + 1 && this.gameSettings.players[1].laps == this.gameSettings.laps) {
-            console.log("Game over!");
+            // console.log("Game over!");
             this.setState(new GameOverState(this.app, this.gameSettings));
         }
         
@@ -290,7 +290,7 @@ class GamePlayState extends State {
             const position = this.gameSettings.players[i].car.position;
 
             if (position.x > -7 && position.x < 35 && this.oldPosition[i].z >= 300 && position.z <= 300) {
-                console.log("Crossed finish line!");
+                // console.log("Crossed finish line!");
                 this.gameSettings.players[i].laps++;
             }
             
@@ -334,11 +334,11 @@ class GamePlayState extends State {
                 // only for testing
                 // this.gameSettings.players[0].car.hitbox.material.visible = true;
 
-                // make power up invisible for 10 sec
+                // make power up invisible for 30 sec
                 this.gameSettings.powerUps.remove(objectToTest);
                 setTimeout(() => {
                     this.gameSettings.powerUps.add(objectToTest);
-                }, 10000);
+                }, 30000);
             }
         }
 
@@ -378,7 +378,7 @@ class GamePlayState extends State {
         const car2 = this.gameSettings.players[1].car.hitbox;
         const carObb2 = car2.userData.obb;
         if ( carObb.intersectsOBB( carObb2 ) === true ) {
-            console.log("Collision with car detected!");
+            // console.log("Collision with car detected!");
 
             this.gameSettings.players[0].car.position.x -= (this.gameSettings.players[0].car.velocity * Math.cos(-this.gameSettings.players[0].car.direction)) * 2;
             this.gameSettings.players[0].car.position.z -= (this.gameSettings.players[0].car.velocity * Math.sin(-this.gameSettings.players[0].car.direction)) * 2;

@@ -42,8 +42,9 @@ class GameSettingsState extends State {
         // add difficulty buttons !!!
 
         this.buttonsGroup = new THREE.Group();
-        this.buildButton("Start", "#0000ff", 2, 0.6, 0, 5, 0);
-        this.buildButton("Back", "#ff0000", 2, 0.6, 0, 2, 0);
+        this.buildButton("Start", "#0000ff", 2, 0.6, 0, 7.5, 0);
+        this.buildButton("Easy", "#00ff00", 2, 0.6, 0, 4.5, 0);
+        this.buildButton("Back", "#ff0000", 2, 0.6, 0, 1.5, 0);
 
         this.buttonsGroup.position.set(72, 0, 400);
         this.buttonsGroup.rotateY(-Math.PI / 2);
@@ -155,6 +156,16 @@ class GameSettingsState extends State {
                     this.gameSettings.players[0].car.scale.set(0.5, 0.5, 0.5);
                     this.gameSettings.players[1].car.scale.set(0.5, 0.5, 0.5);
                     this.setState(new GamePlayState(this.app, this.gameSettings));
+                    break;
+                case "Easy":
+                    this.gameSettings.difficulty = 2;
+                    this.buttonsGroup.remove(this.buttonsGroup.getObjectByName("Easy"));
+                    this.buildButton("Hard", "#00ff00", 2, 0.6, 0, 4.5, 0);
+                    break;
+                case "Hard":
+                    this.gameSettings.difficulty = 5;
+                    this.buttonsGroup.remove(this.buttonsGroup.getObjectByName("Hard"));
+                    this.buildButton("Easy", "#00ff00", 2, 0.6, 0, 4.5, 0);
                     break;
                 case "Back":
                     this.app.scene.remove(this.buttonsGroup);

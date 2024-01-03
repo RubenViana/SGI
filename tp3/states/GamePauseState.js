@@ -8,8 +8,8 @@ class GamePauseState extends State {
         this.previousState = previousState;
 
         this.pauseMenu = new Sprite("Pause")
-        this.pauseMenu.scale.set(100, 80, 1);
-        this.pauseMenu.position.set(window.innerWidth / 40, window.innerHeight / 30, 0);
+        this.pauseMenu.scale.set(200, 160, 1);
+        this.pauseMenu.position.set(window.innerWidth / 40, window.innerHeight/4, 0);
         this.app.HUDscene.add(this.pauseMenu);
         this.pauseMenu.visible = false;
     }
