@@ -19,7 +19,7 @@ class GameSettingsState extends State {
             obstacles: this.app.obstacles,
             players: [
                 {
-                    name: "Player 1",
+                    name: this.app.playerName,
                     car: null,
                     time: 0,
                     addedTime: 0,
@@ -27,7 +27,7 @@ class GameSettingsState extends State {
                     place: 0,
                 },
                 {
-                    name: "Player 2",
+                    name: "CPU",
                     car: null,
                     time: 0,
                     addedTime: 0,
@@ -88,8 +88,8 @@ class GameSettingsState extends State {
         this.gameSettings.players[1].car = this.app.cpuCars[0];
 
         this.playersName = new THREE.Group();
-        this.createText("Player 1", 0x404040, 3, 1, -15, 0, 0);
-        this.createText("CPU", 0x404040, 3, 1, 15, 0, 0);
+        this.createText(this.gameSettings.players[0].name, 0x404040, 3, 1, -15, 0, 0, this.playersName);
+        this.createText(this.gameSettings.players[1].name, 0x404040, 3, 1, 15, 0, 0, this.playersName);
 
         this.playersName.position.set(72, 13, 400);
         this.playersName.rotateY(-Math.PI / 2);
@@ -158,17 +158,17 @@ class GameSettingsState extends State {
                     this.setState(new GamePlayState(this.app, this.gameSettings));
                     break;
                 case "Easy":
-                    this.gameSettings.difficulty = 2;
+                    this.gameSettings.difficulty = 5;
                     this.buttonsGroup.remove(this.buttonsGroup.getObjectByName("Easy"));
                     this.buildButton("Hard", "#00ff00", 2, 0.6, 0, 4.5, 0);
                     break;
                 case "Hard":
-                    this.gameSettings.difficulty = 5;
+                    this.gameSettings.difficulty = 7;
                     this.buttonsGroup.remove(this.buttonsGroup.getObjectByName("Hard"));
                     this.buildButton("Easy", "#00ff00", 2, 0.6, 0, 4.5, 0);
                     break;
                 case "Back":
-                    this.app.scene.remove(this.buttonsGroup);
+                    this.app.scene.remove(this.playersName);
                     this.setState(new MainMenuState(this.app));
                     break;
             }

@@ -79,15 +79,35 @@ class InitState extends State {
     // Add PowerUp to Scene
     const powerUps = new THREE.Group();
     const pu1 = new MyPowerUp("speed");
-    pu1.position.set(0, 2, 100);
+    pu1.position.set(111, 2, 6);
     pu1.update();
     const pu2 = new MyPowerUp("time");
-    pu2.position.set(0, 2, 200);
+    pu2.position.set(328, 2, 90);
     pu2.update();
+    const pu3 = new MyPowerUp("speed");
+    pu3.position.set(524, 2, 52);
+    pu3.update();
+    const pu4 = new MyPowerUp("time");
+    pu4.position.set(546, 2, 299);
+    pu4.update();
+    const pu5 = new MyPowerUp("speed");
+    pu5.position.set(379, 2, 476);
+    pu5.update();
+    const pu6 = new MyPowerUp("time");
+    pu6.position.set(197, 2, 366);
+    pu6.update();
+    const pu7 = new MyPowerUp("speed");
+    pu7.position.set(107, 2, 310);
+    pu7.update();
 
     powerUps.add(
       pu1,
-      pu2
+      pu2,
+      pu3,
+      pu4,
+      pu5,
+      pu6,
+      pu7
     );
 
     this.app.powerUps = powerUps;

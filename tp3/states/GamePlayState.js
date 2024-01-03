@@ -78,16 +78,16 @@ class GamePlayState extends State {
         const map = new THREE.TextureLoader().load( "./objects/textures/speedometer.png" );
         const material = new THREE.SpriteMaterial( { map: map } );
 
-        const sprite = new THREE.Sprite( material );
-        sprite.scale.set(512, 256 * 1.3, 1);
-        sprite.position.set(window.innerWidth / 40, -window.innerHeight / 4, 1);
-        this.app.HUDscene.add( sprite );
+        this.speedometerBackground = new THREE.Sprite( material );
+        this.speedometerBackground.scale.set(512, 256 * 1.3, 1);
+        this.speedometerBackground.position.set(window.innerWidth / 40, -window.innerHeight / 4, 1);
+        this.app.HUDscene.add( this.speedometerBackground );
 
         this.speedometer = new Speedometer(0, 512 * 1.3, 256 * 1.3);
         this.speedometer.scale.set(350, 200, 0);
         this.speedometer.position.set(window.innerWidth / 40, -window.innerHeight / 4, 1); 
         this.app.HUDscene.add(this.speedometer);
-        this.speedometer.visible = false;
+        this.speedometer.visible = true;
 
         // sprite for powerUp speed
         this.speedPowerUp = new Sprite("Speed 2x", 512, 256);
@@ -310,6 +310,8 @@ class GamePlayState extends State {
                 // select a obstacle to place on the track
                 this.clock.stop(); // quick fix for stopping the clock
                 this.enemyClock.stop();
+                this.speedometer.visible = false;
+                this.speedometerBackground.visible = false;
                 this.setState(new SelectObstacleState(this.app, this));
                 
                 if (objectToTest.type === "speed") {
@@ -579,7 +581,6 @@ class GamePlayState extends State {
 
         this.speedometer.updateSpeed(Math.abs(this.gameSettings.players[0].car.velocity)*100);
         this.speedSprite.visible = true;
-        this.speedometer.visible = true;
 
         this.lapSprite.updateText(`${this.gameSettings.players[0].laps} / 3`);
         this.lapSprite.visible = true;

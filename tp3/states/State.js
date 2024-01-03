@@ -67,7 +67,7 @@ class State {
         }.bind(this));
     }
 
-    createText(name, color, size, height, xpos, ypos, zpos) {
+    createText(name, color, size, height, xpos, ypos, zpos, group) {
         var loader = new FontLoader();
         var font;
     
@@ -94,7 +94,7 @@ class State {
             this.textMesh.name = name;
             // Adjust position if needed
             this.textMesh.position.set(xpos, ypos, zpos);
-            this.playersName.add(this.textMesh);
+            group.add(this.textMesh);
 
         }.bind(this));
     }

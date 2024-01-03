@@ -1,20 +1,33 @@
 # SGI 2023/2024 - TP3
 
-## Group: T0xG0y
+## Group: T02G01
 
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| Pedro Balazeiro        | 202005097 | up202005097@fe.up.pt               |
+| Rúben Viana         | 202005108 | up202005108@fe.up.pt                |
 
 ----
 ## Project information
 
-- (items describing main strong points)
-- Scene
-  - (Brief description of the created scene)
-  - (relative link to the scene)
+- Collisions are very precise
+- movement is smooth 
+
+### Keyboard
+
+#### Game State
+
+- 'w' drive
+- 's' reverse
+- 'a' steer left
+- 'd' steer right
+- 'p' for pause
+- 'c' for toggle between first person view and third person view
+
+#### Pause State
+
+- 'p' for unpause
 ----
 ## Issues/Problems
 
-- (items describing unimplemented features, bugs, problems, etc.)
+- some problems with applying the shaders to the obstacles
