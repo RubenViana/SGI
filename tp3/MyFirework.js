@@ -14,7 +14,7 @@ class MyFirework {
         this.points   = null
         
         this.material = new THREE.PointsMaterial({
-            size: 0.1,
+            size: 1,
             color: 0xffffff,
             opacity: 1,
             vertexColors: true,
@@ -22,7 +22,7 @@ class MyFirework {
             depthTest: false,
         })
         
-        this.height = 10
+        this.height = 30
         this.speed = 60
 
         this.launch();
@@ -49,7 +49,7 @@ class MyFirework {
         this.points.castShadow = true;
         this.points.receiveShadow = true;
         this.app.scene.add( this.points )  
-        console.log("firework launched")
+        //console.log("firework launched")
     }
 
     explode(origin, n, rangeBegin, rangeEnd) {
@@ -99,7 +99,7 @@ class MyFirework {
      * cleanup
      */
     reset() {
-        console.log("firework reseted")
+        //console.log("firework reseted")
         this.app.scene.remove( this.points )  
         this.dest     = [] 
         this.vertices = null

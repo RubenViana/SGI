@@ -27,6 +27,7 @@ class GamePauseState extends State {
                 this.pauseMenu.visible = false;
                 this.setState(this.previousState); // if the keys were pressed, they will still be pressed!!!
                 this.previousState.clock.start(); // quick fix for stopping the clock
+                this.previousState.enemyClock.start(); // quick fix for stopping the clock
                 break;
         }
     }

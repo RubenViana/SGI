@@ -96,7 +96,7 @@ class MyContents  {
         this.selectedObjectIndex = 0
 
         // Materials and textures initialization
-        const texture1 = new THREE.TextureLoader().load('./objects/textures/lake.png')
+        const texture1 = new THREE.TextureLoader().load('./objects/textures/waterTex1.jpg')
         texture1.wrapS = THREE.RepeatWrapping;
         texture1.wrapT = THREE.RepeatWrapping;
         
@@ -111,7 +111,7 @@ class MyContents  {
                 //normScale: {type: 'f', value: 0.1 },
                 displacement: {type: 'f', value: 0.0 },
                 normalizationFactor: {type: 'f', value: 1 },
-                blendScale: {type: 'f', value: 0.5 },
+                blendScale: {type: 'f', value: 0.07 },
                 timeFactor: {type: 'f', value: 0.0 },
                 
             }),
