@@ -1,7 +1,5 @@
 import * as THREE from 'three';
 import { MyAxis } from './MyAxis.js';
-import { MyFileReader } from './parser/MyFileReader.js';
-import { MyGraph } from './builder/MyGraph.js';
 import {InitState} from './states/InitState.js';
 import {MainMenuState} from './states/MainMenuState.js';
 import {GamePlayState} from './states/GamePlayState.js';
